@@ -36,9 +36,9 @@ public class ControlUnit {
 
 	public ControlUnit(MainMemory memory) {
 		this.memory = memory;
-		this.alu = new ALU();
-		this.programCounter = 0;
 		this.registers = new Register[] { new Register(), new Register(), new Register(), new Register() };
+		this.alu = new ALU(this.registers);
+		this.programCounter = 0;
 	}
 
 	public void runCycle() {

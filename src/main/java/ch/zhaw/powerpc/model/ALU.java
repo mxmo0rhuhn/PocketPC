@@ -12,13 +12,34 @@ public final class ALU {
 	 * Das Carry Flag wird nur von der ALU gesetzt!
 	 */
 	private boolean carryFlag;
+	
+	private Register[] registers;
 
-	public ALU() {
+	public ALU(Register[] registers) {
+		this.registers = registers;
 		this.carryFlag = false;
 	}
 
 	public boolean isCarryFlag() {
 		return carryFlag;
+	}
+
+	public void addToAccu(int number) {
+		int curAccu = registers[0].read();
+		int newAccu = curAccu + number;
+		if (overflow(newAccu)) {
+			carryFlag = true;
+			newAccu = mask(newAccu);
+		}
+		registers[0].write(newAccu);
+	}
+	
+	private static boolean overflow(int val) {
+		return (val | 0xFF) != 0;
+	}
+	
+	private static int mask(int val) {
+		return val & 0xFF;
 	}
 
 	// operationen wie z.B. addieren von zwei character arrays, shifts usw

@@ -10,16 +10,17 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * 
  */
 public final class ADDD implements Instruction {
+	
+	private final int number;
 
-	private final char[] origInstruction;
-
-	public ADDD(char[] origInstruction) {
-		this.origInstruction = origInstruction;
+	public ADDD(int number) {
+		this.number = number;
 	}
 
 	@Override
 	public int run(ControlUnit controlUnit) {
-		return controlUnit.getProgramCounter();
+		controlUnit.getAlu().addToAccu(this.number);
+		return controlUnit.getProgramCounter() + 1;
 	}
 
 }
