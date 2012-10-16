@@ -1,6 +1,5 @@
 package ch.zhaw.powerpc.model;
 
-import static ch.zhaw.powerpc.model.ControlUnit.BUS_SIZE;
 
 /**
  * Diese Klasse repräsentiert den Hauptspeicher (RAM). Hier liegen Befehle und Daten.
@@ -10,7 +9,7 @@ import static ch.zhaw.powerpc.model.ControlUnit.BUS_SIZE;
  */
 public final class MainMemory {
 
-	private final char[][] data;
+	private final int[] data;
 
 	/**
 	 * Die Klasse wird mit einem initialen Set an Daten instanziert. Hier muss z.B. schon das Programm in den Daten
@@ -18,7 +17,7 @@ public final class MainMemory {
 	 * 
 	 * Achtung: Das Array muss hier schon die finale grösse haben, weil Arrays können später in der Grösse nicht mehr verändert werden.
 	 */
-	public MainMemory(char[][] initialData) {
+	public MainMemory(int[] initialData) {
 		this.data = initialData;
 	}
 
@@ -28,7 +27,7 @@ public final class MainMemory {
 	 * @throws IllegalArgumentException
 	 *             wenn die Adresse zu gross oder zu klein ist.
 	 */
-	public char[] read(int address) {
+	public int read(int address) {
 		checkBounds(address);
 		return this.data[address];
 	}
@@ -39,11 +38,8 @@ public final class MainMemory {
 	 * @throws IllegalArgumentException
 	 *             wenn die Adresse zu gross oder zu klein ist.
 	 */
-	public void write(int address, char[] data) {
+	public void write(int address, int data) {
 		checkBounds(address);
-		if (data.length > BUS_SIZE) {
-			throw new IllegalStateException("Data Length must not exceed " + BUS_SIZE);
-		}
 		this.data[address] = data;
 	}
 

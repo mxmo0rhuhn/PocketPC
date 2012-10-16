@@ -51,7 +51,8 @@ public final class Decoder {
 	 *            character array aus Nullen und Einsen
 	 * @return eine Instruktion, die ausgeführt werden kann.
 	 */
-	public static Instruction instructionDecode(char[] binInstruction) {
+	public static Instruction instructionDecode(int instruction) {
+		char[] binInstruction = convertToBin(instruction);
 		Map.Entry<char[], Class<? extends Instruction>> entry = lookupPattern(binInstruction);
 		char[][] ops = decodeOperands(entry.getKey(), binInstruction);
 
@@ -67,6 +68,16 @@ public final class Decoder {
 		} else {
 			return invokeDConstructor(klass);
 		}
+	}
+	
+	private static char[] convertToBin(int instr) {
+		char[] binInstr = Integer.toBinaryString(instr).toCharArray();
+		if (binInstr.length > 16 ) {
+			throw new IllegalStateException("Instruction [" + instr + "] doesn't fit in 16 Bit");
+		}
+		char[] resArr = new char[16];
+		System.arraycopy(binInstr, 0, resArr, (16 - binInstr.length), binInstr.length);
+		return resArr;
 	}
 
 	private static Map.Entry<char[], Class<? extends Instruction>> lookupPattern(char[] instr) {

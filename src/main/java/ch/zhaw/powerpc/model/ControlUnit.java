@@ -11,8 +11,6 @@ import ch.zhaw.powerpc.model.instructions.Instruction;
  */
 public class ControlUnit {
 
-	public static final int BUS_SIZE = 16;
-
 	/**
 	 * Referenz auf den Hauptspeicher
 	 */
@@ -42,7 +40,7 @@ public class ControlUnit {
 	}
 
 	public void runCycle() {
-		char[] binInstruction = instructionFetch();
+		int binInstruction = instructionFetch();
 		Instruction currentInstruction = Decoder.instructionDecode(binInstruction);
 		this.programCounter = currentInstruction.run(this);
 	}
@@ -67,7 +65,7 @@ public class ControlUnit {
 	 * Der aktuelle Program Counter zeigt auf den nächsten Befehl im Speicher. Dieser wird zurückgegeben.
 	 * 
 	 */
-	private char[] instructionFetch() {
+	private int instructionFetch() {
 		return memory.read(this.programCounter);
 	}
 
