@@ -9,16 +9,23 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * @author Reto
  * 
  */
-public final class ADDD extends NumberInstruction {
+public final class ADDD implements Instruction {
+	
+	private final int number;
 	
 	public ADDD(int number) {
-		super("ADDD", number);
+		this.number = number;
 	}
 
 	@Override
 	public int run(ControlUnit controlUnit) {
-		controlUnit.getAlu().addToAccu(getNumber());
+		controlUnit.getAlu().addToAccu(this.number);
 		return controlUnit.getProgramCounter() + 1;
+	}
+	
+	@Override
+	public String toString() {
+		return "ADDD #" + this.number;
 	}
 
 }
