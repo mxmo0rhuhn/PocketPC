@@ -2,8 +2,8 @@ package ch.zhaw.powerpc.model;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import ch.zhaw.powerpc.model.instructions.ADDD;
 import ch.zhaw.powerpc.model.instructions.Instruction;
@@ -15,7 +15,7 @@ import ch.zhaw.powerpc.model.instructions.Instruction;
  */
 public final class Decoder {
 
-	private static final Map<char[], Class<? extends Instruction>> patterns = new TreeMap<char[], Class<? extends Instruction>>();
+	private static final Map<char[], Class<? extends Instruction>> patterns = new HashMap<char[], Class<? extends Instruction>>();
 
 	static {
 		patterns.put("0000rr101_______".toCharArray(), Instruction.class);
@@ -152,19 +152,19 @@ public final class Decoder {
 	private static Instruction invokeBConstructor(Class<? extends Instruction> klass, int param1,
 			int param2) {
 		try {
-			Constructor<? extends Instruction> c = klass.getConstructor(Integer.class, Integer.class);
+			Constructor<? extends Instruction> c = klass.getConstructor(int.class, int.class);
 			return c.newInstance(param1, param2);
 		} catch (Exception e) {
-			throw new IllegalStateException("Failed to create an Instance of " + klass.getName() + " with Arguments " + param1 + " and " + param2);
+			throw new IllegalStateException("Failed to create an Instance of " + klass.getName() + " with Arguments " + param1 + " and " + param2, e);
 		}
 	}
 	
 	private static Instruction invokeUConstructor(Class<? extends Instruction> klass, int param1) {
 		try {
-			Constructor<? extends Instruction> c = klass.getConstructor(Integer.class);
+			Constructor<? extends Instruction> c = klass.getConstructor(int.class);
 			return c.newInstance(param1);
 		} catch (Exception e) {
-			throw new IllegalStateException("Failed to create an Instance of " + klass.getName() + " with Argument " + param1);
+			throw new IllegalStateException("Failed to create an Instance of " + klass.getName() + " with Argument " + param1, e);
 		}
 	}
 	
@@ -172,7 +172,7 @@ public final class Decoder {
 		try {
 			return (Instruction) klass.newInstance();
 		} catch (Exception e) {
-			throw new IllegalStateException("Failed to create an Instance of " + klass.getName());
+			throw new IllegalStateException("Failed to create an Instance of " + klass.getName(), e);
 		}
 	}
 
