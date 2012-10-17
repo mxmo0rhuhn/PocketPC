@@ -144,8 +144,21 @@ public final class Decoder {
 	private static int readSigned(char[] vals) {
 		if (vals[0] == '0') {
 			return readUnsigned(vals);
+		} else {
+			// negative
+			
+			// invert
+			for (int i = 0; i < vals.length; i++) {
+				if(vals[i] == '1') { vals[i] = '0'; }
+				else { vals[i] = '1'; }
+			}
+			
+			// increment
+			vals = Integer.toString(Integer.parseInt(new String(vals), 2) + 1, 2).toCharArray();
+			
+			// read signed and multiply
+			return (-1) * readUnsigned(vals);
 		}
-		return Integer.parseInt(new String(vals), 2);
 	}
 	
 
