@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.zhaw.powerpc.model.instructions.ADD;
 import ch.zhaw.powerpc.model.instructions.ADDD;
 import ch.zhaw.powerpc.model.instructions.CLR;
 import ch.zhaw.powerpc.model.instructions.Instruction;
@@ -29,7 +30,7 @@ public final class Decoder {
 
 	static {
 		patterns.put("0000rr101_______".toCharArray(), CLR.class);
-		patterns.put("0000rr111_______".toCharArray(), Instruction.class);
+		patterns.put("0000rr111_______".toCharArray(), ADD.class);
 		patterns.put("1nnnnnnnnnnnnnnn".toCharArray(), ADDD.class);
 		patterns.put("00000001________".toCharArray(), Instruction.class);
 		patterns.put("00000100________".toCharArray(), Instruction.class);

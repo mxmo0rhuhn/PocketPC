@@ -12,6 +12,14 @@ public class DecoderTest {
 		Assert.assertEquals("CLR 2", d("0000101011111111"));
 		Assert.assertEquals("CLR 3", d("0000111011110000"));
 	}
+	
+	@Test
+	public void decodeADD() {
+		Assert.assertEquals("ADD 0", d("0000001110000000"));
+		Assert.assertEquals("ADD 1", d("0000011111010101"));
+		Assert.assertEquals("ADD 2", d("0000101111111111"));
+		Assert.assertEquals("ADD 3", d("0000111111110000"));
+	}
 
 	@Test
 	public void decodeADDD() {

@@ -19,7 +19,7 @@ public final class CLR implements Instruction {
 	@Override
 	public int run(ControlUnit controlUnit) {
 		controlUnit.getRegisters()[this.register].write(0);
-		controlUnit.getAlu().resetCarryFlag();
+		controlUnit.getAlu().setCarryFlag(false);
 		return controlUnit.getProgramCounter() + 1;
 	}
 	
