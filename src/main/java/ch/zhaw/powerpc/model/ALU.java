@@ -42,6 +42,10 @@ public final class ALU {
 		return val & 0xFF;
 	}
 
+	public void resetCarryFlag() {
+		this.carryFlag = false;
+	}
+
 	// operationen wie z.B. addieren von zwei character arrays, shifts usw
 	// Diese Operationen werden by-need implementiert, d.h. sobald eine Instruction ein Befehl benötigt, implementiert
 	// diejenige Person, die die Instruction programmier, auch die arithmetische/logischie Operation hier. Hier ist es
