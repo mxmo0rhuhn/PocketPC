@@ -17,12 +17,22 @@ public class DecoderTest {
 	public void decodeADDD() {
 		Assert.assertEquals("ADDD #0", d("1000000000000000"));
 		Assert.assertEquals("ADDD #1", d("1000000000000001"));
-		Assert.assertEquals("ADDD #999", d("1011111111111111"));
-		Assert.assertEquals("ADDD #-999", d("1100000000000000"));
+		Assert.assertEquals("ADDD #1000", d("1000001111101000"));
+		Assert.assertEquals("ADDD #12345", d("1011000000111001"));
+		Assert.assertEquals("ADDD #16383", d("1011111111111111"));
 		Assert.assertEquals("ADDD #-1", d("1111111111111111"));
+		Assert.assertEquals("ADDD #-65", d("1111111110111111"));
+		Assert.assertEquals("ADDD #-666", d("1111110101100110"));
+		Assert.assertEquals("ADDD #-10923", d("1101010101010101"));
+		Assert.assertEquals("ADDD #-13654", d("1100101010101010"));
+		Assert.assertEquals("ADDD #-15888", d("1100000111110000"));
+		Assert.assertEquals("ADDD #-16384", d("1100000000000000"));
 	}
 
 	private static String d(String bin) {
+		if (bin.length() != 16) {
+			throw new IllegalArgumentException("I will only ever decode 16 Bit Strings");
+		}
 		return Decoder.instructionDecode(Integer.parseInt(bin, 2)).toString();
 	}
 
