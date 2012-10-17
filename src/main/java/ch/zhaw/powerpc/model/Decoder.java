@@ -135,7 +135,7 @@ public final class Decoder {
 		int val = 0;
 		for (int i = vals.length - 1, n = 0; i >= 0; i--, n++) {
 			if (vals[i] == '1') {
-				val += 2 ^ n;
+				val += Math.pow(2, n);
 			}
 		}
 		return val;
