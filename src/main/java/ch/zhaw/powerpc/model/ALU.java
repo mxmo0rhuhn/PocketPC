@@ -37,11 +37,11 @@ public final class ALU {
 	}
 	
 	private static boolean isOverflow(int val) {
-		return (val | 0xFF) != 0;
+		return (val | 0xFFFF) != 0xFFFF;
 	}
 	
 	private static int mask(int val) {
-		return val & 0xFF;
+		return val & 0xFFFF;
 	}
 
 }
