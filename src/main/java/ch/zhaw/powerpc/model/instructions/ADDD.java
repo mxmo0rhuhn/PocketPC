@@ -12,7 +12,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
 public final class ADDD implements Instruction {
 	
 	private final int number;
-
+	
 	public ADDD(int number) {
 		this.number = number;
 	}
@@ -21,6 +21,11 @@ public final class ADDD implements Instruction {
 	public int run(ControlUnit controlUnit) {
 		controlUnit.getAlu().addToAccu(this.number);
 		return controlUnit.getProgramCounter() + 1;
+	}
+	
+	@Override
+	public String toString() {
+		return "ADDD #" + this.number;
 	}
 
 }
