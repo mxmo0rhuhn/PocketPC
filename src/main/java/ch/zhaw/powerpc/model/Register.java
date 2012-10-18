@@ -24,9 +24,10 @@ public final class Register {
 	
 	/**
 	 * Schreibt die Daten in dieses Register.
+	 * Maximal 16 Bit!
 	 */
 	public void write(int val) {
-		this.val = val;
+		this.val = (0xFFFF & val);
 	}
 
 }

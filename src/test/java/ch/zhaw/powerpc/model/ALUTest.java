@@ -16,5 +16,6 @@ public class ALUTest {
 		alu.addToAccu(1);
 		Assert.assertTrue(alu.isCarryFlag());
 	}
+	
 
 }

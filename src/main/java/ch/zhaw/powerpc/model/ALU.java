@@ -32,7 +32,6 @@ public final class ALU {
 		int curAccu = registers[0].read();
 		int newAccu = curAccu + number;
 		this.carryFlag = isOverflow(newAccu);
-		newAccu = mask(newAccu);
 		registers[0].write(newAccu);
 	}
 	
@@ -40,8 +39,4 @@ public final class ALU {
 		return (val | 0xFFFF) != 0xFFFF;
 	}
 	
-	private static int mask(int val) {
-		return val & 0xFFFF;
-	}
-
 }
