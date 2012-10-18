@@ -16,6 +16,12 @@ public class RegisterTest {
 		
 		reg.write(666666);
 		Assert.assertEquals(11306, reg.read());
+		
+		reg.write(6666666);
+		Assert.assertEquals(-18006, reg.read());
+		
+		reg.write(66666666);
+		Assert.assertEquals(16554, reg.read());
 	}
 	
 	@Test
