@@ -18,47 +18,61 @@ import ch.zhaw.powerpc.model.MainMemory;
 
 public class ProgramStarter {
 	
-	String memory[];
+	String stringMemory[];
 	// Ask for file
 	String inputFile;
 	int numberOfLines; // Including comment lines
 	int numberOfCodeLines; // Excludes comment lines
+	int numberOfMainMemoryIntegers; 
 	static int initialData[];
 	static ProgramStarter programStarter;
 	
 	static MainMemory ppcMainMemory;
 	static ControlUnit ppcControlUnit;
+	static Clock ppcClock;
 
 	public static void main(String[] args) {
 		// read initial memory
 		String currentInput = "/home/des/input.txt";
 		programStarter = new ProgramStarter(currentInput);
-		programStarter.String2IntParser();
-		programStarter.outputMemory();
+		
+		programStarter.trimStringMemory();
+		programStarter.outputStringMemory();
+		
+		programStarter.initializeInitialData();
+		programStarter.stringMemory2MainMemory();
+		programStarter.outputMainMemory();
 		
 		// intialize control unit
 		ppcMainMemory = new MainMemory(initialData);
 		ppcControlUnit = new ControlUnit(ppcMainMemory);
-
-		
-	//	new ControlUnit();
-		
-
-		
+		ppcClock = new Clock(ppcControlUnit);
 	}
 	
-	public void outputMemory() {
+	public void outputStringMemory() {
+		System.out.println();
 		for (int i = 0; i < numberOfCodeLines; i++) {
-			System.out.println(memory[i]);
+			System.out.println(stringMemory[i]);
 		}
 		
+	}
+		
+	public void outputMainMemory() {
+		System.out.println("\nMainMemory als Integers:");
+		for (int i = 0; i < numberOfMainMemoryIntegers; i++) {
+			System.out.println(initialData[i]);
+		}
+		System.out.println("\nMainMemory als binary Integers (2 Codes per Integer):");
+		for (int i = 0; i < numberOfMainMemoryIntegers; i++) {
+			System.out.println(Integer.toBinaryString(initialData[i]));
+		}
 	}
 		
 	public ProgramStarter(String inputFile) {
 		
 		this.inputFile = inputFile;
 		try {
-			memory = OpenFile();
+			stringMemory = OpenFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -161,7 +175,67 @@ public class ProgramStarter {
 		
 	}
 	
-	public boolean String2IntParser() {
+	public boolean trimStringMemory() {
+		String code;
+		
+		for (int i = 0; i < numberOfCodeLines; i++) {
+			code = stringMemory[i].trim();
+			stringMemory[i] = code;
+			
+			if (stringMemory[i].length() < 16)
+				return false;
+			
+			code = stringMemory[i].substring(0, 16);
+			stringMemory[i] = code;
+		}
+		
+		return true;
+	}
+	
+	public boolean initializeInitialData() {
+		if (numberOfCodeLines % 2 == 0) {
+			numberOfMainMemoryIntegers = numberOfCodeLines/2;
+		}
+		else {
+			numberOfMainMemoryIntegers = numberOfCodeLines/2 + 1; 
+		}
+		
+		if (numberOfMainMemoryIntegers <= 0) {
+			return false;
+		}
+		else {
+			initialData = new int[numberOfMainMemoryIntegers];
+			return true;
+		}
+	}
+	
+	public boolean stringMemory2MainMemory() {
+		int codeHigher;
+		int codeLower;
+		int initialDataIndex;
+		
+		codeHigher = 0;
+		codeLower = 0;
+		initialDataIndex = 0;
+		
+		for(int i = 0; i < numberOfCodeLines; i++) {	
+			if (i % 2 == 0) {
+				codeHigher = Integer.parseInt(stringMemory[i], 2);
+				codeHigher = codeHigher << 16;
+			}
+			else {
+				codeLower = Integer.parseInt(stringMemory[i], 2);
+			}
+			
+			initialDataIndex = i/2;
+			
+			initialData[initialDataIndex] = codeHigher + codeLower;
+		}
+		
+		if (numberOfCodeLines % 2 == 1) {
+			initialData[initialDataIndex] = codeHigher;
+		}
+		
 		return true;
 	}
 	
