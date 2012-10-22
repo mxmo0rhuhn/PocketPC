@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
+import ch.zhaw.powerpc.view.ConsolePrinter;
 
 /**
  * Einstiegspunkt für das komplette Programm.
@@ -46,7 +47,7 @@ public class ProgramStarter {
 		// intialize control unit
 		ppcMainMemory = new MainMemory(initialData);
 		ppcControlUnit = new ControlUnit(ppcMainMemory);
-		ppcClock = new Clock(ppcControlUnit);
+		ppcClock = new Clock(ppcControlUnit, new ConsolePrinter());
 	}
 	
 	public void outputStringMemory() {
