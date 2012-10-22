@@ -25,6 +25,8 @@ public class ProgramStarter {
 	int numberOfLines; // Including comment lines
 	int numberOfCodeLines; // Excludes comment lines
 	int numberOfMainMemoryIntegers; 
+	
+	static int memoryPointer;
 	static int initialData[];
 	static ProgramStarter programStarter;
 	
@@ -34,8 +36,9 @@ public class ProgramStarter {
 
 	public static void main(String[] args) {
 		// read initial memory
-		String currentInput = "/home/des/input.txt";
+		String currentInput = "/home/des/git/pocketpc/ppcTestCode.txt";
 		programStarter = new ProgramStarter(currentInput);
+		memoryPointer = 100;
 		
 		programStarter.trimStringMemory();
 		programStarter.outputStringMemory();
@@ -50,14 +53,22 @@ public class ProgramStarter {
 		ppcClock = new Clock(ppcControlUnit, new ConsolePrinter());
 	}
 	
+	/*
+	 * Test Output des eingelesenen Files
+	 */
+	
 	public void outputStringMemory() {
-		System.out.println();
+		System.out.println("\nEingelesenes File:");
 		for (int i = 0; i < numberOfCodeLines; i++) {
 			System.out.println(stringMemory[i]);
 		}
 		
 	}
-		
+	
+	/*
+	 * Test Output der Ausgabe an ControlUnit in Integer und als Binary
+	 */
+	
 	public void outputMainMemory() {
 		System.out.println("\nMainMemory als Integers:");
 		for (int i = 0; i < numberOfMainMemoryIntegers; i++) {
@@ -65,9 +76,14 @@ public class ProgramStarter {
 		}
 		System.out.println("\nMainMemory als binary Integers (2 Codes per Integer):");
 		for (int i = 0; i < numberOfMainMemoryIntegers; i++) {
-			System.out.println(Integer.toBinaryString(initialData[i]));
+			System.out.println("#"+memoryPointer +": " +Integer.toBinaryString(initialData[i]));
+			memoryPointer = memoryPointer + 2;
 		}
 	}
+	
+	/*
+	 * Konstruktor ProgramStarter, aufrufen des zeilenweisen einlesens
+	 */
 		
 	public ProgramStarter(String inputFile) {
 		
@@ -86,6 +102,8 @@ public class ProgramStarter {
 	 * @return txtData 
 	 * 					(Text aus dem InputFile)
 	 * @throws IOException
+	 * 
+	 * Einlesen des Files
 	 */
 	public String[] OpenFile() throws IOException{
 		FileReader fr = new FileReader(inputFile);
@@ -132,6 +150,10 @@ public class ProgramStarter {
 		
 	}
 	
+	/*
+	 *  bestimmen der Grösse des Arrays
+	 */
+	
 	void readLines() throws IOException {
 		
 		FileReader file2Input = new FileReader(inputFile);
@@ -176,6 +198,10 @@ public class ProgramStarter {
 		
 	}
 	
+	/*
+	 * Trimmen des Input Files, so dass keine Leerzeichen mehr vorhanden sind vor dem Code
+	 */
+	
 	public boolean trimStringMemory() {
 		String code;
 		
@@ -193,6 +219,11 @@ public class ProgramStarter {
 		return true;
 	}
 	
+	/*
+	 * Vorbereitung der Übergabe an InitialData:
+	 * - Prüfen ob Anz Eingabezeilen ungerade oder gerade um Array korrekt anzulegen
+	 */
+	
 	public boolean initializeInitialData() {
 		if (numberOfCodeLines % 2 == 0) {
 			numberOfMainMemoryIntegers = numberOfCodeLines/2;
@@ -209,6 +240,12 @@ public class ProgramStarter {
 			return true;
 		}
 	}
+	
+	/*
+	 * Eingabe Memory umwandeln in Übergabe Memory
+	 * - Immer 1. und 2. Zeile zusammen zählen und an korrekte 
+	 * Speicherstelle im initialData Array speichern
+	 */
 	
 	public boolean stringMemory2MainMemory() {
 		int codeHigher;
