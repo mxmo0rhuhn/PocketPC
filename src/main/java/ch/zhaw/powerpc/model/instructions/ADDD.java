@@ -11,10 +11,11 @@ import ch.zhaw.powerpc.model.ControlUnit;
  */
 public final class ADDD implements Instruction {
 	
-	private final int number;
+	private final short number;
 	
 	public ADDD(int number) {
-		this.number = number;
+		// TODO just int because refelction curr. works like this
+		this.number = (short) number;
 	}
 
 	@Override
