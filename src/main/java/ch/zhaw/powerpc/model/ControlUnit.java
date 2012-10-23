@@ -43,6 +43,8 @@ public class ControlUnit {
 		int binInstruction = instructionFetch();
 		Instruction currentInstruction = Decoder.instructionDecode(binInstruction);
 		this.programCounter = currentInstruction.run(this);
+		
+		// -1 wird von Befehlen gesetzt die zum sofortigen Ende des Programmes führen sollen.
 		if(this.programCounter == -1) {
 			return false;
 		}
