@@ -34,6 +34,7 @@ public class ProgramStarter {
 		MainMemory ppcMainMemory = interpreter.generateMainMemory(stringInput);
 		ControlUnit ppcControlUnit = new ControlUnit(ppcMainMemory);
 		Clock ppcClock = new Clock(ppcControlUnit, new ConsolePrinter());
+		ppcClock.startSlowMode();
 		
 
 
