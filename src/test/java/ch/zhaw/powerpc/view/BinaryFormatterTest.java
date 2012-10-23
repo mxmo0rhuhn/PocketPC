@@ -16,7 +16,7 @@ public class BinaryFormatterTest {
 		assertEquals("0000000000000001", fmt.formatNumber(1));
 		assertEquals("0000000000000010", fmt.formatNumber(2));
 		assertEquals("0000000000101010", fmt.formatNumber(42));
-		assertEquals("0000000000000073", fmt.formatNumber(73));
+		assertEquals("0000000001001001", fmt.formatNumber(73));
 		assertEquals("0000000000000169", fmt.formatNumber(169));
 		assertEquals("0000000000001024", fmt.formatNumber(1024));
 		assertEquals("0000000000000000", fmt.formatNumber(-1));
