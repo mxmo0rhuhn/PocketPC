@@ -12,7 +12,7 @@ public class MnemonicFormatter implements Formatter {
 
 	@Override
 	public String formatNumber(int n) {
-		return String.format("%5d", n);
+		return String.format("%16d", n);
 	}
 
 	@Override
