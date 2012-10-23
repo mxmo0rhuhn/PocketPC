@@ -39,6 +39,11 @@ public class ControlUnit {
 		this.programCounter = 0;
 	}
 
+	/**
+	 * Bildet einen normalen Zyklus der Befehlsverarbeitung ab.
+	 * 
+	 * @return gibt zurück ob ein weiterer Zyklus möglich ist.
+	 */
 	public boolean runCycle() {
 		int binInstruction = instructionFetch();
 		Instruction currentInstruction = Decoder.instructionDecode(binInstruction);
