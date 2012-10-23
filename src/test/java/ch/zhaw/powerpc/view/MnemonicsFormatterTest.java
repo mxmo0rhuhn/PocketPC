@@ -1,10 +1,10 @@
 package ch.zhaw.powerpc.view;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import ch.zhaw.powerpc.view.impl.MnemonicFormatter;
-
-import static org.junit.Assert.*;
 
 public class MnemonicsFormatterTest {
 	
@@ -26,5 +26,13 @@ public class MnemonicsFormatterTest {
 		assertEquals("            -169", fmt.formatNumber(-169));
 		assertEquals("           -1024", fmt.formatNumber(-1024));
 	}
-
+	
+	@Test
+	public void shouldOutputFixedLengthMnemonics() {
+		MnemonicFormatter fmt = new MnemonicFormatter();
+		
+		assertEquals("ADD       0   ", fmt.formatInstruction(Integer.parseInt("0000001110000000", 2)));
+		assertEquals("ADDD #16383   ", fmt.formatInstruction(Integer.parseInt("1011111111111111", 2)));
+		assertEquals("END           ", fmt.formatInstruction(Integer.parseInt("0000000000000000", 2)));
+	}
 }
