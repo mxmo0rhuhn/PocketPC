@@ -8,6 +8,7 @@ import java.util.Map;
 import ch.zhaw.powerpc.model.instructions.ADD;
 import ch.zhaw.powerpc.model.instructions.ADDD;
 import ch.zhaw.powerpc.model.instructions.CLR;
+import ch.zhaw.powerpc.model.instructions.END;
 import ch.zhaw.powerpc.model.instructions.Instruction;
 
 /**
@@ -51,7 +52,7 @@ public final class Decoder {
 		patterns.put("00101_aaaaaaaaaa".toCharArray(), Instruction.class);
 		patterns.put("00111_aaaaaaaaaa".toCharArray(), Instruction.class);
 		patterns.put("00100_aaaaaaaaaa".toCharArray(), Instruction.class);
-		patterns.put("0000000000000000".toCharArray(), Instruction.class);
+		patterns.put("0000000000000000".toCharArray(), END.class);
 	}
 
 	/**

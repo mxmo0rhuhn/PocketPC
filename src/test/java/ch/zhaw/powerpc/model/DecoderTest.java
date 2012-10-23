@@ -45,4 +45,8 @@ public class DecoderTest {
 		return Decoder.instructionDecode(Integer.parseInt(bin, 2)).toString();
 	}
 
+	@Test
+	public void decodeEND() {
+		Assert.assertEquals("END", d("0000000000000000"));
+	}
 }

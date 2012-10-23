@@ -17,4 +17,8 @@ public class END implements Instruction {
 		return -1;
 	}
 
+	@Override
+	public String toString() {
+		return "END";
+	}
 }
