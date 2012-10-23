@@ -21,13 +21,25 @@ public class Clock {
 		this.printer = printer;
 	}
 
-	/**
-	 * Startet einen Zyklus
-	 */
-	public void tick() {
+	public void step() {
 		controlUnit.runCycle();
 		printer.print(controlUnit);
-		throw new UnsupportedOperationException("Implement me [https://bitbucket.org/rethab/pocketpc/issue/29/laufmodi]");
 	}
-
+	
+	public void startSlowMode() {
+		while(controlUnit.runCycle()) {
+			try {
+				wait(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			printer.print(controlUnit);
+		}
+	}
+	
+	public void startFastMode() {
+		while(controlUnit.runCycle()) {
+		}
+	}
 }

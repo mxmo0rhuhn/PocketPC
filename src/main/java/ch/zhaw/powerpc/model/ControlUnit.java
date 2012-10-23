@@ -39,10 +39,14 @@ public class ControlUnit {
 		this.programCounter = 0;
 	}
 
-	public void runCycle() {
+	public boolean runCycle() {
 		int binInstruction = instructionFetch();
 		Instruction currentInstruction = Decoder.instructionDecode(binInstruction);
 		this.programCounter = currentInstruction.run(this);
+		if(this.programCounter == -1) {
+			return false;
+		}
+		return true;
 	}
 
 	public MainMemory getMemory() {
