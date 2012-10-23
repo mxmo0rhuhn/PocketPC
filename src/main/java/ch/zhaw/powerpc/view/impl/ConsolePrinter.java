@@ -69,24 +69,32 @@ public class ConsolePrinter implements Printer {
 		appendInstructions(cnt, memory, sb);
 		appendMemory(memory, sb);
 
-		// TODO binär
-
-		// TODO mnemonics
-
 		sblen = sb.length();
 		System.out.println(sb.toString());
 	}
 
 	private void appendMeta(final ALU alu, final Register[] registers, final int cnt, final StringBuilder sb) {
-		sb.append("Befehlszähler: ").append(cnt);
-		sb.append(" Akku: ").append(registers[0].read());
+		sb.append(" Befehlszähler: ").append(binFormat.formatNumber(cnt));
+		sb.append(" Akku: ").append(binFormat.formatNumber(registers[0].read()));
 		sb.append(" Carry: ").append(alu.isCarryFlag() ? '1' : '0').append(NEWLINE);
+		
+		sb.append(" Befehlszähler: ").append(mneFormat.formatNumber(cnt));
+		sb.append(" Akku: ").append(mneFormat.formatNumber(registers[0].read()));
 	}
 
 	private void appendRegisters(final Register[] registers, final StringBuilder sb) {
-		sb.append("Register: Reg-1: ").append(registers[1].read());
-		sb.append(" Reg-2").append(registers[2].read());
-		sb.append(" Reg-3").append(registers[3].read());
+		sb.append("Register:");
+		
+		// bin
+		sb.append(" Reg-1: ").append(binFormat.formatNumber(registers[1].read()));
+		sb.append(" Reg-2: ").append(binFormat.formatNumber(registers[2].read()));
+		sb.append(" Reg-3: ").append(binFormat.formatNumber(registers[3].read()));
+		
+		// mne
+		sb.append("        ");
+		sb.append(" Reg-1: ").append(mneFormat.formatNumber(registers[1].read()));
+		sb.append(" Reg-2: ").append(mneFormat.formatNumber(registers[2].read()));
+		sb.append(" Reg-3: ").append(mneFormat.formatNumber(registers[3].read()));
 		sb.append(NEWLINE);
 	}
 
