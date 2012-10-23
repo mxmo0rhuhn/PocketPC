@@ -1,4 +1,4 @@
-package ch.zhaw.powerpc;
+package ch.zhaw.powerpc.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,20 +26,21 @@ public class InputInterpreterTest {
 	
 	@Test
 	public void shouldWriteAtSpecificAddressAfterCommands() {
-		MainMemory mem = inp.generateMainMemory(new String[]{"END", "500=33"});
+		MainMemory mem = inp.generateMainMemory(new String[]{"0000000000000000", "500=33"});
 		assertEquals(33, mem.read(500));
 	}
 	
 	@Test
 	public void shouldWriteFirstCommandAtPosition100() {
-		MainMemory mem = inp.generateMainMemory(new String[]{"END"});
+		MainMemory mem = inp.generateMainMemory(new String[]{"0000000000000000"});
 		assertEquals(0, mem.read(100));
 	}
 	
 	@Test
 	public void shouldWriteProgramSequentially() {
-		MainMemory mem = inp.generateMainMemory(new String[]{"ADD 1", "END"});
-		assertEquals(Integer.parseInt("0000011111010101", 2), mem.read(100));
+		String addOne = "0000011111010101";
+		MainMemory mem = inp.generateMainMemory(new String[]{addOne, "0000000000000000"});
+		assertEquals(Integer.parseInt(addOne, 2), mem.read(100));
 		assertEquals(0, mem.read(101));
 	}
 
