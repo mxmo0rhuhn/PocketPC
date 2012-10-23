@@ -1,9 +1,11 @@
-package ch.zhaw.powerpc.view;
+package ch.zhaw.powerpc.view.impl;
 
 import ch.zhaw.powerpc.model.ALU;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 import ch.zhaw.powerpc.model.Register;
+import ch.zhaw.powerpc.view.Formatter;
+import ch.zhaw.powerpc.view.Printer;
 
 /**
  * 
@@ -36,6 +38,16 @@ public class ConsolePrinter implements Printer {
 	private static final int AFTER_CNT = 10;
 
 	/**
+	 * Formatter zur Binaeren Ausgabe
+	 */
+	private final Formatter binFormat = new BinaryFormatter();
+
+	/**
+	 * Formatter zur mnemonischen Ausgabe
+	 */
+	private final Formatter mneFormat = new MnemonicFormatter();
+
+	/**
 	 * Ich glaube, die Ausgabe muesste jedes mal +/- 10 die gleiche Anzahl Zeichen haben. Deshalb waere es sinnvoll
 	 * diese Zahl vorzumerken. Wuerde dann auch ohne berechnen gehen..
 	 */
@@ -56,8 +68,6 @@ public class ConsolePrinter implements Printer {
 		appendRegisters(registers, sb);
 		appendInstructions(cnt, memory, sb);
 		appendMemory(memory, sb);
-		
-		
 
 		// TODO binär
 
@@ -81,23 +91,48 @@ public class ConsolePrinter implements Printer {
 	}
 
 	private void appendInstructions(final int cnt, final MainMemory memory, final StringBuilder sb) {
-		final int start = Math.max(MIN_CNT, cnt - BEFORE_CNT); // Wenn der cnt bei 101 ist, wollen wir nur 101 ausgeben
+		// Wenn der cnt bei 101 ist, wollen wir erst ab 101 ausgeben
+		final int start = Math.max(MIN_CNT, cnt - BEFORE_CNT);
 		final int end = Math.min(MAX_CNT, cnt + AFTER_CNT);
-		sb.append("Befehle:"); // Erster Schleifendurchlauf produziert leerzeichen
-		for(int i = start; i < cnt; i++) {
-			sb.append(' ').append(memory.read(i));
+		sb.append("Befehle:").append(NEWLINE);
+		
+		// bin
+		sb.append(' '); // Einruecken
+		for (int i = start; i < cnt; i++) {
+			sb.append(' ').append(binFormat.formatInstruction(memory.read(i)));
 		}
-		sb.append(" [").append(memory.read(cnt)).append(']');
-		for(int i = cnt+1; i <= end; i++) {
-			sb.append(' ').append(memory.read(i));
+		sb.append(" [").append(binFormat.formatInstruction(memory.read(cnt))).append(']');
+		for (int i = cnt + 1; i <= end; i++) {
+			sb.append(' ').append(binFormat.formatInstruction(memory.read(i)));
+		}
+		sb.append(NEWLINE);
+		
+		// mnemonics
+		sb.append(' '); // Einruecken
+		for (int i = start; i < cnt; i++) {
+			sb.append(' ').append(mneFormat.formatInstruction(memory.read(i)));
+		}
+		sb.append(" [").append(mneFormat.formatInstruction(memory.read(cnt))).append(']');
+		for (int i = cnt + 1; i <= end; i++) {
+			sb.append(' ').append(mneFormat.formatInstruction(memory.read(i)));
 		}
 		sb.append(NEWLINE);
 	}
-	
+
 	private void appendMemory(final MainMemory memory, final StringBuilder sb) {
 		sb.append("Speicher:"); // Erster Schleifendurchlauf produziert leerzeichen
-		for(int i = 500; i <= 529; i++) {
-			sb.append(' ').append(memory.read(i));
+		
+		// bin
+		sb.append(' '); // Einruecken
+		for (int i = 500; i <= 529; i++) {
+			sb.append(' ').append(binFormat.formatNumber(memory.read(i)));
+		}
+		sb.append(NEWLINE);
+		
+		// mne
+		sb.append(' '); // Einruecken
+		for (int i = 500; i <= 529; i++) {
+			sb.append(' ').append(mneFormat.formatNumber(memory.read(i)));
 		}
 		sb.append(NEWLINE);
 	}

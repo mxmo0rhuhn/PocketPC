@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
-import ch.zhaw.powerpc.view.ConsolePrinter;
+import ch.zhaw.powerpc.view.impl.ConsolePrinter;
 
 /**
  * Einstiegspunkt für das komplette Programm.
