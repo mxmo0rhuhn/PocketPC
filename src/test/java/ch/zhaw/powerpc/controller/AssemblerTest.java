@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import ch.zhaw.powerpc.model.instructions.InvalidInstructionException;
+
 public class AssemblerTest {
 	
 	private final Assembler assembler = new Assembler();

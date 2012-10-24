@@ -13,6 +13,9 @@ public final class CLR implements Instruction {
 	private final int register;
 	
 	public CLR(int register) {
+		if (register > 3 || register < 0) {
+			throw new InvalidInstructionException("Es gibt nicht so viele Register");
+		}
 		this.register = register;
 	}
 

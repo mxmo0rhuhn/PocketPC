@@ -14,6 +14,9 @@ public final class ADD implements Instruction {
 	private final int register;
 	
 	public ADD(int register) {
+		if (register > 4 || register < 0) {
+			throw new InvalidInstructionException("Es gibt nicht so viele Register");
+		}
 		this.register = register;
 	}
 	
