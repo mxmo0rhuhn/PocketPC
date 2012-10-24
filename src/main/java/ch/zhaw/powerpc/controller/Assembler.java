@@ -80,7 +80,7 @@ public final class Assembler {
 		int[] res = new int[parts.length - 1]; // erstes element ist klassenname
 		for (int i = 1; i < parts.length; i++) {
 			if (parts[i].startsWith("#")) {
-				if (binaryOp && i == 2) {
+				if (binaryOp && i != 2) {
 					throw new InvalidInstructionException(
 							"Bei einer binaeren Instruktion ist die Adresse der zweite Parameter");
 				}
