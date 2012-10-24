@@ -76,11 +76,6 @@ public class AssemblerTest {
 		assertEquals("ADDD #1111", assemble("ADDD #1111"));
 	}
 	
-	@Test(expected=InvalidInstructionException.class)
-	public void invalidADDD() {
-		assemble("ADDD 1");
-	}
-	
 	@Test
 	public void testINC() {
 		assertEquals("INC", assemble("INC"));

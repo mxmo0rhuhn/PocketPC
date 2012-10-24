@@ -62,7 +62,7 @@ public final class Assembler {
 		case 2:
 			return constructor.newInstance(ops[0], ops[1]);
 		default:
-			throw new Exception("Es gibt keinen Konstruktor mit mehr als zwei Parametern (zumindest hier)");
+			throw new Exception("Es gibt keinen Konstruktor mit mehr als zwei Parametern (zumindest hier).");
 		}
 	}
 
