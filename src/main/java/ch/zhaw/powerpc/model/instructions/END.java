@@ -10,7 +10,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * @author Max
  *
  */
-public class END implements Instruction {
+public class END extends AbstractInstruction {
 
 	@Override
 	public int run(ControlUnit controlUnit) {
@@ -20,5 +20,10 @@ public class END implements Instruction {
 	@Override
 	public String toString() {
 		return "END";
+	}
+	
+	@Override
+	public char getBinary() {
+		return genBin("0000000000000000");
 	}
 }

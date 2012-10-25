@@ -73,7 +73,7 @@ public class InputReaderTest {
 		}
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			return new InputReader(br).OpenFile();
+			return new InputReader(br).readContents();
 		} catch (Exception e) {
 			fail(e.getMessage());
 			return null; // never happens

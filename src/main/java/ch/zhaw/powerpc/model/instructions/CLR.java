@@ -8,12 +8,12 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * @author Reto
  *
  */
-public final class CLR implements Instruction {
+public class CLR extends AbstractInstruction {
 	
 	private final int register;
 	
 	public CLR(int register) {
-		InstructionUtil.checkRegisterBounds(register);
+		checkRegisterBounds(register);
 		this.register = register;
 	}
 
@@ -28,5 +28,9 @@ public final class CLR implements Instruction {
 	public String toString() {
 		return "CLR " + this.register;
 	}
-
+	
+	@Override
+	public char getBinary() {
+		return genBin("0000" + reg(this.register) + "1010000000");
+	}
 }

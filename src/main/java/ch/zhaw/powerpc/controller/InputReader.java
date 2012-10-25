@@ -11,57 +11,45 @@ import java.util.LinkedList;
  * 
  * @author des
  * 
- *
  */
 public class InputReader {
 
 	private final BufferedReader inputBuffer;
 
 	public InputReader(String inputFile) throws FileNotFoundException {
-
 		FileReader fr = new FileReader(inputFile);
 		inputBuffer = new BufferedReader(fr);
 	}
-	
+
 	public InputReader(BufferedReader inputBuffer) {
 		this.inputBuffer = inputBuffer;
 	}
 
 	/**
-	 * @return txtData (Text aus dem InputFile)
-	 * @throws IOException
+	 * Einlesen des Files
 	 * 
-	 *             Einlesen des Files
+	 * @return txtData (Text aus dem InputFile)
+	 * 
+	 * @throws IOException
 	 */
-	public String[] OpenFile() throws IOException {
-
+	public String[] readContents() throws IOException {
 		LinkedList<String> liste = new LinkedList<String>();
-
 		String line = this.inputBuffer.readLine();
-
 		while (line != null) {
-
 			int apostrophindex = line.indexOf('\'');
-
 			// Kommentar entfernen
 			if (apostrophindex != -1) {
 				line = line.substring(0, apostrophindex - 1);
 			}
-
 			// Leerzeilen rauslöschen
 			line = line.trim();
-
 			if (!line.isEmpty()) {
 				liste.add(line);
 			}
-
 			// gehe zur nächsten Zeile
 			line = this.inputBuffer.readLine();
 		}
-
 		this.inputBuffer.close();
 		return liste.toArray(new String[0]);
-
 	}
-
 }

@@ -9,7 +9,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * @author Reto
  * 
  */
-public final class ADDD implements Instruction {
+public class ADDD extends AbstractInstruction {
 	
 	private final short number;
 	
@@ -27,6 +27,11 @@ public final class ADDD implements Instruction {
 	@Override
 	public String toString() {
 		return "ADDD #" + this.number;
+	}
+	
+	@Override
+	public char getBinary() {
+		return genBin("1", num(this.number));
 	}
 
 }
