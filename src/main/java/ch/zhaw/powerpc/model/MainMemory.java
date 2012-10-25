@@ -9,7 +9,7 @@ package ch.zhaw.powerpc.model;
  */
 public final class MainMemory {
 
-	private final int[] data;
+	private final byte[] data;
 
 	/**
 	 * Die Klasse wird mit einem initialen Set an Daten instanziert. Hier muss z.B. schon das Programm in den Daten
@@ -17,7 +17,7 @@ public final class MainMemory {
 	 * 
 	 * Achtung: Das Array muss hier schon die finale grösse haben, weil Arrays können später in der Grösse nicht mehr verändert werden.
 	 */
-	public MainMemory(int[] initialData) {
+	public MainMemory(byte[] initialData) {
 		this.data = initialData;
 	}
 
@@ -27,7 +27,7 @@ public final class MainMemory {
 	 * @throws IllegalArgumentException
 	 *             wenn die Adresse zu gross oder zu klein ist.
 	 */
-	public int read(int address) {
+	public byte read(int address) {
 		checkBounds(address);
 		return this.data[address];
 	}
@@ -38,7 +38,7 @@ public final class MainMemory {
 	 * @throws IllegalArgumentException
 	 *             wenn die Adresse zu gross oder zu klein ist.
 	 */
-	public void write(int address, int data) {
+	public void write(int address, byte data) {
 		checkBounds(address);
 		this.data[address] = data;
 	}

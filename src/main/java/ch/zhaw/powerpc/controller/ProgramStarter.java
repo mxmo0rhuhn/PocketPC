@@ -27,15 +27,15 @@ public class ProgramStarter {
 	public static void main(String[] args) throws IOException {
 		// read initial memory
 		
-		InputReader reader = new InputReader(currentInput);
-		InputInterpreter interpreter = new InputInterpreter();
-		
-		String[] stringInput = reader.OpenFile();
-		MainMemory ppcMainMemory = interpreter.generateMainMemory(stringInput);
-		ControlUnit ppcControlUnit = new ControlUnit(ppcMainMemory);
-		Clock ppcClock = new Clock(ppcControlUnit, new ConsolePrinter());
-		ppcClock.startSlowMode();
-		
+//		InputReader reader = new InputReader(currentInput);
+//		InputInterpreter interpreter = new InputInterpreter();
+//		
+//		String[] stringInput = reader.OpenFile();
+//		MainMemory ppcMainMemory = interpreter.generateMainMemory(stringInput);
+//		ControlUnit ppcControlUnit = new ControlUnit(ppcMainMemory);
+//		Clock ppcClock = new Clock(ppcControlUnit, new ConsolePrinter());
+//		ppcClock.startSlowMode();
+//		
 
 
 		
