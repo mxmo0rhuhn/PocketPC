@@ -1,6 +1,6 @@
 package ch.zhaw.powerpc.model.instructions;
 
-import static ch.zhaw.powerpc.model.instructions.TestUtil.initCU;
+import static ch.zhaw.powerpc.model.instructions.TestUtil.*;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -42,5 +42,13 @@ public class LWDDTest {
 		ControlUnit cu = initCU(new int[]{504, 0, 505, 255});
 		new LWDD(0, 504).run(cu);
 		assertEquals(255, cu.getRegisters()[0].read());
+	}
+	
+	@Test
+	public void binary1() {
+		binEquals("0100000111110100", new LWDD(0, 500).getBinary());
+		binEquals("0100010111110101", new LWDD(1, 501).getBinary());
+		binEquals("0100101000101011", new LWDD(2, 555).getBinary());
+		binEquals("0100111111111111", new LWDD(3, 1023).getBinary());
 	}
 }
