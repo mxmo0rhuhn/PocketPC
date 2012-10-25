@@ -21,7 +21,7 @@ public final class ADD extends AbstractInstruction {
 	@Override
 	public int run(ControlUnit controlUnit) {
 		controlUnit.getAlu().addToAccu(controlUnit.getRegisters()[this.register].read());
-		return controlUnit.getProgramCounter() + 1;
+		return controlUnit.getProgramCounter() + 2;
 	}
 	
 	@Override

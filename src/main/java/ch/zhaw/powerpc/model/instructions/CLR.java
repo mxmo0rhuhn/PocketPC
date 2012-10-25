@@ -21,7 +21,7 @@ public class CLR extends AbstractInstruction {
 	public int run(ControlUnit controlUnit) {
 		controlUnit.getRegisters()[this.register].write(0);
 		controlUnit.getAlu().setCarryFlag(false);
-		return controlUnit.getProgramCounter() + 1;
+		return controlUnit.getProgramCounter() + 2;
 	}
 	
 	@Override

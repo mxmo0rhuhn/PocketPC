@@ -14,14 +14,13 @@ public class ADDD extends AbstractInstruction {
 	private final short number;
 	
 	public ADDD(int number) {
-		// TODO just int because refelction curr. works like this
 		this.number = (short) number;
 	}
 
 	@Override
 	public int run(ControlUnit controlUnit) {
 		controlUnit.getAlu().addToAccu(this.number);
-		return controlUnit.getProgramCounter() + 1;
+		return controlUnit.getProgramCounter() + 2;
 	}
 	
 	@Override
