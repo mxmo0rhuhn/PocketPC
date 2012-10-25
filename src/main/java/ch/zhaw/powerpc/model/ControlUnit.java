@@ -38,7 +38,7 @@ public class ControlUnit {
 		this.alu = new ALU(this.registers);
 		
 		// Per Definition beginnen Programme bei 100
-		this.programCounter = 0;
+		this.programCounter = 100;
 	}
 
 	/**
