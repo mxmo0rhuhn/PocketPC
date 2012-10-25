@@ -86,15 +86,26 @@ public abstract class AbstractInstruction implements Instruction {
 	}
 
 	/**
-	 * Stellt sicher, dass eine Adresse gueltig ist
+	 * Stellt sicher, dass eine Adresse fuer Daten gueltig ist
 	 * 
 	 * @throws InvalidInstructionException
 	 *             wenn die Adresse nicht existiert
 	 */
-	public static void checkAddressBounds(int address) {
-		// TODO upper and lower bounds
-		if (address < 0) {
-			throw new InvalidInstructionException("Diese Adresse existiert nicht: " + address);
+	public static void checkAddressBoundsData(int address) {
+		if (address < 500) {
+			throw new InvalidInstructionException("An dieser Adresse werden keine Daten gespeichert: " + address);
+		}
+	}
+	
+	/**
+	 * Stellt sicher, dass eine fuer Instruktionen Adresse gueltig ist
+	 * 
+	 * @throws InvalidInstructionException
+	 *             wenn die Adresse nicht existiert
+	 */
+	public static void checkAddressBoundsInstruction(int address) {
+		if (address < 100 || address > 499) {
+			throw new InvalidInstructionException("An dieser Adresse werden keine Instruktionen gespeichert: " + address);
 		}
 	}
 }

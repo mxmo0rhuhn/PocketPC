@@ -17,7 +17,7 @@ public class LWDD extends AbstractInstruction {
 
 	public LWDD(int register, int address) {
 		checkRegisterBounds(register);
-		checkAddressBounds(address);
+		checkAddressBoundsData(address);
 		this.register = register;
 		this.address = address;
 	}
