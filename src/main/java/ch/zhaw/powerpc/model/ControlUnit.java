@@ -36,6 +36,8 @@ public class ControlUnit {
 		this.memory = memory;
 		this.registers = new Register[] { new Register(), new Register(), new Register(), new Register() };
 		this.alu = new ALU(this.registers);
+		
+		// Per Definition beginnen Programme bei 100
 		this.programCounter = 0;
 	}
 
