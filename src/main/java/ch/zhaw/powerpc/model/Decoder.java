@@ -7,6 +7,14 @@ import java.util.Map;
 
 import ch.zhaw.powerpc.model.instructions.ADD;
 import ch.zhaw.powerpc.model.instructions.ADDD;
+import ch.zhaw.powerpc.model.instructions.B;
+import ch.zhaw.powerpc.model.instructions.BC;
+import ch.zhaw.powerpc.model.instructions.BCD;
+import ch.zhaw.powerpc.model.instructions.BD;
+import ch.zhaw.powerpc.model.instructions.BNZ;
+import ch.zhaw.powerpc.model.instructions.BNZD;
+import ch.zhaw.powerpc.model.instructions.BZ;
+import ch.zhaw.powerpc.model.instructions.BZD;
 import ch.zhaw.powerpc.model.instructions.CLR;
 import ch.zhaw.powerpc.model.instructions.END;
 import ch.zhaw.powerpc.model.instructions.Instruction;
@@ -44,14 +52,14 @@ public final class Decoder {
 		patterns.put("0000rr100_______".toCharArray(), Instruction.class);
 		patterns.put("0000rr110_______".toCharArray(), Instruction.class);
 		patterns.put("000000001_______".toCharArray(), Instruction.class);
-		patterns.put("0001rr10________".toCharArray(), Instruction.class);
-		patterns.put("0001rr01________".toCharArray(), Instruction.class);
-		patterns.put("0001rr11________".toCharArray(), Instruction.class);
-		patterns.put("0001rr00________".toCharArray(), Instruction.class);
-		patterns.put("00110_aaaaaaaaaa".toCharArray(), Instruction.class);
-		patterns.put("00101_aaaaaaaaaa".toCharArray(), Instruction.class);
-		patterns.put("00111_aaaaaaaaaa".toCharArray(), Instruction.class);
-		patterns.put("00100_aaaaaaaaaa".toCharArray(), Instruction.class);
+		patterns.put("0001rr10________".toCharArray(), BZ.class);
+		patterns.put("0001rr01________".toCharArray(), BNZ.class);
+		patterns.put("0001rr11________".toCharArray(), BC.class);
+		patterns.put("0001rr00________".toCharArray(), B.class);
+		patterns.put("00110_aaaaaaaaaa".toCharArray(), BZD.class);
+		patterns.put("00101_aaaaaaaaaa".toCharArray(), BNZD.class);
+		patterns.put("00111_aaaaaaaaaa".toCharArray(), BCD.class);
+		patterns.put("00100_aaaaaaaaaa".toCharArray(), BD.class);
 		patterns.put("0000000000000000".toCharArray(), END.class);
 	}
 
