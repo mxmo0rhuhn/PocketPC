@@ -45,6 +45,30 @@ public class LWDDTest {
 	}
 	
 	@Test
+	public void testLoad6() {
+		// 10000000 + 11111111
+		ControlUnit cu = initCU(new int[]{506, -128, 507, -1});
+		new LWDD(0, 506).run(cu);
+		assertEquals(-32513, cu.getRegisters()[0].read());
+	}
+	
+	@Test
+	public void testLoad7() {
+		// 11111111 + 11111111
+		ControlUnit cu = initCU(new int[]{506, -1, 507, -1});
+		new LWDD(0, 506).run(cu);
+		assertEquals(-1, cu.getRegisters()[0].read());
+	}
+	
+	@Test
+	public void testLoad8() {
+		// 10000000 + 00000000
+		ControlUnit cu = initCU(new int[]{506, -128, 507, 0});
+		new LWDD(0, 506).run(cu);
+		assertEquals(-32768, cu.getRegisters()[0].read());
+	}
+	
+	@Test
 	public void binary1() {
 		binEquals("0100000111110100", new LWDD(0, 500).getBinary());
 		binEquals("0100010111110101", new LWDD(1, 501).getBinary());

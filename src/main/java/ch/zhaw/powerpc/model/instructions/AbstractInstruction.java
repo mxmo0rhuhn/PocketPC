@@ -65,6 +65,12 @@ public abstract class AbstractInstruction implements Instruction {
 		return String.valueOf(res);
 	}
 
+	/**
+	 * Nimmt zwei Bytes und kombiniert diese in einem Integer (16 tiefere Bits).
+	 * 
+	 * z.B. <pre>combineBytes(10011001, 00110011) -> 00000000000000001001100100110011
+	 * 
+	 */
 	protected static final int combineBytes(byte upper, byte lower) {
 		ByteBuffer bb = ByteBuffer.allocate(4);
 		bb.order(ByteOrder.BIG_ENDIAN);
@@ -75,6 +81,11 @@ public abstract class AbstractInstruction implements Instruction {
 		return bb.getInt(0);
 	}
 
+	/**
+	 * 
+	 * @param xs
+	 * @return
+	 */
 	protected char genBin(String... xs) {
 		StringBuilder sb = new StringBuilder(16);
 		for (String s : xs) {
