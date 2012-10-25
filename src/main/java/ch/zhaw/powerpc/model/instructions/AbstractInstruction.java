@@ -1,5 +1,8 @@
 package ch.zhaw.powerpc.model.instructions;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 /**
  * Einige Hilfsmethoden (z.B. Validierung und Umwandlung) fuer die Instruktionen.
  * 
@@ -7,12 +10,12 @@ package ch.zhaw.powerpc.model.instructions;
  * 
  */
 public abstract class AbstractInstruction implements Instruction {
-	
+
 	/**
 	 * Adresse ist bei allen Instruktionen gleich lang.
 	 */
 	private static final int ADR_LENGTH = 10;
-	
+
 	/**
 	 * Nummer ist bei allen Instruktionen gleich lang.
 	 */
@@ -40,26 +43,36 @@ public abstract class AbstractInstruction implements Instruction {
 	protected static final String num(int number) {
 		return tailor(number, NUM_LENGTH);
 	}
-	
+
 	private static String tailor(final int num, final int length) {
 		char[] bin = Integer.toBinaryString(num).toCharArray();
 		char[] res = new char[length];
-		
+
 		// ab welcher position wird das quell-array kopiert
 		int srcPos = Math.max(bin.length - length, 0);
-		
+
 		// ab welcher position wird's ins ziel geschrieben
-		int destPos= Math.max(length - bin.length, 0);
-		
+		int destPos = Math.max(length - bin.length, 0);
+
 		// wie viele zeichen werden kopiert
 		int len = Math.min(bin.length, length);
 		System.arraycopy(bin, srcPos, res, destPos, len);
-		
+
 		// Fuelle Rest mit Nullen
 		for (int i = 0; i < length - Math.min(bin.length, length); i++) {
 			res[i] = '0';
 		}
 		return String.valueOf(res);
+	}
+
+	protected static final int combineBytes(byte upper, byte lower) {
+		ByteBuffer bb = ByteBuffer.allocate(4);
+		bb.order(ByteOrder.BIG_ENDIAN);
+		bb.put((byte) 0);
+		bb.put((byte) 0);
+		bb.put(upper);
+		bb.put(lower);
+		return bb.getInt(0);
 	}
 
 	protected char genBin(String... xs) {
@@ -96,7 +109,7 @@ public abstract class AbstractInstruction implements Instruction {
 			throw new InvalidInstructionException("An dieser Adresse werden keine Daten gespeichert: " + address);
 		}
 	}
-	
+
 	/**
 	 * Stellt sicher, dass eine fuer Instruktionen Adresse gueltig ist
 	 * 
@@ -105,7 +118,8 @@ public abstract class AbstractInstruction implements Instruction {
 	 */
 	public static void checkAddressBoundsInstruction(int address) {
 		if (address < 100 || address > 499) {
-			throw new InvalidInstructionException("An dieser Adresse werden keine Instruktionen gespeichert: " + address);
+			throw new InvalidInstructionException("An dieser Adresse werden keine Instruktionen gespeichert: "
+					+ address);
 		}
 	}
 }

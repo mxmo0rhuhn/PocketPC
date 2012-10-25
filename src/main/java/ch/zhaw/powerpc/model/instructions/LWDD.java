@@ -1,5 +1,8 @@
 package ch.zhaw.powerpc.model.instructions;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 import ch.zhaw.powerpc.model.ControlUnit;
 
 /**
@@ -24,9 +27,9 @@ public class LWDD extends AbstractInstruction {
 
 	@Override
 	public int run(ControlUnit controlUnit) {
-		int upperPart = controlUnit.getMemory().read(this.address);
-		int lowerPart = controlUnit.getMemory().read(this.address + 1);
-		controlUnit.getRegisters()[this.register].write((upperPart << 8) | lowerPart);
+		byte upper = controlUnit.getMemory().read(this.address);
+		byte lower = controlUnit.getMemory().read(this.address + 1);
+		controlUnit.getRegisters()[this.register].write(combineBytes(upper, lower));
 		return controlUnit.getProgramCounter() + 1;
 	}
 
