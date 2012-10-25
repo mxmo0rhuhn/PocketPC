@@ -9,12 +9,12 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * @author Reto
  * 
  */
-public final class ADD implements Instruction {
+public final class ADD extends AbstractInstruction {
 	
 	private final int register;
 	
 	public ADD(int register) {
-		InstructionUtil.checkRegisterBounds(register);
+		checkRegisterBounds(register);
 		this.register = register;
 	}
 	
@@ -27,6 +27,11 @@ public final class ADD implements Instruction {
 	@Override
 	public String toString() {
 		return "ADD " + this.register;
+	}
+	
+	@Override
+	public char getBinary() {
+		return genBin("0000", reg(this.register), "1110000000");
 	}
 
 }

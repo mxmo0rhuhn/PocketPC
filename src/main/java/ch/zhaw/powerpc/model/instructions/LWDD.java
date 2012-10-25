@@ -9,15 +9,15 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * @author Reto
  * 
  */
-public class LWDD implements Instruction {
+public class LWDD extends AbstractInstruction {
 
 	private final int register;
 
 	private final int address;
 
 	public LWDD(int register, int address) {
-		InstructionUtil.checkRegisterBounds(register);
-		InstructionUtil.checkAddressBounds(address);
+		checkRegisterBounds(register);
+		checkAddressBounds(address);
 		this.register = register;
 		this.address = address;
 	}
@@ -33,6 +33,11 @@ public class LWDD implements Instruction {
 	@Override
 	public String toString() {
 		return "LWDD " + this.register + " #" + this.address;
+	}
+	
+	@Override
+	public char getBinary() {
+		return genBin("0100", reg(this.register), adr(this.address));
 	}
 
 }
