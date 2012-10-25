@@ -7,6 +7,14 @@ import java.util.Map;
 
 import ch.zhaw.powerpc.model.instructions.ADD;
 import ch.zhaw.powerpc.model.instructions.ADDD;
+import ch.zhaw.powerpc.model.instructions.B;
+import ch.zhaw.powerpc.model.instructions.BC;
+import ch.zhaw.powerpc.model.instructions.BCD;
+import ch.zhaw.powerpc.model.instructions.BD;
+import ch.zhaw.powerpc.model.instructions.BNZ;
+import ch.zhaw.powerpc.model.instructions.BNZD;
+import ch.zhaw.powerpc.model.instructions.BZ;
+import ch.zhaw.powerpc.model.instructions.BZD;
 import ch.zhaw.powerpc.model.instructions.CLR;
 import ch.zhaw.powerpc.model.instructions.END;
 import ch.zhaw.powerpc.model.instructions.Instruction;

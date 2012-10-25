@@ -11,7 +11,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * @author Max
  * 
  */
-public class B implements Instruction {
+public class B extends AbstractInstruction {
 
 	private final int register;
 
@@ -23,7 +23,7 @@ public class B implements Instruction {
 	 *            Registers Sinn ergibt für den Sprung => dies kann schnell im NIRVANA enden... höchst kritisch ...
 	 */
 	public B(int register) {
-		InstructionUtil.checkRegisterBounds(register);
+		checkRegisterBounds(register);
 		this.register = register;
 	}
 
@@ -35,6 +35,11 @@ public class B implements Instruction {
 	@Override
 	public int run(ControlUnit controlUnit) {
 		return register;
+	}
+
+	@Override
+	public char getBinary() {
+		return genBin("0001", reg(this.register), "01", "00000000");
 	}
 
 }
