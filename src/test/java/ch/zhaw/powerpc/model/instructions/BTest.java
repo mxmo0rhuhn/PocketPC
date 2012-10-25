@@ -21,7 +21,7 @@ public class BTest {
 	@Test
 	public void testJumpRegisterOne() {
 	
-		ControlUnit cu = initCU(new int[]{});
+		ControlUnit cu = initCU(new int[]{100,});
 		cu.getRegisters()[01].write(121);
 		
 		assertEquals(100,cu.getProgramCounter());
@@ -38,8 +38,6 @@ public class BTest {
 		cu.getRegisters()[02].write(133);
 		
 		assertEquals(100,cu.getProgramCounter());
-		
-		new B(02).run(cu);
 		
 		assertEquals(133,cu.getProgramCounter());
 	}
