@@ -44,7 +44,7 @@ public abstract class AbstractInstruction implements Instruction {
 		return tailor(number, NUM_LENGTH);
 	}
 
-	private static String tailor(final int num, final int length) {
+	public static String tailor(final int num, final int length) {
 		char[] bin = Integer.toBinaryString(num).toCharArray();
 		char[] res = new char[length];
 
