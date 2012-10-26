@@ -37,6 +37,11 @@ public class B extends AbstractInstruction {
 	public int run(ControlUnit controlUnit) {
 		return controlUnit.getRegisters()[register].read();
 	}
+	
+	@Override
+	public String toString() {
+		return "B " + this.register;
+	}
 
 	@Override
 	public char getBinary() {
