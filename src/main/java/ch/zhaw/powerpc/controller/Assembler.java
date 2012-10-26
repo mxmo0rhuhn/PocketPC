@@ -48,8 +48,12 @@ public final class Assembler {
 			// Der Konstruktor wird mit den Operanden (Parameter fuer Konstruktor) instanziert.
 			return instantiate(constructor, ops);
 		} catch (Exception e) {
-			throw new InvalidInstructionException("Instruktion [" + mnemonic + "] kann nicht zugewiesen werden, weil: "
-					+ e.getMessage());
+			if (e.getCause() instanceof InvalidInstructionException) {
+				throw (InvalidInstructionException) e.getCause();
+			} else {
+				throw new InvalidInstructionException("Instruktion [" + mnemonic
+						+ "] kann nicht zugewiesen werden, weil: " + e.getMessage());
+			}
 		}
 	}
 
