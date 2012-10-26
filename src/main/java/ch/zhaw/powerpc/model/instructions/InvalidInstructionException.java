@@ -1,7 +1,7 @@
 package ch.zhaw.powerpc.model.instructions;
 
 public class InvalidInstructionException extends RuntimeException {
-	
+
 	public InvalidInstructionException(String msg) {
 		super(msg);
 	}

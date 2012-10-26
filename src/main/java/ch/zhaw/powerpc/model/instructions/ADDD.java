@@ -10,9 +10,9 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * 
  */
 public class ADDD extends AbstractInstruction {
-	
+
 	private final short number;
-	
+
 	public ADDD(int number) {
 		this.number = (short) number;
 	}
@@ -22,12 +22,12 @@ public class ADDD extends AbstractInstruction {
 		controlUnit.getAlu().addToAccu(this.number);
 		return controlUnit.getProgramCounter() + 2;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "ADDD #" + this.number;
 	}
-	
+
 	@Override
 	public char getBinary() {
 		return genBin("1", num(this.number));

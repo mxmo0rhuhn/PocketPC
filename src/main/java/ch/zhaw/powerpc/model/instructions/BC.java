@@ -6,8 +6,8 @@ package ch.zhaw.powerpc.model.instructions;
 import ch.zhaw.powerpc.model.ControlUnit;
 
 /**
- * Wenn das Carry-Flag gesetzt ist (= 1), verzweige an die durch das Register xx (01 bis 11 für R-1, R-2 bzw. R-3) angegebene
- * Speicheradresse, sonst wird der folgende Befehl normal fortgeführt.
+ * Wenn das Carry-Flag gesetzt ist (= 1), verzweige an die durch das Register xx (01 bis 11 für R-1, R-2 bzw. R-3)
+ * angegebene Speicheradresse, sonst wird der folgende Befehl normal fortgeführt.
  * 
  * @author Max
  * 

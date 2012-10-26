@@ -16,11 +16,4 @@ public class BinaryFormatter implements Formatter {
 	public String formatNumber(int n) {
 		return AbstractInstruction.tailor(n, 16);
 	}
-
-	@Override
-	public String formatInstruction(int n) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -77,19 +77,19 @@ public class ConsolePrinter implements Printer {
 		sb.append(" Befehlszähler: ").append(binFormat.formatNumber(cnt));
 		sb.append(" Akku: ").append(binFormat.formatNumber(registers[0].read()));
 		sb.append(" Carry: ").append(alu.isCarryFlag() ? '1' : '0').append(NEWLINE);
-		
+
 		sb.append(" Befehlszähler: ").append(mneFormat.formatNumber(cnt));
 		sb.append(" Akku: ").append(mneFormat.formatNumber(registers[0].read()));
 	}
 
 	private void appendRegisters(final Register[] registers, final StringBuilder sb) {
 		sb.append("Register:");
-		
+
 		// bin
 		sb.append(" Reg-1: ").append(binFormat.formatNumber(registers[1].read()));
 		sb.append(" Reg-2: ").append(binFormat.formatNumber(registers[2].read()));
 		sb.append(" Reg-3: ").append(binFormat.formatNumber(registers[3].read()));
-		
+
 		// mne
 		sb.append("        ");
 		sb.append(" Reg-1: ").append(mneFormat.formatNumber(registers[1].read()));
@@ -103,44 +103,44 @@ public class ConsolePrinter implements Printer {
 		final int start = Math.max(MIN_CNT, cnt - BEFORE_CNT);
 		final int end = Math.min(MAX_CNT, cnt + AFTER_CNT);
 		sb.append("Befehle:").append(NEWLINE);
-		
+
 		// bin
 		sb.append(' '); // Einruecken
 		for (int i = start; i < cnt; i++) {
-			sb.append(' ').append(binFormat.formatInstruction(memory.read(i)));
+			sb.append(' ').append(memory.readInstruction(i).getBinary());
 		}
-		sb.append(" [").append(binFormat.formatInstruction(memory.read(cnt))).append(']');
+		sb.append(" [").append(memory.readInstruction(cnt).getBinary()).append(']');
 		for (int i = cnt + 1; i <= end; i++) {
-			sb.append(' ').append(binFormat.formatInstruction(memory.read(i)));
+			sb.append(' ').append(memory.readInstruction(i).getBinary());
 		}
 		sb.append(NEWLINE);
-		
+
 		// mnemonics
 		sb.append(' '); // Einruecken
 		for (int i = start; i < cnt; i++) {
-			sb.append(' ').append(mneFormat.formatInstruction(memory.read(i)));
+			sb.append(' ').append(memory.readInstruction(i).toString());
 		}
-		sb.append(" [").append(mneFormat.formatInstruction(memory.read(cnt))).append(']');
+		sb.append(" [").append(memory.readInstruction(cnt).toString()).append(']');
 		for (int i = cnt + 1; i <= end; i++) {
-			sb.append(' ').append(mneFormat.formatInstruction(memory.read(i)));
+			sb.append(' ').append(memory.readInstruction(i).toString());
 		}
 		sb.append(NEWLINE);
 	}
 
 	private void appendMemory(final MainMemory memory, final StringBuilder sb) {
 		sb.append("Speicher:"); // Erster Schleifendurchlauf produziert leerzeichen
-		
+
 		// bin
 		sb.append(' '); // Einruecken
 		for (int i = 500; i <= 529; i++) {
-			sb.append(' ').append(binFormat.formatNumber(memory.read(i)));
+			sb.append(' ').append(binFormat.formatNumber(memory.readData(i)));
 		}
 		sb.append(NEWLINE);
-		
+
 		// mne
 		sb.append(' '); // Einruecken
 		for (int i = 500; i <= 529; i++) {
-			sb.append(' ').append(mneFormat.formatNumber(memory.read(i)));
+			sb.append(' ').append(mneFormat.formatNumber(memory.readData(i)));
 		}
 		sb.append(NEWLINE);
 	}

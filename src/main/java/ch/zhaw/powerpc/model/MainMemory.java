@@ -1,5 +1,8 @@
 package ch.zhaw.powerpc.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ch.zhaw.powerpc.model.instructions.Instruction;
 
 /**
@@ -10,9 +13,9 @@ import ch.zhaw.powerpc.model.instructions.Instruction;
  */
 public final class MainMemory {
 
-	private final short[] data;
+	private final Map<Integer, Short> data = new HashMap<Integer, Short>();
 
-	private final Instruction[] instructions = new Instruction[400];
+	private final Map<Integer, Instruction> instructions = new HashMap<Integer, Instruction>();
 
 	/**
 	 * Die Klasse wird mit einem initialen Set an Daten instanziert. Hier muss z.B. schon das Programm in den Daten
@@ -21,8 +24,7 @@ public final class MainMemory {
 	 * Achtung: Das Array muss hier schon die finale grösse haben, weil Arrays können später in der Grösse nicht mehr
 	 * verändert werden.
 	 */
-	public MainMemory(short[] initialData) {
-		this.data = initialData;
+	public MainMemory() {
 	}
 
 	/**
@@ -31,9 +33,14 @@ public final class MainMemory {
 	 * @throws IllegalArgumentException
 	 *             wenn die Adresse zu gross oder zu klein ist.
 	 */
-	public short readData(short address) {
-		checkBounds(address);
-		return this.data[address];
+	public short readData(int address) {
+		if (address % 2 == 1 || address < 500 || address > 1023) {
+			throw new IllegalArgumentException("Hier darf es keine Daten geben.");
+		}
+		if (!this.data.containsKey(address)) {
+			return 0;
+		}
+		return this.data.get(address);
 	}
 
 	/**
@@ -42,24 +49,36 @@ public final class MainMemory {
 	 * @throws IllegalArgumentException
 	 *             wenn die Adresse zu gross oder zu klein ist.
 	 */
-	public void writeData(short address, short data) {
-		checkBounds(address);
-		this.data[address] = data;
-	}
-
-	public Instruction readInstruction(short address) {
-		return this.instructions[address];
-	}
-
-	public void setInstruction(short address, Instruction instruction) {
-		this.instructions[address] = instruction;
-	}
-
-	private void checkBounds(int address) {
-		if (address < 0) {
-			throw new IllegalArgumentException("Memory Address must be positive");
-		} else if (this.data.length < address) {
-			throw new IllegalArgumentException("Memory Address [" + address + "] does not exist!");
+	public void writeData(int address, short data) {
+		if (address % 2 == 1 || address < 500 || address > 1023) {
+			throw new IllegalArgumentException("Hier darf es keine Daten geben.");
 		}
+		this.data.put(address, data);
+	}
+
+	/**
+	 * Lese eine Instruktion von dieser Adresse.
+	 * 
+	 * @param address
+	 * @return Die Instruktion von der Stelle oder null, wenn sie nicht existiert
+	 */
+	public Instruction readInstruction(int address) {
+		if (address < 100 || address % 2 == 1 || address > 498) {
+			throw new IllegalArgumentException("Hier gibt es keine Instruktionen.");
+		}
+		return this.instructions.get(address);
+	}
+
+	/**
+	 * Schreibt die Instruktion an die spezifizierte Stelle.
+	 * 
+	 * @param address
+	 * @param instruction
+	 */
+	public void setInstruction(int address, Instruction instruction) {
+		if (address < 100 || address % 2 == 1 || address > 498) {
+			throw new IllegalArgumentException("Hier gibt es keine Instruktionen.");
+		}
+		this.instructions.put(address, instruction);
 	}
 }

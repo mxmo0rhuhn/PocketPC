@@ -1,9 +1,8 @@
 package ch.zhaw.powerpc.model.instructions;
 
+import static org.junit.Assert.assertEquals;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
-
-import static org.junit.Assert.assertEquals;
 
 public final class TestUtil {
 
@@ -23,7 +22,8 @@ public final class TestUtil {
 		for (int i = 0; i < vals.length; i += 2) {
 			initialMemory[vals[i]] = (byte) vals[i + 1];
 		}
-		return new ControlUnit(new MainMemory(initialMemory));
+		MainMemory mainMemory = new MainMemory();
+		return new ControlUnit(new MainMemory());
 	}
 
 	/**

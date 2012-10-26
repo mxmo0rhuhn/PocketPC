@@ -24,9 +24,9 @@ public class LWDD extends AbstractInstruction {
 
 	@Override
 	public int run(ControlUnit controlUnit) {
-		byte upper = controlUnit.getMemory().read(this.address);
-		byte lower = controlUnit.getMemory().read(this.address + 1);
-		controlUnit.getRegisters()[this.register].write(combineBytes(upper, lower));
+		int val = controlUnit.getMemory().readData(this.address);
+		boolean overflow = controlUnit.getRegisters()[this.register].write(val);
+		controlUnit.getAlu().setCarryFlag(overflow);
 		return controlUnit.getProgramCounter() + 2;
 	}
 
@@ -34,7 +34,7 @@ public class LWDD extends AbstractInstruction {
 	public String toString() {
 		return "LWDD " + this.register + " #" + this.address;
 	}
-	
+
 	@Override
 	public char getBinary() {
 		return genBin("0100", reg(this.register), adr(this.address));

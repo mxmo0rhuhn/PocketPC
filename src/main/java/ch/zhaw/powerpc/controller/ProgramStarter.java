@@ -1,11 +1,12 @@
 package ch.zhaw.powerpc.controller;
 
-
 import java.io.File;
 import java.io.IOException;
 
-import ch.zhaw.powerpc.model.instructions.Instruction;
+import ch.zhaw.powerpc.model.ControlUnit;
+import ch.zhaw.powerpc.model.MainMemory;
 import ch.zhaw.powerpc.model.instructions.InvalidInstructionException;
+import ch.zhaw.powerpc.view.impl.ConsolePrinter;
 
 /**
  * Einstiegspunkt für das komplette Programm.
@@ -19,20 +20,31 @@ public class ProgramStarter {
 		String filename = getFilename();
 		InputReader reader = new InputReader(filename);
 		String[] mnemonics = reader.readContents();
+		MainMemory mainMemory = createMainMemory(mnemonics);
+		ControlUnit ppcControlUnit = new ControlUnit(mainMemory);
+		new Clock(ppcControlUnit, new ConsolePrinter());
+	}
+
+	public static MainMemory createMainMemory(String[] mnemonics) {
 		Assembler asm = new Assembler();
-		Instruction[] instructions = new Instruction[mnemonics.length];
-		for (int i = 0; i < mnemonics.length; i++) {
-			try {
-				instructions[i] = asm.assemble(mnemonics[i]);
-			} catch (InvalidInstructionException iie) {
-				System.err.println("Instruktion Nr. " + i + " kann nicht assembliert werden: " + iie.getMessage());
-				System.exit(-1);
+		MainMemory mainMemory = new MainMemory();
+		int cnt = 100;
+		for (String mnemonic : mnemonics) {
+			if (mnemonic.contains("=")) {
+				String[] parts = mnemonic.split("-");
+				mainMemory.writeData(Short.parseShort(parts[0]), Short.parseShort(parts[1]));
+			} else {
+				try {
+					mainMemory.setInstruction(cnt, asm.assemble(mnemonic));
+					cnt += 2;
+				} catch (InvalidInstructionException iie) {
+					System.err.println("Instruktion Nr. " + (cnt - 100) + " kann nicht assembliert werden: "
+							+ iie.getMessage());
+					System.exit(-1);
+				}
 			}
 		}
-		// MainMemory ppcMainMemory = interpreter.generateMainMemory(stringInput);
-		// ControlUnit ppcControlUnit = new ControlUnit(ppcMainMemory);
-		// Clock ppcClock = new Clock(ppcControlUnit, new ConsolePrinter());
-		// ppcClock.startSlowMode();
+		return mainMemory;
 	}
 
 	private static String getFilename() throws IOException {

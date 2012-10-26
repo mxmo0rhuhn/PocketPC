@@ -1,8 +1,7 @@
 package ch.zhaw.powerpc.model;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import ch.zhaw.powerpc.model.Decoder;
 
 public class DecoderTest {
 
@@ -13,7 +12,7 @@ public class DecoderTest {
 		Assert.assertEquals("CLR 2", d("0000101011111111"));
 		Assert.assertEquals("CLR 3", d("0000111011110000"));
 	}
-	
+
 	@Test
 	public void decodeADD() {
 		Assert.assertEquals("ADD 0", d("0000001110000000"));
