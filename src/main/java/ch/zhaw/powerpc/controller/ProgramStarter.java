@@ -59,8 +59,7 @@ public class ProgramStarter {
 				System.err.println("- Das File ist nicht lesbar/existiert nicht: " + asmFile);
 			}
 			System.err.println("\n Das Programm muss folgendermassen gestartet werden:");
-			System.err.println("\tjava " + ProgramStarter.class.getCanonicalName()
-					+ " -Dasm=/home/usr/input.asm");
+			System.err.println("\tjava -Dasm=/home/usr/input.asm " + ProgramStarter.class.getCanonicalName());
 			System.exit(-1);
 			return null; // never happens
 		}
