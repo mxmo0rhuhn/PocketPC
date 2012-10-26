@@ -1,11 +1,11 @@
 package ch.zhaw.powerpc.model;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import ch.zhaw.powerpc.model.instructions.B;
 import ch.zhaw.powerpc.model.instructions.END;
-import ch.zhaw.powerpc.model.instructions.InvalidInstructionException;
 
 public class MainMemoryTest {
 
@@ -86,10 +86,10 @@ public class MainMemoryTest {
 	public void workingData() {
 		MainMemory mem = new MainMemory();
 		mem.writeData(500, (short) 1337);
-		assertEquals((short) 1337, mem.readData(500).toString());
+		assertEquals((short) 1337, mem.readData(500));
 		mem.writeData(530, (short) 1);
-		assertEquals((short) 1, mem.readData(530).toString());
+		assertEquals((short) 1, mem.readData(530));
 		mem.writeData(1500, (short) 17);
-		assertEquals((short) 17, mem.readData(1500).toString());
+		assertEquals((short) 17, mem.readData(1500));
 	}
 }	
