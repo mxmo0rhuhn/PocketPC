@@ -89,7 +89,7 @@ public class MainMemoryTest {
 		assertEquals((short) 1337, mem.readData(500));
 		mem.writeData(530, (short) 1);
 		assertEquals((short) 1, mem.readData(530));
-		mem.writeData(1500, (short) 17);
-		assertEquals((short) 17, mem.readData(1500));
+		mem.writeData(1022, (short) 17);
+		assertEquals((short) 17, mem.readData(1022));
 	}
 }	
