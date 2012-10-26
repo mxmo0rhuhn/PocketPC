@@ -97,7 +97,7 @@ public abstract class AbstractInstruction implements Instruction {
 	 *             wenn die Adresse nicht existiert
 	 */
 	public static void checkAddressBoundsData(int address) {
-		if (address < 500 || address > 1023) {
+		if (address < 500 || address > 1023 || address%2 == 1) {
 			throw new InvalidInstructionException("An dieser Adresse werden keine Daten gespeichert: " + address);
 		}
 	}
@@ -109,7 +109,7 @@ public abstract class AbstractInstruction implements Instruction {
 	 *             wenn die Adresse nicht existiert
 	 */
 	public static void checkAddressBoundsInstruction(int address) {
-		if (address < 100 || address > 499) {
+		if (address < 100 || address > 499 || address%2 == 1) {
 			throw new InvalidInstructionException("An dieser Adresse werden keine Instruktionen gespeichert: "
 					+ address);
 		}
