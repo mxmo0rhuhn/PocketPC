@@ -22,7 +22,7 @@ public class ProgramStarter {
 		String[] mnemonics = reader.readContents();
 		MainMemory mainMemory = createMainMemory(mnemonics);
 		ControlUnit ppcControlUnit = new ControlUnit(mainMemory);
-		new Clock(ppcControlUnit, new ConsolePrinter());
+		new Clock(ppcControlUnit, new ConsolePrinter()).step();
 	}
 
 	public static MainMemory createMainMemory(String[] mnemonics) {
@@ -31,7 +31,7 @@ public class ProgramStarter {
 		int cnt = 100;
 		for (String mnemonic : mnemonics) {
 			if (mnemonic.contains("=")) {
-				String[] parts = mnemonic.split("-");
+				String[] parts = mnemonic.split("=");
 				mainMemory.writeData(Short.parseShort(parts[0]), Short.parseShort(parts[1]));
 			} else {
 				try {
@@ -59,7 +59,7 @@ public class ProgramStarter {
 				System.err.println("- Das File ist nicht lesbar/existiert nicht: " + asmFile);
 			}
 			System.err.println("\n Das Programm muss folgendermassen gestartet werden:");
-			System.err.println("\tjava " + ProgramStarter.class.getClass().getCanonicalName()
+			System.err.println("\tjava " + ProgramStarter.class.getCanonicalName()
 					+ " -Dasm=/home/usr/input.asm");
 			System.exit(-1);
 			return null; // never happens
