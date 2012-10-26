@@ -13,6 +13,21 @@ import ch.zhaw.powerpc.model.ControlUnit;
  */
 public class BD extends AbstractInstruction {
 
+	private final int address;
+
+	/**
+	 * Erstellt einen unbedingten Sprungbefehl auf eine Speicheradresse
+	 * 
+	 * @param register
+	 *            eine Adresse auf die gesprungen werden soll ... ACHTUNG es wird keineswegs geprüft ob
+	 *            der Inhalt des Speichers Sinn ergibt für den Sprung => dies kann schnell im NIRVANA enden... höchst
+	 *            kritisch ...
+	 */
+	public BD(int address) {
+		checkAddressBoundsInstruction(address);
+		this.address = address;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -20,14 +35,16 @@ public class BD extends AbstractInstruction {
 	 */
 	@Override
 	public int run(ControlUnit controlUnit) {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) address;
+	}
+	
+	@Override
+	public String toString() {
+		return "B #" + this.address;
 	}
 
 	@Override
 	public char getBinary() {
-		// TODO Auto-generated method stub
-		return 0;
+		return genBin("00100", "0", adr(this.address));
 	}
-
 }
