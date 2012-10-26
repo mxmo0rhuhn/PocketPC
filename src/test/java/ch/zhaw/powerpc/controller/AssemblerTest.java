@@ -108,18 +108,18 @@ public class AssemblerTest {
 	
 	@Test
 	public void testLWDD() {
-		assertEquals("LWDD 0 #0", assemble("LWDD 0 #0"));
-		assertEquals("LWDD 1 #0", assemble("LWDD 1 #0"));
-		assertEquals("LWDD 2 #0", assemble("LWDD 2 #0"));
-		assertEquals("LWDD 3 #0", assemble("LWDD 3 #0"));
-		assertEquals("LWDD 0 #1", assemble("LWDD 0 #1"));
-		assertEquals("LWDD 1 #1", assemble("LWDD 1 #1"));
-		assertEquals("LWDD 2 #1", assemble("LWDD 2 #1"));
-		assertEquals("LWDD 3 #1", assemble("LWDD 3 #1"));
-		assertEquals("LWDD 0 #73", assemble("LWDD 0 #73"));
-		assertEquals("LWDD 1 #73", assemble("LWDD 1 #73"));
-		assertEquals("LWDD 2 #73", assemble("LWDD 2 #73"));
-		assertEquals("LWDD 3 #73", assemble("LWDD 3 #73"));
+		assertEquals("LWDD 0 #500", assemble("LWDD 0 #500"));
+		assertEquals("LWDD 1 #500", assemble("LWDD 1 #500"));
+		assertEquals("LWDD 2 #500", assemble("LWDD 2 #500"));
+		assertEquals("LWDD 3 #500", assemble("LWDD 3 #500"));
+		assertEquals("LWDD 0 #501", assemble("LWDD 0 #501"));
+		assertEquals("LWDD 1 #501", assemble("LWDD 1 #501"));
+		assertEquals("LWDD 2 #501", assemble("LWDD 2 #501"));
+		assertEquals("LWDD 3 #501", assemble("LWDD 3 #501"));
+		assertEquals("LWDD 0 #1023", assemble("LWDD 0 #1023"));
+		assertEquals("LWDD 1 #1023", assemble("LWDD 1 #1023"));
+		assertEquals("LWDD 2 #1023", assemble("LWDD 2 #1023"));
+		assertEquals("LWDD 3 #1023", assemble("LWDD 3 #1023"));
 	}
 	
 	@Test(expected=InvalidInstructionException.class)
@@ -140,6 +140,16 @@ public class AssemblerTest {
 	@Test(expected=InvalidInstructionException.class)
 	public void invalidLWDD4() {
 		assemble("LWDD 4");
+	}
+	
+	@Test(expected=InvalidInstructionException.class)
+	public void invalidLWDD5() {
+		assemble("LWDD 3 #499");
+	}
+	
+	@Test(expected=InvalidInstructionException.class)
+	public void invalidLWDD6() {
+		assemble("LWDD 3 #1024");
 	}
 	
 	@Test
