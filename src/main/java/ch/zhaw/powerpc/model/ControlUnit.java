@@ -80,5 +80,16 @@ public class ControlUnit {
 	private Instruction instructionFetch() {
 		return memory.readInstruction(this.programCounter);
 	}
+	
+	@Override
+	public String toString() {
+		return "ControlUnit { MainMemory: "+memory+"\n" +
+				"			   PrgCnt:     "+programCounter+"\n" +
+				"			   Akku:       "+registers[0]+"\n" +
+				"              Reg-1:      "+registers[1]+"\n" +
+				"              Reg-2:      "+registers[2]+"\n" +
+				"              Reg-3:      "+registers[3]+"\n" +
+				"              ALU:        "+alu+"}\n";
+	}
 
 }

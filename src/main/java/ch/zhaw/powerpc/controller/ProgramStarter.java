@@ -16,13 +16,21 @@ import ch.zhaw.powerpc.view.impl.ConsolePrinter;
  */
 public class ProgramStarter {
 
+	private static boolean debug = true;
+
 	public static void main(String[] args) throws IOException {
 		String filename = getFilename();
 		InputReader reader = new InputReader(filename);
 		String[] mnemonics = reader.readContents();
 		MainMemory mainMemory = createMainMemory(mnemonics);
 		ControlUnit ppcControlUnit = new ControlUnit(mainMemory);
-		new Clock(ppcControlUnit, new ConsolePrinter()).step();
+		try {
+			new Clock(ppcControlUnit, new ConsolePrinter()).step();
+		} catch (Exception e) {
+			if (debug) {
+				debug(ppcControlUnit, e);
+			}
+		}
 	}
 
 	public static MainMemory createMainMemory(String[] mnemonics) {
@@ -63,6 +71,20 @@ public class ProgramStarter {
 			System.exit(-1);
 			return null; // never happens
 		}
+	}
+
+	private static void debug(ControlUnit cu, Exception e) {
+		System.err.println("------------------------------------------------------------------");
+		System.err.println("---------------------------ERROR----------------------------------");
+		System.err.println("------------------------------------------------------------------");
+		e.printStackTrace();
+		System.err.println("------------------------------------------------------------------");
+		System.err.println("----------------------------DEBUG---------------------------------");
+		System.err.println("------------------------------------------------------------------");
+		System.err.println(cu);
+		System.err.println("------------------------------------------------------------------");
+		System.err.println("---------------------------FINISH---------------------------------");
+		System.err.println("------------------------------------------------------------------");
 	}
 
 }

@@ -12,15 +12,16 @@ public class LWDDTest {
 
 	@Test
 	public void testLoad() {
-		short[] validData = new short[]{-32768, -11111, -73, -42, -11, -2, -1, 0, 1, 2, 3, 11, 42, 73, 128, 1023, 1024, 11111, 32767};
+		short[] validData = new short[] { -32768, -11111, -73, -42, -11, -2, -1, 0, 1, 2, 3, 11, 42, 73, 128, 1023,
+				1024, 11111, 32767 };
 		for (short s : validData) {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getMemory().writeData(500, s);
-		new LWDD(0, 500).run(cu);
-		assertEquals(s, cu.getRegisters()[0].read());
+			ControlUnit cu = new ControlUnit(new MainMemory());
+			cu.getMemory().writeData(500, s);
+			new LWDD(0, 500).run(cu);
+			assertEquals(s, cu.getRegisters()[0].read());
 		}
 	}
-	
+
 	@Test
 	public void binary1() {
 		binEquals("0100000111110100", new LWDD(0, 500).getBinary());

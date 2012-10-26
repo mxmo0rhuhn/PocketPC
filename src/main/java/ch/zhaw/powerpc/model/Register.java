@@ -30,4 +30,9 @@ public final class Register {
 		return ((int) this.val) != val;
 	}
 
+	@Override
+	public String toString() {
+		return "Register: { val:  " + val + "\n}\n";
+	}
+
 }

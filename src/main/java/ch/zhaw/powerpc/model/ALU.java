@@ -39,4 +39,9 @@ public final class ALU {
 		return ((int) (short) val) != val;
 	}
 
+	@Override
+	public String toString() {
+		return "ALU { carryFlag: " + (carryFlag ? 1 : 0) + "\n}\n";
+	}
+
 }

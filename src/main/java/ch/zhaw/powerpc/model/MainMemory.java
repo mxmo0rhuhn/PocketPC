@@ -35,7 +35,7 @@ public final class MainMemory {
 	 */
 	public short readData(int address) {
 		if (address % 2 == 1 || address < 500 || address > 1023) {
-			throw new IllegalArgumentException("Hier darf es keine Daten geben.");
+			throw new IllegalArgumentException("Hier darf es keine Daten geben: " + address);
 		}
 		if (!this.data.containsKey(address)) {
 			return 0;
@@ -51,7 +51,7 @@ public final class MainMemory {
 	 */
 	public void writeData(int address, short data) {
 		if (address % 2 == 1 || address < 500 || address > 1023) {
-			throw new IllegalArgumentException("Hier darf es keine Daten geben.");
+			throw new IllegalArgumentException("Hier darf es keine Daten geben: " + address);
 		}
 		this.data.put(address, data);
 	}
@@ -64,7 +64,7 @@ public final class MainMemory {
 	 */
 	public Instruction readInstruction(int address) {
 		if (address < 100 || address % 2 == 1 || address > 498) {
-			throw new IllegalArgumentException("Hier gibt es keine Instruktionen.");
+			throw new IllegalArgumentException("Hier gibt es keine Instruktionen: " + address);
 		}
 		return this.instructions.get(address);
 	}
@@ -77,8 +77,14 @@ public final class MainMemory {
 	 */
 	public void setInstruction(int address, Instruction instruction) {
 		if (address < 100 || address % 2 == 1 || address > 498) {
-			throw new IllegalArgumentException("Hier gibt es keine Instruktionen.");
+			throw new IllegalArgumentException("Hier gibt es keine Instruktionen: " + address);
 		}
 		this.instructions.put(address, instruction);
+	}
+	
+	@Override
+	public String toString() {
+		return "MainMemory: {data:  "+data+"\n" +
+				"             instr: "+instructions+"}\n";
 	}
 }
