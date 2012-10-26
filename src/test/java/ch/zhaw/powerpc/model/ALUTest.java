@@ -13,9 +13,8 @@ public class ALUTest {
 			Assert.assertFalse("Carry Flag sollte erst nach 32769 gesetzt sein, ist aber schon bei: " + (i + 1),
 					alu.isCarryFlag());
 		}
-		alu.addToAccu((short)1);
+		alu.addToAccu((short) 1);
 		Assert.assertTrue(alu.isCarryFlag());
 	}
-	
 
 }

@@ -10,25 +10,25 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * 
  */
 public final class ADD extends AbstractInstruction {
-	
+
 	private final int register;
-	
+
 	public ADD(int register) {
 		checkRegisterBounds(register);
 		this.register = register;
 	}
-	
+
 	@Override
 	public int run(ControlUnit controlUnit) {
 		controlUnit.getAlu().addToAccu(controlUnit.getRegisters()[this.register].read());
 		return controlUnit.getProgramCounter() + 2;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "ADD " + this.register;
 	}
-	
+
 	@Override
 	public char getBinary() {
 		return genBin("0000", reg(this.register), "1110000000");

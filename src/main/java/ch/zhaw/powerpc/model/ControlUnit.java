@@ -36,7 +36,7 @@ public class ControlUnit {
 		this.memory = memory;
 		this.registers = new Register[] { new Register(), new Register(), new Register(), new Register() };
 		this.alu = new ALU(this.registers);
-		
+
 		// Per Definition beginnen Programme bei 100
 		this.programCounter = 100;
 	}
@@ -47,12 +47,11 @@ public class ControlUnit {
 	 * @return gibt zurück ob ein weiterer Zyklus möglich ist.
 	 */
 	public boolean runCycle() {
-		int binInstruction = instructionFetch();
-		Instruction currentInstruction = Decoder.instructionDecode(binInstruction);
+		Instruction currentInstruction = instructionFetch();
 		this.programCounter = currentInstruction.run(this);
-		
+
 		// -1 wird von Befehlen gesetzt die zum sofortigen Ende des Programmes führen sollen.
-		if(this.programCounter == -1) {
+		if (this.programCounter == -1) {
 			return false;
 		}
 		return true;
@@ -78,8 +77,8 @@ public class ControlUnit {
 	 * Der aktuelle Program Counter zeigt auf den nächsten Befehl im Speicher. Dieser wird zurückgegeben.
 	 * 
 	 */
-	private int instructionFetch() {
-		return memory.read(this.programCounter);
+	private Instruction instructionFetch() {
+		return memory.readInstruction(this.programCounter);
 	}
 
 }

@@ -1,17 +1,17 @@
 package ch.zhaw.powerpc.view;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import ch.zhaw.powerpc.view.impl.BinaryFormatter;
-
-import static org.junit.Assert.*;
 
 public class BinaryFormatterTest {
 
 	@Test
 	public void shouldOutputNumbersWithPadding16() {
 		BinaryFormatter fmt = new BinaryFormatter();
-		
+
 		assertEquals("0000000000000000", fmt.formatNumber(0));
 		assertEquals("0000000000000001", fmt.formatNumber(1));
 		assertEquals("0000000000000010", fmt.formatNumber(2));
@@ -25,10 +25,5 @@ public class BinaryFormatterTest {
 		assertEquals("1111111110110111", fmt.formatNumber(-73));
 		assertEquals("1111111101010111", fmt.formatNumber(-169));
 		assertEquals("1111110000000000", fmt.formatNumber(-1024));
-	}
-	
-	@Test
-	public void shouldOutputInstructionsWithFixedLength() {
-		throw new UnsupportedOperationException("Implement me!");
 	}
 }

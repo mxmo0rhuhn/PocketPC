@@ -107,7 +107,7 @@ public final class Decoder {
 		}
 		char[] resArr = new char[16];
 		// Fuelle vorne mit Nullen
-		for (int i = 0; i < 16-binInstr.length; i++) {
+		for (int i = 0; i < 16 - binInstr.length; i++) {
 			resArr[i] = '0';
 		}
 		System.arraycopy(binInstr, 0, resArr, (16 - binInstr.length), binInstr.length);
@@ -181,7 +181,8 @@ public final class Decoder {
 			case '1':
 				break;
 			default:
-				throw new IllegalArgumentException("Instruction [" + Arrays.toString(instr) + "] does not match Pattern ["+Arrays.toString(pat)+"]");
+				throw new IllegalArgumentException("Instruction [" + Arrays.toString(instr)
+						+ "] does not match Pattern [" + Arrays.toString(pat) + "]");
 			}
 		}
 		return new char[][] { register, address, number };

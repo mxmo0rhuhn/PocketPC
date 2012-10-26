@@ -24,6 +24,6 @@ public interface Instruction {
 	 * @return Der neue (absolute!) Programm Counter
 	 */
 	int run(ControlUnit controlUnit);
-	
+
 	char getBinary();
 }

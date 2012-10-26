@@ -6,8 +6,8 @@ package ch.zhaw.powerpc.model.instructions;
 import ch.zhaw.powerpc.model.ControlUnit;
 
 /**
- * Wenn der Akku ≠ 0 ist, verzweige an die durch den Operanden angegebene Speicheradresse; sonst wird das Programm mit dem folgenden Befehl
- * forgesetzt. Mit 10 Bit können 1KiB Speicher adressiert werden.
+ * Wenn der Akku ≠ 0 ist, verzweige an die durch den Operanden angegebene Speicheradresse; sonst wird das Programm mit
+ * dem folgenden Befehl forgesetzt. Mit 10 Bit können 1KiB Speicher adressiert werden.
  * 
  * @author Max
  * 

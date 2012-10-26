@@ -19,8 +19,9 @@ public class B extends AbstractInstruction {
 	 * Erstellt einen unbedingten Sprungbefehl
 	 * 
 	 * @param register
-	 *            ein Register mit der Adresse auf die gesprungen werden soll ... ACHTUNG es wird keineswegs geprüft ob der Inhalt des
-	 *            Registers Sinn ergibt für den Sprung => dies kann schnell im NIRVANA enden... höchst kritisch ...
+	 *            ein Register mit der Adresse auf die gesprungen werden soll ... ACHTUNG es wird keineswegs geprüft ob
+	 *            der Inhalt des Registers Sinn ergibt für den Sprung => dies kann schnell im NIRVANA enden... höchst
+	 *            kritisch ...
 	 */
 	public B(int register) {
 		checkRegisterBounds(register);
