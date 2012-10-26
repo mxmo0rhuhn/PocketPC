@@ -1,5 +1,6 @@
 package ch.zhaw.powerpc.model;
 
+import ch.zhaw.powerpc.model.instructions.Instruction;
 
 /**
  * Diese Klasse repräsentiert den Hauptspeicher (RAM). Hier liegen Befehle und Daten.
@@ -9,15 +10,18 @@ package ch.zhaw.powerpc.model;
  */
 public final class MainMemory {
 
-	private final byte[] data;
+	private final short[] data;
+
+	private final Instruction[] instructions = new Instruction[400];
 
 	/**
 	 * Die Klasse wird mit einem initialen Set an Daten instanziert. Hier muss z.B. schon das Programm in den Daten
 	 * sein, sowie allenfalls notwendige Daten für das Programm.
 	 * 
-	 * Achtung: Das Array muss hier schon die finale grösse haben, weil Arrays können später in der Grösse nicht mehr verändert werden.
+	 * Achtung: Das Array muss hier schon die finale grösse haben, weil Arrays können später in der Grösse nicht mehr
+	 * verändert werden.
 	 */
-	public MainMemory(byte[] initialData) {
+	public MainMemory(short[] initialData) {
 		this.data = initialData;
 	}
 
@@ -27,7 +31,7 @@ public final class MainMemory {
 	 * @throws IllegalArgumentException
 	 *             wenn die Adresse zu gross oder zu klein ist.
 	 */
-	public byte read(int address) {
+	public short readData(short address) {
 		checkBounds(address);
 		return this.data[address];
 	}
@@ -38,9 +42,17 @@ public final class MainMemory {
 	 * @throws IllegalArgumentException
 	 *             wenn die Adresse zu gross oder zu klein ist.
 	 */
-	public void write(int address, byte data) {
+	public void writeData(short address, short data) {
 		checkBounds(address);
 		this.data[address] = data;
+	}
+
+	public Instruction readInstruction(short address) {
+		return this.instructions[address];
+	}
+
+	public void setInstruction(short address, Instruction instruction) {
+		this.instructions[address] = instruction;
 	}
 
 	private void checkBounds(int address) {
