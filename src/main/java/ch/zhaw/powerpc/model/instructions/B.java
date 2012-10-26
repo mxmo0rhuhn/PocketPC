@@ -35,12 +35,12 @@ public class B extends AbstractInstruction {
 	 */
 	@Override
 	public int run(ControlUnit controlUnit) {
-		return register;
+		return controlUnit.getRegisters()[register].read();
 	}
 
 	@Override
 	public char getBinary() {
-		return genBin("0001", reg(this.register), "01", "00000000");
+		return genBin("0001", reg(this.register), "00", "00000000");
 	}
 
 }
