@@ -35,6 +35,7 @@ public class B extends AbstractInstruction {
 	 */
 	@Override
 	public int run(ControlUnit controlUnit) {
+		checkAddressBoundsInstruction(controlUnit.getRegisters()[register].read());
 		return controlUnit.getRegisters()[register].read();
 	}
 	

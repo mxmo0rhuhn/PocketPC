@@ -25,45 +25,45 @@ public class BTest {
 		mem.setInstruction(100, new B(03));
 		ControlUnit cu = new ControlUnit((mem)); 
 
-		cu.getRegisters()[03].write(121);
+		cu.getRegisters()[03].write(122);
 		assertEquals(100, cu.getProgramCounter());
 
 		cu.runCycle();
 		
-		assertEquals(121, cu.getProgramCounter());
+		assertEquals(122, cu.getProgramCounter());
 	}
 
 	@Test
 	public void testJumpRegisterOne() {
 
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
-		cu.getRegisters()[01].write(121);
+		cu.getRegisters()[01].write(222);
 
 		assertEquals(100, cu.getProgramCounter());
 
-		assertEquals(121, new B(01).run(cu));
+		assertEquals(222, new B(01).run(cu));
 	}
 
 	@Test
 	public void testJumpRegisterTwo() {
 
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
-		cu.getRegisters()[02].write(133);
+		cu.getRegisters()[02].write(134);
 
 		assertEquals(100, cu.getProgramCounter());
 
-		assertEquals(133, new B(02).run(cu));
+		assertEquals(134, new B(02).run(cu));
 	}
 
 	@Test
 	public void testJumpAkku() {
 
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
-		cu.getRegisters()[00].write(103);
+		cu.getRegisters()[00].write(104);
 
 		assertEquals(100, cu.getProgramCounter());
 
-		assertEquals(103, new B(00).run(cu));
+		assertEquals(104, new B(00).run(cu));
 	}
 
 	@Test
@@ -76,7 +76,28 @@ public class BTest {
 
 		assertEquals(144, new B(03).run(cu));
 	}
-
+	
+	@Test(expected=InvalidInstructionException.class)	
+	public void badJumpToLow(){
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[02].write(50);
+		new B(02).run(cu);
+	}
+	
+	@Test(expected=InvalidInstructionException.class)	
+	public void badJumpToHigh(){
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[01].write(510);
+		new B(01).run(cu);
+	}
+	
+	@Test(expected=InvalidInstructionException.class)	
+	public void badJumpTo(){
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[03].write(135);
+		new B(03).run(cu);
+	}
+	
 	@Test
 	public void binary() {
 		binEquals("0001000000000000", new B(00).getBinary());
