@@ -78,7 +78,7 @@ public class BCDTest {
 		assertEquals(100, cu.getProgramCounter());
 
 		cu.getAlu().setCarryFlag(false);
-		assertEquals(498, new BCD(498).run(cu));
+		assertEquals(102, new BCD(498).run(cu));
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class BCDTest {
 		assertEquals(100, cu.getProgramCounter());
 
 		cu.getAlu().setCarryFlag(false);
-		assertEquals(100, new BCD(100).run(cu));
+		assertEquals(102, new BCD(100).run(cu));
 	}
 
 	@Test
@@ -123,8 +123,8 @@ public class BCDTest {
 	
 	@Test
 	public void binary() {
-		binEquals("0011100001100100", new BD(100).getBinary());
-		binEquals("0011100010100110", new BD(166).getBinary());
-		binEquals("0011100111110010", new BD(498).getBinary());
+		binEquals("0011100001100100", new BCD(100).getBinary());
+		binEquals("0011100010100110", new BCD(166).getBinary());
+		binEquals("0011100111110010", new BCD(498).getBinary());
 	}
 }
