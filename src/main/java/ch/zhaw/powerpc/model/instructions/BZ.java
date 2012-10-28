@@ -14,6 +14,10 @@ import ch.zhaw.powerpc.model.ControlUnit;
  */
 public class BZ extends AbstractInstruction {
 
+	public BZ(int register) {
+		// TODO Auto-generated constructor stub
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
