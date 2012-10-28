@@ -32,7 +32,7 @@ public final class Register {
 
 	@Override
 	public String toString() {
-		return "Register: { val:  " + val + "\n}\n";
+		return "val:  " + val;
 	}
 
 }

@@ -41,7 +41,7 @@ public final class ALU {
 
 	@Override
 	public String toString() {
-		return "ALU { carryFlag: " + (carryFlag ? 1 : 0) + "\n}\n";
+		return "carryFlag: " + (carryFlag ? 1 : 0);
 	}
 
 }

@@ -84,7 +84,7 @@ public final class MainMemory {
 	
 	@Override
 	public String toString() {
-		return "MainMemory: {data:  "+data+"\n" +
-				"             instr: "+instructions+"}\n";
+		return "\n\tdata:  "+data+"\n" +
+				"\tinstr: "+instructions+"";
 	}
 }
