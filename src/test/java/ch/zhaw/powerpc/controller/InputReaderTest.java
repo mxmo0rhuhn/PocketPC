@@ -52,6 +52,7 @@ public class InputReaderTest {
 
 	@Test
 	public void shouldTrimInputWithCommentsOnBothSides() {
+		System.out.println("Start with shouldTrimInputCommentsBothSides");
 		String[] contents = readContents("shouldTrimInputWithCommentsOnBothSides");
 		assertEquals("1010", contents[0]);
 		assertEquals("0101", contents[1]);
