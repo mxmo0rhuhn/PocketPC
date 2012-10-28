@@ -29,6 +29,7 @@ public class ProgramStarter {
 		} catch (Exception e) {
 			if (debug) {
 				debug(ppcControlUnit, e);
+				System.exit(-1);
 			}
 		}
 	}
