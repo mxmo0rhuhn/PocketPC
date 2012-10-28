@@ -14,6 +14,10 @@ import ch.zhaw.powerpc.model.ControlUnit;
  */
 public class BCD extends AbstractInstruction {
 
+	public BCD(int adress) {
+		// TODO Auto-generated constructor stub
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

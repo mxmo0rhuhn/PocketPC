@@ -12,7 +12,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 
 /**
- * Testet den unbedingten Sprung
+ * Testet den durch das carry bit bedingten Sprung auf die Adresse aus einem Register
  * 
  * @author Max
  * 
@@ -126,6 +126,32 @@ public class BCTest {
 		assertEquals(102, new B(03).run(cu));
 	}
 	
+	@Test
+	public void testJumpToLastWord() {
+
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[01].write(498);
+
+		assertEquals(100, cu.getProgramCounter());
+
+		cu.getAlu().setCarryFlag(true);
+		
+		assertEquals(498, new B(01).run(cu));
+	}
+
+	@Test
+	public void testJumpToFirstWord() {
+
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[02].write(100);
+
+		assertEquals(100, cu.getProgramCounter());
+
+		cu.getAlu().setCarryFlag(true);
+		
+		assertEquals(100, new B(02).run(cu));
+	}
+
 	@Test
 	public void testJumpRegisterThree() {
 

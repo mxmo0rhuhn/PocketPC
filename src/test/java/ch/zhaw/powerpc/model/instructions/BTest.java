@@ -12,7 +12,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 
 /**
- * Testet den unbedingten Sprung
+ * Testet den unbedingten Sprung auf die Adresse aus einem Register
  * 
  * @author Max
  * 
@@ -32,7 +32,7 @@ public class BTest {
 		
 		assertEquals(122, cu.getProgramCounter());
 	}
-
+	
 	@Test
 	public void testJumpRegisterOne() {
 
@@ -77,6 +77,28 @@ public class BTest {
 		assertEquals(144, new B(03).run(cu));
 	}
 	
+	@Test
+	public void testJumpToLastWord() {
+
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[01].write(498);
+
+		assertEquals(100, cu.getProgramCounter());
+
+		assertEquals(498, new B(01).run(cu));
+	}
+
+	@Test
+	public void testJumpToFirstWord() {
+
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[02].write(100);
+
+		assertEquals(100, cu.getProgramCounter());
+
+		assertEquals(100, new B(02).run(cu));
+	}
+
 	@Test(expected=InvalidInstructionException.class)	
 	public void badJumpToLow(){
 		ControlUnit cu = new ControlUnit(new MainMemory()); 

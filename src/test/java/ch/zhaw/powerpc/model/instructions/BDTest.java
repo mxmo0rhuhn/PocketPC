@@ -12,7 +12,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 
 /**
- * Testet den unbedingten Sprung
+ * Testet den direkten, unbedingten Sprung
  * 
  * @author Max
  * 
