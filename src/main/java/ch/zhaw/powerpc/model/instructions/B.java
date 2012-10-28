@@ -16,7 +16,7 @@ public class B extends AbstractInstruction {
 	private final int register;
 
 	/**
-	 * Erstellt einen unbedingten Sprungbefehl
+	 * Erstellt einen unbedingten Sprungbefehl auf die Adresse, die in einem Register hinterlegt ist.
 	 * 
 	 * @param register
 	 *            ein Register mit der Adresse auf die gesprungen werden soll ... ACHTUNG es wird keineswegs geprüft ob

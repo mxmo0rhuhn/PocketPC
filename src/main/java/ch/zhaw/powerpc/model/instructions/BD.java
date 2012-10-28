@@ -40,7 +40,7 @@ public class BD extends AbstractInstruction {
 	
 	@Override
 	public String toString() {
-		return "B #" + this.address;
+		return "BD #" + this.address;
 	}
 
 	@Override
