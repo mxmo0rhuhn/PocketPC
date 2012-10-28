@@ -25,17 +25,17 @@ public class ConsolePrinter implements Printer {
 	 * Der groesste Wert, der vom Program Counter jemals erreicht werden kann (zumindest sofern er nicht absichtlich in
 	 * den Bereich der Daten geht, obwohl das moeglich waere.)
 	 */
-	private static final int MAX_CNT = 499;
+	private static final int MAX_CNT = 498;
 
 	/**
 	 * Vor dem Counter geben wir max 5 Befehle aus
 	 */
-	private static final int BEFORE_CNT = 5;
+	private static final int BEFORE_CNT = 10;
 
 	/**
 	 * Nach dem Counter geben wir max 10 Befehle aus
 	 */
-	private static final int AFTER_CNT = 10;
+	private static final int AFTER_CNT = 20;
 
 	/**
 	 * Formatter zur Binaeren Ausgabe
@@ -106,22 +106,22 @@ public class ConsolePrinter implements Printer {
 
 		// bin
 		sb.append(' '); // Einruecken
-		for (int i = start; i < cnt; i++) {
+		for (int i = start; i < cnt; i+=2) {
 			sb.append(' ').append(memory.readInstruction(i).getBinary());
 		}
 		sb.append(" [").append(memory.readInstruction(cnt).getBinary()).append(']');
-		for (int i = cnt + 1; i <= end; i++) {
+		for (int i = cnt + 1; i <= end; i+=2) {
 			sb.append(' ').append(memory.readInstruction(i).getBinary());
 		}
 		sb.append(NEWLINE);
 
 		// mnemonics
 		sb.append(' '); // Einruecken
-		for (int i = start; i < cnt; i++) {
+		for (int i = start; i < cnt; i+=2) {
 			sb.append(' ').append(memory.readInstruction(i).toString());
 		}
 		sb.append(" [").append(memory.readInstruction(cnt).toString()).append(']');
-		for (int i = cnt + 1; i <= end; i++) {
+		for (int i = cnt + 1; i <= end; i+=2) {
 			sb.append(' ').append(memory.readInstruction(i).toString());
 		}
 		sb.append(NEWLINE);
@@ -132,14 +132,14 @@ public class ConsolePrinter implements Printer {
 
 		// bin
 		sb.append(' '); // Einruecken
-		for (int i = 500; i <= 529; i++) {
+		for (int i = 500; i <= 528; i+=2) {
 			sb.append(' ').append(binFormat.formatNumber(memory.readData(i)));
 		}
 		sb.append(NEWLINE);
 
 		// mne
 		sb.append(' '); // Einruecken
-		for (int i = 500; i <= 529; i++) {
+		for (int i = 500; i <= 528; i+=2) {
 			sb.append(' ').append(mneFormat.formatNumber(memory.readData(i)));
 		}
 		sb.append(NEWLINE);
