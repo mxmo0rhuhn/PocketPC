@@ -37,9 +37,13 @@ public class InputReader {
 		String line = this.inputBuffer.readLine();
 		while (line != null) {
 			int apostrophindex = line.indexOf('\'');
-			// Kommentar entfernen
-			if (apostrophindex != -1) {
+			// Kommentar entfernen, hat Kommentar enthalten 
+			if (apostrophindex > 0) {
 				line = line.substring(0, apostrophindex - 1);
+			}
+			if (apostrophindex == 0) {
+				line = this.inputBuffer.readLine();
+				continue;
 			}
 			// Leerzeilen rauslöschen
 			line = line.trim();
