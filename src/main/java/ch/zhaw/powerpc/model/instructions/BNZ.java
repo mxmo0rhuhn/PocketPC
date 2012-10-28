@@ -6,16 +6,26 @@ package ch.zhaw.powerpc.model.instructions;
 import ch.zhaw.powerpc.model.ControlUnit;
 
 /**
- * Wenn der Akku ≠ 0 ist, verzweige an die durch das Register xx (01 bis 11 für R-1, R-2 bzw. R-3) angegebene
- * Speicheradresse; sonst wird der folgende Befehl normal fortgeführt.
+ * Wenn der Akku ≠ 0 ist, verzweige an die durch das Register xx (01 bis 11 für R-1, R-2 bzw. R-3) angegebene Speicheradresse; sonst wird
+ * der folgende Befehl normal fortgeführt.
  * 
  * @author Max
  * 
  */
 public class BNZ extends AbstractInstruction {
 
+	private final int register;
+
+	/**
+	 * Erstellt einen Sprungbefehl auf die Adresse, die in einem Register hinterlegt ist, mit der Bedingung,dass der Akku ungleich 0 ist.
+	 * 
+	 * @param register
+	 *            ein Register mit der Adresse auf die gesprungen werden soll ... ACHTUNG es wird keineswegs geprüft ob der Inhalt des
+	 *            Registers Sinn ergibt für den Sprung => dies kann schnell im NIRVANA enden... höchst kritisch ...
+	 */
 	public BNZ(int register) {
-		// TODO Auto-generated constructor stub
+		checkRegisterBounds(register);
+		this.register = register;
 	}
 
 	/*
@@ -25,14 +35,21 @@ public class BNZ extends AbstractInstruction {
 	 */
 	@Override
 	public int run(ControlUnit controlUnit) {
-		// TODO Auto-generated method stub
-		return 0;
+		checkAddressBoundsInstruction(controlUnit.getRegisters()[register].read());
+		if (controlUnit.getRegisters()[0].read() != 0) {
+			return controlUnit.getRegisters()[register].read();
+		}
+		return controlUnit.getProgramCounter() + 2;
+	}
+
+	@Override
+	public String toString() {
+		return "BNZ " + this.register;
 	}
 
 	@Override
 	public char getBinary() {
-		// TODO Auto-generated method stub
-		return 0;
+		return genBin("0001", reg(this.register), "01", "00000000");
 	}
 
 }

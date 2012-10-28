@@ -14,8 +14,19 @@ import ch.zhaw.powerpc.model.ControlUnit;
  */
 public class BCD extends AbstractInstruction {
 
-	public BCD(int adress) {
-		// TODO Auto-generated constructor stub
+	private final int address;
+
+	/**
+	 * Erstellt einen Sprungbefehl auf eine Speicheradresse mit der Bedingung, dass das carry flag gesetzt ist
+	 * 
+	 * @param register
+	 *            eine Adresse auf die gesprungen werden soll ... ACHTUNG es wird keineswegs geprüft ob
+	 *            der Inhalt des Speichers Sinn ergibt für den Sprung => dies kann schnell im NIRVANA enden... höchst
+	 *            kritisch ...
+	 */
+	public BCD(int address) {
+		checkAddressBoundsInstruction(address);
+		this.address = address;
 	}
 
 	/*
@@ -25,14 +36,20 @@ public class BCD extends AbstractInstruction {
 	 */
 	@Override
 	public int run(ControlUnit controlUnit) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (controlUnit.getAlu().isCarryFlag()) {
+			return (int) address;
+		}
+		return controlUnit.getProgramCounter() + 2;
+	}
+	
+	@Override
+	public String toString() {
+		return "BCD #" + this.address;
 	}
 
 	@Override
 	public char getBinary() {
-		// TODO Auto-generated method stub
-		return 0;
+		return genBin("00111", "0", adr(this.address));
 	}
 
 }
