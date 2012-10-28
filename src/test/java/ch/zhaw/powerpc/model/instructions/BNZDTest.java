@@ -126,8 +126,8 @@ public class BNZDTest {
 	
 	@Test
 	public void binary() {
-		binEquals("0011000001100100", new BZD(100).getBinary());
-		binEquals("0011000010100110", new BZD(166).getBinary());
-		binEquals("0011000111110010", new BZD(498).getBinary());
+		binEquals("0010100001100100", new BZD(100).getBinary());
+		binEquals("0010100010100110", new BZD(166).getBinary());
+		binEquals("0010100111110010", new BZD(498).getBinary());
 	}
 }
