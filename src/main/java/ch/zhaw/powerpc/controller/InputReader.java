@@ -37,7 +37,7 @@ public class InputReader {
 		String line = this.inputBuffer.readLine();
 		while (line != null) {
 			int apostrophindex = line.indexOf('\'');
-			// Kommentar entfernen, hat Kommentar enthalten 
+			// Kommentar entfernen, 'line' hatte Kommentar enthalten 
 			if (apostrophindex > 0) {
 				line = line.substring(0, apostrophindex);
 			}
