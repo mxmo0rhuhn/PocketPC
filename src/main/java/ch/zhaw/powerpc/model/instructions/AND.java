@@ -13,19 +13,20 @@ import ch.zhaw.powerpc.model.ControlUnit;
 public class AND extends AbstractInstruction{
 	
 	private final int register;
-	private final int address;
 
-	public AND(int register, int address){
+	public AND(int register){
 		checkRegisterBounds(register);
-		checkAddressBoundsData(address);
 		this.register = register;
-		this.address = address;
 	}
 
 	@Override
 	public int run(ControlUnit controlUnit) {
-		// TODO Auto-generated method stub
-		return 0;
+		int akku = controlUnit.getRegisters()[0].read();
+		int reg = controlUnit.getRegisters()[this.register].read();
+		int result = 0;
+		result = akku & reg;
+		controlUnit.getRegisters()[0].write(result);
+		return controlUnit.getProgramCounter() + 2;
 	}
 
 	@Override
