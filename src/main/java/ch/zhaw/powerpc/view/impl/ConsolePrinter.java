@@ -4,6 +4,7 @@ import ch.zhaw.powerpc.model.ALU;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 import ch.zhaw.powerpc.model.Register;
+import ch.zhaw.powerpc.model.instructions.Instruction;
 import ch.zhaw.powerpc.view.Formatter;
 import ch.zhaw.powerpc.view.Printer;
 
@@ -38,6 +39,11 @@ public class ConsolePrinter implements Printer {
 	private static final int AFTER_CNT = 20;
 
 	/**
+	 * Wie viele Instruktionen passen auf eine Linie? Je nach Bildschirm..
+	 */
+	private static final int BLOCKS_PER_LINE = Integer.parseInt(System.getProperty("BLOCKS_PER_LINE", "5"));
+
+	/**
 	 * Formatter zur Binaeren Ausgabe
 	 */
 	private final Formatter binFormat = new BinaryFormatter();
@@ -62,7 +68,7 @@ public class ConsolePrinter implements Printer {
 
 		final StringBuilder sb = new StringBuilder(sblen);
 
-		sb.append("PowerPC by Team SSH").append(NEWLINE); // Sacher Schrimpf Hablützel (muahaha)
+		sb.append("PowerPC by Team SSH").append(NEWLINE).append(NEWLINE); // Sacher Schrimpf Hablützel (muahaha)
 
 		appendMeta(alu, registers, cnt, sb);
 		appendRegisters(registers, sb);
@@ -74,27 +80,23 @@ public class ConsolePrinter implements Printer {
 	}
 
 	private void appendMeta(final ALU alu, final Register[] registers, final int cnt, final StringBuilder sb) {
-		sb.append(" Befehlszähler: ").append(binFormat.formatNumber(cnt));
-		sb.append(" Akku: ").append(binFormat.formatNumber(registers[0].read()));
-		sb.append(" Carry: ").append(alu.isCarryFlag() ? '1' : '0').append(NEWLINE);
+		sb.append(" Befehlszähler: ").append(cnt);
+		sb.append(" (").append(binFormat.formatNumber(cnt, 16)).append(')');
+		sb.append(NEWLINE);
+		sb.append(" Akku:\t\t").append(registers[0].read());
+		sb.append(" (").append(binFormat.formatNumber(registers[0].read(), 16)).append(")");
+		sb.append(NEWLINE);
+		sb.append(" Carry:\t\t").append(alu.isCarryFlag() ? '1' : '0').append(NEWLINE);
 
-		sb.append(" Befehlszähler: ").append(mneFormat.formatNumber(cnt));
-		sb.append(" Akku: ").append(mneFormat.formatNumber(registers[0].read()));
 	}
 
 	private void appendRegisters(final Register[] registers, final StringBuilder sb) {
-		sb.append("Register:");
-
-		// bin
-		sb.append(" Reg-1: ").append(binFormat.formatNumber(registers[1].read()));
-		sb.append(" Reg-2: ").append(binFormat.formatNumber(registers[2].read()));
-		sb.append(" Reg-3: ").append(binFormat.formatNumber(registers[3].read()));
-
-		// mne
-		sb.append("        ");
-		sb.append(" Reg-1: ").append(mneFormat.formatNumber(registers[1].read()));
-		sb.append(" Reg-2: ").append(mneFormat.formatNumber(registers[2].read()));
-		sb.append(" Reg-3: ").append(mneFormat.formatNumber(registers[3].read()));
+		sb.append(" Reg-1:\t\t").append(registers[1].read());
+		sb.append(" (").append(binFormat.formatNumber(registers[1].read(), 16)).append(")");
+		sb.append(", Reg-2: ").append(registers[2].read());
+		sb.append(" (").append(binFormat.formatNumber(registers[2].read(), 16)).append(")");
+		sb.append(", Reg-3: ").append(registers[3].read());
+		sb.append(" (").append(binFormat.formatNumber(registers[3].read(), 16)).append(")");
 		sb.append(NEWLINE);
 	}
 
@@ -102,45 +104,49 @@ public class ConsolePrinter implements Printer {
 		// Wenn der cnt bei 101 ist, wollen wir erst ab 101 ausgeben
 		final int start = Math.max(MIN_CNT, cnt - BEFORE_CNT);
 		final int end = Math.min(MAX_CNT, cnt + AFTER_CNT);
-		sb.append("Befehle:").append(NEWLINE);
+		sb.append(" Befehle:      ");
 
-		// bin
-		sb.append(' '); // Einruecken
-		for (int i = start; i < cnt; i+=2) {
-			sb.append(' ').append(memory.readInstruction(i).getBinary());
-		}
-		sb.append(" [").append(memory.readInstruction(cnt).getBinary()).append(']');
-		for (int i = cnt + 1; i <= end; i+=2) {
-			sb.append(' ').append(memory.readInstruction(i).getBinary());
-		}
-		sb.append(NEWLINE);
+		for (int i = start; i <= end; i += 2) {
+			Instruction instr = memory.readInstruction(i);
+			if (instr == null) {
+				break;
+			}
 
-		// mnemonics
-		sb.append(' '); // Einruecken
-		for (int i = start; i < cnt; i+=2) {
-			sb.append(' ').append(memory.readInstruction(i).toString());
-		}
-		sb.append(" [").append(memory.readInstruction(cnt).toString()).append(']');
-		for (int i = cnt + 1; i <= end; i+=2) {
-			sb.append(' ').append(memory.readInstruction(i).toString());
+			if (i - start != 0 && (i - start) % BLOCKS_PER_LINE == 0) {
+				sb.append(NEWLINE).append("               ");
+			}
+
+			sb.append(' ');
+
+			if (i == cnt) {
+				sb.append("[");
+			}
+
+			sb.append(instr.toString());
+			sb.append(" (").append(binFormat.formatNumber(instr.getBinary(), 16)).append(')');
+
+			if (i == cnt) {
+				sb.append("]");
+			}
 		}
 		sb.append(NEWLINE);
 	}
 
 	private void appendMemory(final MainMemory memory, final StringBuilder sb) {
-		sb.append("Speicher:"); // Erster Schleifendurchlauf produziert leerzeichen
+		sb.append(" Speicher:     ");
 
-		// bin
-		sb.append(' '); // Einruecken
-		for (int i = 500; i <= 528; i+=2) {
-			sb.append(' ').append(binFormat.formatNumber(memory.readData(i)));
-		}
-		sb.append(NEWLINE);
+		for (int i = 500; i <= 528; i += 2) {
+			if (i - 500 != 0 && (i - 500) % BLOCKS_PER_LINE == 0) {
+				sb.append(NEWLINE).append("               ");
+			} else if (i > 500) {
+				sb.append(',');
+			}
 
-		// mne
-		sb.append(' '); // Einruecken
-		for (int i = 500; i <= 528; i+=2) {
-			sb.append(' ').append(mneFormat.formatNumber(memory.readData(i)));
+			sb.append(' ').append(i).append(" = ");
+
+			short data = memory.readData(i);
+			sb.append(mneFormat.formatNumber(data, 7));
+			sb.append(" (").append(binFormat.formatNumber(data, 16)).append(')');
 		}
 		sb.append(NEWLINE);
 	}

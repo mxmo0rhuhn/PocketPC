@@ -11,8 +11,8 @@ import ch.zhaw.powerpc.view.Formatter;
 public class MnemonicFormatter implements Formatter {
 
 	@Override
-	public String formatNumber(int n) {
-		return String.format("%16d", n);
+	public String formatNumber(int n, int chars) {
+		return String.format("%"+chars+"d", n);
 	}
 
 }

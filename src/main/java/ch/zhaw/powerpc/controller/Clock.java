@@ -29,8 +29,8 @@ public class Clock {
 	 * wird erst nach einer Bestätigung durch den User (z. B. Drücken einer Taste) wieder fortgesetzt
 	 */
 	public void step() {
-		controlUnit.runCycle();
-		printer.print(controlUnit);
+		this.controlUnit.runCycle();
+		this.printer.print(this.controlUnit);
 	}
 
 	/**
@@ -38,13 +38,12 @@ public class Clock {
 	 */
 	public void startSlowMode() {
 		while (controlUnit.runCycle()) {
+			this.printer.print(this.controlUnit);
 			try {
 				wait(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
-			printer.print(controlUnit);
 		}
 	}
 
@@ -54,6 +53,7 @@ public class Clock {
 	 */
 	public void startFastMode() {
 		while (controlUnit.runCycle()) {
+			this.printer.print(controlUnit);
 		}
 	}
 }

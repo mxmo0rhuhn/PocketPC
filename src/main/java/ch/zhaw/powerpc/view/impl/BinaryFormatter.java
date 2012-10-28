@@ -13,7 +13,7 @@ import ch.zhaw.powerpc.view.Formatter;
 public class BinaryFormatter implements Formatter {
 
 	@Override
-	public String formatNumber(int n) {
-		return AbstractInstruction.tailor(n, 16);
+	public String formatNumber(int n, int nchars) {
+		return AbstractInstruction.tailor(n, nchars);
 	}
 }

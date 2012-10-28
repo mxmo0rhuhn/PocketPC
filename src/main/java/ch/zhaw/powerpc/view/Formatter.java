@@ -12,6 +12,6 @@ public interface Formatter {
 	/**
 	 * Formatiert eine Nummer zur Ausgabe
 	 */
-	public String formatNumber(int n);
+	public String formatNumber(int n, int chars);
 
 }

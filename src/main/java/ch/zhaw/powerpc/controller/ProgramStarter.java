@@ -6,6 +6,7 @@ import java.io.IOException;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 import ch.zhaw.powerpc.model.instructions.InvalidInstructionException;
+import ch.zhaw.powerpc.view.Printer;
 import ch.zhaw.powerpc.view.impl.ConsolePrinter;
 
 /**
@@ -24,8 +25,10 @@ public class ProgramStarter {
 		String[] mnemonics = reader.readContents();
 		MainMemory mainMemory = createMainMemory(mnemonics);
 		ControlUnit ppcControlUnit = new ControlUnit(mainMemory);
+		Printer p = new ConsolePrinter();
+		p.print(ppcControlUnit);
 		try {
-			new Clock(ppcControlUnit, new ConsolePrinter()).step();
+			new Clock(ppcControlUnit, p).step();
 		} catch (Exception e) {
 			if (debug) {
 				debug(ppcControlUnit, e);
