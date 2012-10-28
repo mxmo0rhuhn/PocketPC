@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 /**
- * Lese
+ * Lesen des Input files (nur relevante Zeilen und passagen)
  * 
  * @author des
  * 
