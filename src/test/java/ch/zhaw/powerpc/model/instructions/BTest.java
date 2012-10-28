@@ -34,6 +34,17 @@ public class BTest {
 	}
 	
 	@Test
+	public void testJumpAkku() {
+	
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[00].write(104);
+	
+		assertEquals(100, cu.getProgramCounter());
+	
+		assertEquals(104, new B(00).run(cu));
+	}
+
+	@Test
 	public void testJumpRegisterOne() {
 
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
@@ -53,17 +64,6 @@ public class BTest {
 		assertEquals(100, cu.getProgramCounter());
 
 		assertEquals(134, new B(02).run(cu));
-	}
-
-	@Test
-	public void testJumpAkku() {
-
-		ControlUnit cu = new ControlUnit(new MainMemory()); 
-		cu.getRegisters()[00].write(104);
-
-		assertEquals(100, cu.getProgramCounter());
-
-		assertEquals(104, new B(00).run(cu));
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class BTest {
 	}
 	
 	@Test(expected=InvalidInstructionException.class)	
-	public void badJumpTo(){
+	public void badJump(){
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
 		cu.getRegisters()[03].write(135);
 		new B(03).run(cu);

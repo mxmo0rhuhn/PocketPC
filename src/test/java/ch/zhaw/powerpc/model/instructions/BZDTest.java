@@ -55,7 +55,7 @@ public class BZDTest {
 		
 		assertEquals(100, cu.getProgramCounter());
 		
-		cu.getRegisters()[0].write(0);
+		cu.getRegisters()[0].write(100);
 		assertEquals(102, new BZD(102).run(cu));
 	}
 	
@@ -77,19 +77,8 @@ public class BZDTest {
 
 		assertEquals(100, cu.getProgramCounter());
 
-		cu.getRegisters()[0].write(0);
+		cu.getRegisters()[0].write(100);
 		assertEquals(102, new BZD(498).run(cu));
-	}
-
-	@Test
-	public void testNoJumpToFirstWord() {
-
-		ControlUnit cu = new ControlUnit(new MainMemory()); 
-
-		assertEquals(100, cu.getProgramCounter());
-
-		cu.getRegisters()[0].write(0);
-		assertEquals(102, new BZD(100).run(cu));
 	}
 
 	@Test
@@ -103,21 +92,35 @@ public class BZDTest {
 		assertEquals(100, new BZD(100).run(cu));
 	}
 	
+	@Test
+	public void testNoJumpToFirstWord() {
+	
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+	
+		assertEquals(100, cu.getProgramCounter());
+	
+		cu.getRegisters()[0].write(100);
+		assertEquals(102, new BZD(100).run(cu));
+	}
+
 	@Test(expected=InvalidInstructionException.class)	
 	public void badJumpToLow(){
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[0].write(0);
 		new BZD(50).run(cu);
 	}
 	
 	@Test(expected=InvalidInstructionException.class)	
 	public void badJumpToHigh(){
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[0].write(0);
 		new BZD(510).run(cu);
 	}
 	
 	@Test(expected=InvalidInstructionException.class)	
-	public void badJumpTo(){
+	public void badJump(){
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[0].write(0);
 		new BZD(135).run(cu);
 	}
 	

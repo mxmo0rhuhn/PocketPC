@@ -82,17 +82,6 @@ public class BCDTest {
 	}
 
 	@Test
-	public void testNoJumpToFirstWord() {
-
-		ControlUnit cu = new ControlUnit(new MainMemory()); 
-
-		assertEquals(100, cu.getProgramCounter());
-
-		cu.getAlu().setCarryFlag(false);
-		assertEquals(102, new BCD(100).run(cu));
-	}
-
-	@Test
 	public void testJumpToFirstWord() {
 
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
@@ -103,6 +92,17 @@ public class BCDTest {
 		assertEquals(100, new BCD(100).run(cu));
 	}
 	
+	@Test
+	public void testNoJumpToFirstWord() {
+	
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+	
+		assertEquals(100, cu.getProgramCounter());
+	
+		cu.getAlu().setCarryFlag(false);
+		assertEquals(102, new BCD(100).run(cu));
+	}
+
 	@Test(expected=InvalidInstructionException.class)	
 	public void badJumpToLow(){
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
@@ -116,7 +116,7 @@ public class BCDTest {
 	}
 	
 	@Test(expected=InvalidInstructionException.class)	
-	public void badJumpTo(){
+	public void badJump(){
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
 		new BCD(135).run(cu);
 	}

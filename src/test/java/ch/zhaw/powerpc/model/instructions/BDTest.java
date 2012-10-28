@@ -62,7 +62,7 @@ public class BDTest {
 	}
 	
 	@Test(expected=InvalidInstructionException.class)	
-	public void badJumpTo(){
+	public void badJump(){
 		new BD(111).run(new ControlUnit((new MainMemory())));
 	}	
 

@@ -91,18 +91,6 @@ public class BCTest {
 	}
 
 	@Test
-	public void testNoJumpRegisterTwo() {
-
-		ControlUnit cu = new ControlUnit(new MainMemory()); 
-		cu.getRegisters()[02].write(134);
-
-		assertEquals(100, cu.getProgramCounter());
-
-		cu.getAlu().setCarryFlag(false);
-		assertEquals(102, new B(02).run(cu));
-	}
-
-	@Test
 	public void testJumpRegisterTwo() {
 
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
@@ -112,6 +100,30 @@ public class BCTest {
 
 		cu.getAlu().setCarryFlag(true);
 		assertEquals(134, new B(02).run(cu));
+	}
+
+	@Test
+	public void testNoJumpRegisterTwo() {
+	
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[02].write(134);
+	
+		assertEquals(100, cu.getProgramCounter());
+	
+		cu.getAlu().setCarryFlag(false);
+		assertEquals(102, new B(02).run(cu));
+	}
+
+	@Test
+	public void testJumpRegisterThree() {
+	
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[03].write(144);
+	
+		assertEquals(100, cu.getProgramCounter());
+	
+		cu.getAlu().setCarryFlag(true);
+		assertEquals(144, new B(03).run(cu));
 	}
 
 	@Test
@@ -125,7 +137,7 @@ public class BCTest {
 		cu.getAlu().setCarryFlag(false);
 		assertEquals(102, new B(03).run(cu));
 	}
-	
+
 	@Test
 	public void testJumpToLastWord() {
 
@@ -151,18 +163,6 @@ public class BCTest {
 		
 		assertEquals(100, new B(02).run(cu));
 	}
-
-	@Test
-	public void testJumpRegisterThree() {
-
-		ControlUnit cu = new ControlUnit(new MainMemory()); 
-		cu.getRegisters()[03].write(144);
-
-		assertEquals(100, cu.getProgramCounter());
-
-		cu.getAlu().setCarryFlag(true);
-		assertEquals(144, new B(03).run(cu));
-	}
 	
 	@Test(expected=InvalidInstructionException.class)	
 	public void badJumpToLow(){
@@ -179,7 +179,7 @@ public class BCTest {
 	}
 	
 	@Test(expected=InvalidInstructionException.class)	
-	public void badJumpTo(){
+	public void badJump(){
 		ControlUnit cu = new ControlUnit(new MainMemory()); 
 		cu.getRegisters()[03].write(135);
 		new B(03).run(cu);
