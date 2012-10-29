@@ -7,7 +7,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 import ch.zhaw.powerpc.model.instructions.InvalidInstructionException;
 import ch.zhaw.powerpc.view.impl.ConsolePrinter;
-import ch.zhaw.powerpc.view.impl.evilGUI;
+import ch.zhaw.powerpc.view.impl.EvilGUI;
 
 /**
  * Einstiegspunkt für das komplette Programm.
@@ -30,7 +30,7 @@ public class ProgramStarter {
 	}
 	
 	private void runAsGUI(){
-		new evilGUI(this);
+		new EvilGUI(this);
 	}
 	
 	private void runAsConsole() {

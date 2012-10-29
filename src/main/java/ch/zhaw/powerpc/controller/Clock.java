@@ -14,8 +14,8 @@ import ch.zhaw.powerpc.model.ControlUnit;
 public class Clock extends Observable {
 
 	private final ControlUnit controlUnit;
-	private boolean stopped;
-	private boolean paused;
+	private volatile boolean stopped;
+	private volatile boolean paused;
 
 	public Clock(ControlUnit controlUnit) {
 		stopped = false;
