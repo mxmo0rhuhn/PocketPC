@@ -31,10 +31,10 @@ public class ANDTest {
 	
 	@Test
 	public void shouldGetBinary() {
-		binEquals("0000011000010010", (new AND(1).getBinary()));
-		binEquals("0000101000010010", (new AND(2).getBinary()));
-		binEquals("0000111000010010", new AND(3).getBinary());
-		binEquals("0000001000010010", new AND(0).getBinary());
+		binEquals("0000011000000000", (new AND(1).getBinary()));
+		binEquals("0000101000000000", (new AND(2).getBinary()));
+		binEquals("0000111000000000", new AND(3).getBinary());
+		binEquals("0000001000000000", new AND(0).getBinary());
 		
 	}
 	

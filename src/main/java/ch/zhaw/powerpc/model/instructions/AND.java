@@ -37,7 +37,7 @@ public class AND extends AbstractInstruction{
 	
 	@Override
 	public char getBinary() {
-		return genBin("0000", reg(this.register), "1000010010");
+		return genBin("0000", reg(this.register), "1000000000");
 	}
 
 }
