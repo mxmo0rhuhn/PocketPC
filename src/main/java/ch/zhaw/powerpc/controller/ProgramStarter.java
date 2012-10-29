@@ -6,8 +6,8 @@ import java.io.IOException;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 import ch.zhaw.powerpc.model.instructions.InvalidInstructionException;
-import ch.zhaw.powerpc.view.Printer;
 import ch.zhaw.powerpc.view.impl.ConsolePrinter;
+import ch.zhaw.powerpc.view.impl.evilGUI;
 
 /**
  * Einstiegspunkt für das komplette Programm.
@@ -20,21 +20,46 @@ public class ProgramStarter {
 	private static boolean debug = true;
 
 	public static void main(String[] args) throws IOException {
-		String filename = getFilename();
+		if(true) {
+			new ProgramStarter().runAsGUI();
+		} else {
+// TODO ... bitte eine Bedingung für die Konsole einbauen (default GUI wär noch cool) 
+// Ansonsten kann ich auch einen Dialog bauen xD
+			new ProgramStarter().runAsConsole();
+		}
+	}
+	
+	private void runAsGUI(){
+		new evilGUI(this);
+	}
+	
+	private void runAsConsole() {
+		try {
+			ControlUnit ppcControlUnit = generateControlUnitFromInput(getFilename());
+			
+			ConsolePrinter p = new ConsolePrinter(ppcControlUnit);
+			ppcControlUnit.getClock().addObserver(p);
+			p.print(ppcControlUnit);
+			
+			try {
+				ppcControlUnit.getClock().step();
+			} catch (Exception e) {
+				if (debug) {
+					debug(ppcControlUnit, e);
+					System.exit(-1);
+				}
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+        
+	}
+	
+	public ControlUnit generateControlUnitFromInput(String filename) throws IOException {
 		InputReader reader = new InputReader(filename);
 		String[] mnemonics = reader.readContents();
 		MainMemory mainMemory = createMainMemory(mnemonics);
-		ControlUnit ppcControlUnit = new ControlUnit(mainMemory);
-		Printer p = new ConsolePrinter();
-		p.print(ppcControlUnit);
-		try {
-			new Clock(ppcControlUnit, p).step();
-		} catch (Exception e) {
-			if (debug) {
-				debug(ppcControlUnit, e);
-				System.exit(-1);
-			}
-		}
+		return new ControlUnit(mainMemory);
 	}
 
 	public static MainMemory createMainMemory(String[] mnemonics) {

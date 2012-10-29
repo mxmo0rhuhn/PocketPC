@@ -15,6 +15,14 @@ public final class MainMemory {
 
 	private final Map<Integer, Short> data = new HashMap<Integer, Short>();
 
+	public Map<Integer, Short> getData() {
+		return data;
+	}
+
+	public Map<Integer, Instruction> getInstructions() {
+		return instructions;
+	}
+
 	private final Map<Integer, Instruction> instructions = new HashMap<Integer, Instruction>();
 
 	/**

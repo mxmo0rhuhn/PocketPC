@@ -1,5 +1,8 @@
 package ch.zhaw.powerpc.view.impl;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import ch.zhaw.powerpc.model.ALU;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
@@ -13,7 +16,7 @@ import ch.zhaw.powerpc.view.Printer;
  * @author Reto
  * 
  */
-public class ConsolePrinter implements Printer {
+public class ConsolePrinter implements Printer, Observer {
 
 	private static final char NEWLINE = '\n';
 
@@ -58,6 +61,12 @@ public class ConsolePrinter implements Printer {
 	 * diese Zahl vorzumerken. Wuerde dann auch ohne berechnen gehen..
 	 */
 	private int sblen = 42;
+
+	private ControlUnit controllUnit;
+
+	public ConsolePrinter(ControlUnit ppcControlUnit) {
+		this.controllUnit = ppcControlUnit;
+	}
 
 	@Override
 	public void print(ControlUnit controlUnit) {
@@ -149,5 +158,10 @@ public class ConsolePrinter implements Printer {
 			sb.append(" (").append(binFormat.formatNumber(data, 16)).append(')');
 		}
 		sb.append(NEWLINE);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		print(controllUnit);
 	}
 }
