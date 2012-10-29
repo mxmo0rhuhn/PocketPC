@@ -12,7 +12,7 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * @author Max
  * 
  */
-public class INC extends AbstractInstruction {
+public class DEC extends AbstractInstruction {
 
 	/*
 	 * (non-Javadoc)
@@ -21,13 +21,13 @@ public class INC extends AbstractInstruction {
 	 */
 	@Override
 	public int run(ControlUnit controlUnit) {
-		controlUnit.getAlu().addToAccu((short) 1);
+		controlUnit.getAlu().addToAccu((short) -1);
 		return controlUnit.getProgramCounter() + 2;
 	}
 
 	@Override
 	public String toString() {
-		return "INC";
+		return "DEC";
 	}
 
 	/*
@@ -37,7 +37,7 @@ public class INC extends AbstractInstruction {
 	 */
 	@Override
 	public char getBinary() {
-		return genBin("00000001", "00000000");
+		return genBin("00000100", "00000000");
 	}
 
 }
