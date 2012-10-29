@@ -284,11 +284,6 @@ public class AssemblerTest {
 	}
 
 	@Test(expected = InvalidInstructionException.class)
-	public void invalidOR2() {
-		assemble("OR #1");
-	}
-
-	@Test(expected = InvalidInstructionException.class)
 	public void invalidOR3() {
 		assemble("OR -1");
 	}
