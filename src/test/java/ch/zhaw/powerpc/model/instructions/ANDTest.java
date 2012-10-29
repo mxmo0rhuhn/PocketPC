@@ -38,5 +38,14 @@ public class ANDTest {
 		
 	}
 	
+	@Test
+	public void shouldToString() {
+		assertEquals("AND 0 to Akku", new AND(0).toString());
+		assertEquals("AND 1 to Akku", new AND(1).toString());
+		assertEquals("AND 2 to Akku", new AND(2).toString());
+		assertEquals("AND 3 to Akku", new AND(3).toString());
+		
+	}
+	
 
 }
