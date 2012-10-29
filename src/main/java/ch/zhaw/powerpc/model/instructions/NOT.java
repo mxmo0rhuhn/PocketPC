@@ -21,10 +21,15 @@ public class NOT extends AbstractInstruction {
 		accu.write(~accu.read());
 		return controlUnit.getProgramCounter() + 2;
 	}
+	
+	@Override
+	public String toString() {
+		return "NOT";
+	}
 
 	@Override
 	public char getBinary() {
-		throw new UnsupportedOperationException("Implement me");
+		return genBin("0000000010000000");
 	}
 
 }
