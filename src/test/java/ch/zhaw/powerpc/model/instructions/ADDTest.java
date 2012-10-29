@@ -2,6 +2,7 @@ package ch.zhaw.powerpc.model.instructions;
 
 import static ch.zhaw.powerpc.model.instructions.TestUtil.binEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -19,6 +20,8 @@ public class ADDTest {
 		ADD add = new ADD(0);
 		add.run(cu);
 		
+		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[0].read());
 	}
 
@@ -30,6 +33,7 @@ public class ADDTest {
 		ADD add = new ADD(1);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[1].read());
 	}
 
@@ -41,6 +45,7 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[2].read());
 	}
 
@@ -52,6 +57,7 @@ public class ADDTest {
 		ADD add = new ADD(3);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[3].read());
 	}
 	
@@ -64,6 +70,7 @@ public class ADDTest {
 		ADD add = new ADD(3);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[0].read());
 	}
 	
@@ -76,6 +83,7 @@ public class ADDTest {
 		ADD add = new ADD(3);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(1, cu.getRegisters()[0].read());
 	}
 	
@@ -88,6 +96,7 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(2, cu.getRegisters()[0].read());
 	}
 	
@@ -100,6 +109,7 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(42, cu.getRegisters()[0].read());
 	}
 	
@@ -112,6 +122,7 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[0].read());
 	}
 
@@ -124,6 +135,7 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(115, cu.getRegisters()[0].read());
 	}
 	
