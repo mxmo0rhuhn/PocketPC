@@ -19,10 +19,13 @@ public class SLATest {
 		new LWDD(0, 500).run(cu);
 		new SLA().run(cu);
 		Integer.toBinaryString(cu.getRegisters()[0].read());
-		assertEquals("101010", Integer.toBinaryString(cu.getRegisters()[0].read()));
+		assertEquals("1010100", Integer.toBinaryString(cu.getRegisters()[0].read()));
 
 		
 		
 	}
+	
+	// Carry Flag setzen in ALU , Vorzeichenbit bleibt, in letztes Bit wird 0 geschrieben
+	
 
 }
