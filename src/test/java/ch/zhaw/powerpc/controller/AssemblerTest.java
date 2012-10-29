@@ -305,7 +305,6 @@ public class AssemblerTest {
 
 	@Test
 	public void testBZ() {
-		assertEquals("BZ 0", assemble("BZ 0"));
 		assertEquals("BZ 1", assemble("BZ 1"));
 		assertEquals("BZ 2", assemble("BZ 2"));
 		assertEquals("BZ 3", assemble("BZ 3"));
@@ -323,7 +322,6 @@ public class AssemblerTest {
 
 	@Test
 	public void testBNZ() {
-		assertEquals("BNZ 0", assemble("BNZ 0"));
 		assertEquals("BNZ 1", assemble("BNZ 1"));
 		assertEquals("BNZ 2", assemble("BNZ 2"));
 		assertEquals("BNZ 3", assemble("BNZ 3"));

@@ -25,6 +25,9 @@ public class BZ extends AbstractInstruction {
 	 */
 	public BZ(int register) {
 		checkRegisterBounds(register);
+		if (register == 0) {
+			throw new InvalidInstructionException("Kann Nicht bei einem Vergleivch auf dieses Register springen");
+		}
 		this.register = register;
 	}
 

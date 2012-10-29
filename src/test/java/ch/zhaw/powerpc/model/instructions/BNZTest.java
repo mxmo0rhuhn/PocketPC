@@ -42,30 +42,6 @@ public class BNZTest {
 		assertEquals(122, cu.getProgramCounter());
 	}
 
-// Macht nur einen haufen CHAOS!
-//	@Test
-//	public void testJumpAkku() {
-//		
-//		ControlUnit cu = new ControlUnit(new MainMemory()); 
-//		cu.getRegisters()[00].write(104);
-//		
-//		assertEquals(100, cu.getProgramCounter());
-//		
-//		cu.getRegisters()[00].write(100);
-//		assertEquals(104, new BNZ(00).run(cu));
-//	}
-//	
-//	@Test
-//	public void testNoJumpAkku() {
-//		
-//		ControlUnit cu = new ControlUnit(new MainMemory()); 
-//		cu.getRegisters()[00].write(104);
-//		
-//		assertEquals(100, cu.getProgramCounter());
-//		
-//		cu.getRegisters()[0].write(0);
-//		assertEquals(102, new BNZ(00).run(cu));
-//	}
 	
 	@Test
 	public void testJumpRegisterOne() {
@@ -186,9 +162,16 @@ public class BNZTest {
 		new BNZ(03).run(cu);
 	}
 	
+	@Test(expected=InvalidInstructionException.class)	
+	public void testJumpAkku() {
+		
+		ControlUnit cu = new ControlUnit(new MainMemory()); 
+		cu.getRegisters()[00].write(104);
+		assertEquals(104, new BNZ(00).run(cu));
+	}
+	
 	@Test
 	public void binary() {
-		binEquals("0001000100000000", new BNZ(00).getBinary());
 		binEquals("0001010100000000", new BNZ(01).getBinary());
 		binEquals("0001100100000000", new BNZ(02).getBinary());
 		binEquals("0001110100000000", new BNZ(03).getBinary());
