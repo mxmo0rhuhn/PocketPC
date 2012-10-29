@@ -16,6 +16,7 @@ public class Clock extends Observable {
 	private final ControlUnit controlUnit;
 	private volatile boolean stopped;
 	private volatile boolean paused;
+	private int stepCounter;
 
 	public Clock(ControlUnit controlUnit) {
 		stopped = false;
@@ -30,6 +31,7 @@ public class Clock extends Observable {
 		
 		if(!stopped) {
 			stopped = this.controlUnit.runCycle();
+			stepCounter++;
 			setChanged();
 			notifyObservers();
 		}
@@ -49,6 +51,7 @@ public class Clock extends Observable {
 	public void startSlowMode() {
 		paused = false;
 		while (!stopped && !paused) {
+			stepCounter++;
 			setChanged();
 			notifyObservers();
 			stopped = this.controlUnit.runCycle();
@@ -67,9 +70,14 @@ public class Clock extends Observable {
 	public void startFastMode() {
 		paused = false;
 		while (!stopped && !paused) {
+			stepCounter++;
 			stopped = this.controlUnit.runCycle();
 			setChanged();
 			notifyObservers();
 		}
+	}
+
+	public int getStepCounter() {
+		return stepCounter;
 	}
 }
