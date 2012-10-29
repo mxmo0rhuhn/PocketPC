@@ -1,6 +1,7 @@
 package ch.zhaw.powerpc.model.instructions;
 
 import ch.zhaw.powerpc.model.ControlUnit;
+import ch.zhaw.powerpc.model.Register;
 
 /**
  * Schieben logisch nach links: der Inhalt des Akkus wird um eine Stelle nach links geschoben; der Inhalt vom LSB (das
@@ -17,14 +18,21 @@ public class SLL extends AbstractInstruction {
 
 	@Override
 	public int run(ControlUnit controlUnit) {
-		// TODO Auto-generated method stub
-		return 0;
+		Register accu = controlUnit.getRegisters()[0];
+		short curAccu = accu.read();
+		controlUnit.getAlu().setCarryFlag(curAccu < 0);
+		accu.write(curAccu << 1);
+		return controlUnit.getProgramCounter() + 2;
 	}
 
 	@Override
 	public char getBinary() {
-		// TODO Auto-generated method stub
-		return 0;
+		return genBin("0000110000000000");
+	}
+	
+	@Override
+	public String toString() {
+		return "SLL";
 	}
 
 }

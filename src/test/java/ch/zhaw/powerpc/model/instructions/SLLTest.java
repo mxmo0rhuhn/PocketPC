@@ -20,7 +20,7 @@ public class SLLTest {
 		SLL sll = new SLL();
 		sll.run(cu);
 		
-		assertEquals(21845, cu.getRegisters()[0].read());
+		assertEquals(21844, cu.getRegisters()[0].read());
 	}
 	
 	@Test
@@ -87,5 +87,4 @@ public class SLLTest {
 	public void testGetBinary() {
 		binEquals("0000110000000000", new SLL().getBinary());
 	}
-
 }
