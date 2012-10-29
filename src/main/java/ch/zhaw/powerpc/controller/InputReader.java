@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 /**
- * Lese
+ * Lesen des Input files (nur relevante Zeilen und passagen)
  * 
  * @author des
  * 
@@ -37,9 +37,13 @@ public class InputReader {
 		String line = this.inputBuffer.readLine();
 		while (line != null) {
 			int apostrophindex = line.indexOf('\'');
-			// Kommentar entfernen
-			if (apostrophindex != -1) {
-				line = line.substring(0, apostrophindex - 1);
+			// Kommentar entfernen, 'line' hatte Kommentar enthalten 
+			if (apostrophindex > 0) {
+				line = line.substring(0, apostrophindex);
+			}
+			if (apostrophindex == 0) {
+				line = this.inputBuffer.readLine();
+				continue;
 			}
 			// Leerzeilen rauslöschen
 			line = line.trim();
