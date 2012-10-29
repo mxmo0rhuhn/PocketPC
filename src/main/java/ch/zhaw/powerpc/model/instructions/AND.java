@@ -30,9 +30,14 @@ public class AND extends AbstractInstruction{
 	}
 
 	@Override
+	public String toString() {
+		return "AND " + this.register + " to Akku";
+		
+	}
+	
+	@Override
 	public char getBinary() {
-		// TODO Auto-generated method stub
-		return 0;
+		return genBin("0000", reg(this.register), "1000010010");
 	}
 
 }

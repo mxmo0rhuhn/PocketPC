@@ -2,24 +2,17 @@ package ch.zhaw.powerpc.model.instructions;
 
 import static ch.zhaw.powerpc.model.instructions.TestUtil.binEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import org.junit.Test;
 
-import ch.zhaw.powerpc.controller.InputReader;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 
 
 
 public class ANDTest {
-	
-	private static final String BASE_RESOURCE = "ch/zhaw/powerpc/model/instructions";
-	
+		
 	@Test
 	public void shouldAndBitwise() {
 		
@@ -33,24 +26,17 @@ public class ANDTest {
 			new AND(1).run(cu);
 			Integer.toBinaryString(cu.getRegisters()[0].read());
 			assertEquals("101010", Integer.toBinaryString(cu.getRegisters()[0].read()));
-
+	
+	}
+	
+	@Test
+	public void shouldGetBinary() {
+		binEquals("0000011000010010", (new AND(1).getBinary()));
+		binEquals("0000101000010010", (new AND(2).getBinary()));
+		binEquals("0000111000010010", new AND(3).getBinary());
+		binEquals("0000001000010010", new AND(0).getBinary());
 		
 	}
 	
-	
-	private String[] readContents(String filename) {
-		filename = BASE_RESOURCE + filename;
-		InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
-		if (is == null) {
-			fail("File " + filename + " does not exist");
-		}
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			return new InputReader(br).readContents();
-		} catch (Exception e) {
-			fail(e.getMessage());
-			return null; // never happens
-		}
-	}
 
 }
