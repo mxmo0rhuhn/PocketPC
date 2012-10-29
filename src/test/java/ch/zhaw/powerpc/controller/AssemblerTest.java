@@ -111,14 +111,14 @@ public class AssemblerTest {
 		assertEquals("LWDD 1 #500", assemble("LWDD 1 #500"));
 		assertEquals("LWDD 2 #500", assemble("LWDD 2 #500"));
 		assertEquals("LWDD 3 #500", assemble("LWDD 3 #500"));
-		assertEquals("LWDD 0 #501", assemble("LWDD 0 #501"));
-		assertEquals("LWDD 1 #501", assemble("LWDD 1 #501"));
-		assertEquals("LWDD 2 #501", assemble("LWDD 2 #501"));
-		assertEquals("LWDD 3 #501", assemble("LWDD 3 #501"));
-		assertEquals("LWDD 0 #1023", assemble("LWDD 0 #1023"));
-		assertEquals("LWDD 1 #1023", assemble("LWDD 1 #1023"));
-		assertEquals("LWDD 2 #1023", assemble("LWDD 2 #1023"));
-		assertEquals("LWDD 3 #1023", assemble("LWDD 3 #1023"));
+		assertEquals("LWDD 0 #530", assemble("LWDD 0 #530"));
+		assertEquals("LWDD 1 #530", assemble("LWDD 1 #530"));
+		assertEquals("LWDD 2 #530", assemble("LWDD 2 #530"));
+		assertEquals("LWDD 3 #530", assemble("LWDD 3 #530"));
+		assertEquals("LWDD 0 #1022", assemble("LWDD 0 #1022"));
+		assertEquals("LWDD 1 #1022", assemble("LWDD 1 #1022"));
+		assertEquals("LWDD 2 #1022", assemble("LWDD 2 #1022"));
+		assertEquals("LWDD 3 #1022", assemble("LWDD 3 #1022"));
 	}
 
 	@Test(expected = InvalidInstructionException.class)
@@ -322,11 +322,6 @@ public class AssemblerTest {
 	}
 
 	@Test(expected = InvalidInstructionException.class)
-	public void invalidBZ2() {
-		assemble("BZ #1");
-	}
-
-	@Test(expected = InvalidInstructionException.class)
 	public void invalidBZ3() {
 		assemble("BZ");
 	}
@@ -342,11 +337,6 @@ public class AssemblerTest {
 	@Test(expected = InvalidInstructionException.class)
 	public void invalidBNZ() {
 		assemble("BNZ -1");
-	}
-
-	@Test(expected = InvalidInstructionException.class)
-	public void invalidBNZ2() {
-		assemble("BNZ #1");
 	}
 
 	@Test(expected = InvalidInstructionException.class)
@@ -368,11 +358,6 @@ public class AssemblerTest {
 	}
 
 	@Test(expected = InvalidInstructionException.class)
-	public void invalidBC2() {
-		assemble("BC #1");
-	}
-
-	@Test(expected = InvalidInstructionException.class)
 	public void invalidBC3() {
 		assemble("BC");
 	}
@@ -391,22 +376,14 @@ public class AssemblerTest {
 	}
 
 	@Test(expected = InvalidInstructionException.class)
-	public void invalidB2() {
-		assemble("B #1");
-	}
-
-	@Test(expected = InvalidInstructionException.class)
 	public void invalidB3() {
 		assemble("B");
 	}
 
 	@Test
 	public void testBZD() {
-		assertEquals("BZD #0", assemble("BZD #0"));
-		assertEquals("BZD #1", assemble("BZD #1"));
-		assertEquals("BZD #42", assemble("BZD #42"));
-		assertEquals("BZD #73", assemble("BZD #73"));
-		assertEquals("BZD #1111", assemble("BZD #1111"));
+		assertEquals("BCD #250", assemble("BCD #250"));
+		assertEquals("BCD #250", assemble("BCD #250"));
 	}
 
 	@Test(expected = InvalidInstructionException.class)
@@ -426,11 +403,8 @@ public class AssemblerTest {
 
 	@Test
 	public void testBNZD() {
-		assertEquals("BNZD #0", assemble("BNZD #0"));
-		assertEquals("BNZD #1", assemble("BNZD #1"));
-		assertEquals("BNZD #42", assemble("BNZD #42"));
-		assertEquals("BNZD #73", assemble("BNZD #73"));
-		assertEquals("BNZD #1111", assemble("BNZD #1111"));
+		assertEquals("BCD #250", assemble("BCD #250"));
+		assertEquals("BCD #250", assemble("BCD #250"));
 	}
 
 	@Test(expected = InvalidInstructionException.class)
@@ -450,11 +424,8 @@ public class AssemblerTest {
 
 	@Test
 	public void testBCD() {
-		assertEquals("BCD #0", assemble("BCD #0"));
-		assertEquals("BCD #1", assemble("BCD #1"));
-		assertEquals("BCD #42", assemble("BCD #42"));
-		assertEquals("BCD #73", assemble("BCD #73"));
-		assertEquals("BCD #1111", assemble("BCD #1111"));
+		assertEquals("BCD #100", assemble("BCD #100"));
+		assertEquals("BCD #250", assemble("BCD #250"));
 	}
 
 	@Test(expected = InvalidInstructionException.class)
@@ -474,11 +445,8 @@ public class AssemblerTest {
 
 	@Test
 	public void testBD() {
-		assertEquals("BD #0", assemble("BD #0"));
-		assertEquals("BD #1", assemble("BD #1"));
-		assertEquals("BD #42", assemble("BD #42"));
-		assertEquals("BD #73", assemble("BD #73"));
-		assertEquals("BD #1111", assemble("BD #1111"));
+		assertEquals("BCD #100", assemble("BCD #100"));
+		assertEquals("BCD #100", assemble("BCD #100"));
 	}
 
 	@Test(expected = InvalidInstructionException.class)

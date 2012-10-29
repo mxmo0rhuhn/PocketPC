@@ -27,6 +27,7 @@ public class LWDDTest {
 		binEquals("0100000111110100", new LWDD(0, 500).getBinary());
 		binEquals("0100010111110110", new LWDD(1, 502).getBinary());
 		binEquals("0100101000101100", new LWDD(2, 556).getBinary());
+		binEquals("0100101000101010", new LWDD(2, 554).getBinary());
 		binEquals("0100111111111110", new LWDD(3, 1022).getBinary());
 	}
 }
