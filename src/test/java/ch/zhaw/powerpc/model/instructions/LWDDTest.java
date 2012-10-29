@@ -23,10 +23,10 @@ public class LWDDTest {
 	}
 
 	@Test
-	public void binary1() {
+	public void testGetBinary() {
 		binEquals("0100000111110100", new LWDD(0, 500).getBinary());
-		binEquals("0100010111110101", new LWDD(1, 501).getBinary());
-		binEquals("0100101000101011", new LWDD(2, 555).getBinary());
-		binEquals("0100111111111111", new LWDD(3, 1023).getBinary());
+		binEquals("0100010111110110", new LWDD(1, 502).getBinary());
+		binEquals("0100101000101100", new LWDD(2, 556).getBinary());
+		binEquals("0100111111111110", new LWDD(3, 1022).getBinary());
 	}
 }
