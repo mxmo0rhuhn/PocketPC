@@ -9,11 +9,6 @@ import ch.zhaw.powerpc.model.MainMemory;
 
 public class ORTest {
 
-	/**
-	 * Akku und Register xx (00 bis 11 für Akku, R-1, R-2 bzw R-3) werden bitweise logisch mit ODe veknüpft.
-	 * 
-	 */
-
 	@Test
 	public void shouldOrSetAllBits() {
 		ControlUnit cu = new ControlUnit(new MainMemory());
@@ -32,7 +27,7 @@ public class ORTest {
 		cu.getRegisters()[0].write(0);
 		cu.getRegisters()[3].write(21845);
 
-		OR or = new OR(2);
+		OR or = new OR(3);
 		or.run(cu);
 
 		assertEquals(21845, cu.getRegisters()[0].read());
