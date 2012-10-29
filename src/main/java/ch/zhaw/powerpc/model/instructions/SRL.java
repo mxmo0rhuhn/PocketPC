@@ -20,7 +20,7 @@ public class SRL extends AbstractInstruction {
 	public int run(ControlUnit controlUnit) {
 		Register accu = controlUnit.getRegisters()[0];
 		controlUnit.getAlu().setCarryFlag(accu.read() % 2 != 0);
-		accu.write(accu.read() >>> 1);
+		accu.write(32767 & (accu.read() >>> 1));
 		return controlUnit.getProgramCounter() + 2;
 	}
 
