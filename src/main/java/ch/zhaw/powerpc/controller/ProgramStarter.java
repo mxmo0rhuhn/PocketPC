@@ -20,12 +20,10 @@ public class ProgramStarter {
 	private static boolean debug = true;
 
 	public static void main(String[] args) throws IOException {
-		if(true) {
-			new ProgramStarter().runAsGUI();
-		} else {
-// TODO ... bitte eine Bedingung für die Konsole einbauen (default GUI wär noch cool) 
-// Ansonsten kann ich auch einen Dialog bauen xD
+		if(Boolean.parseBoolean(System.getProperty("nogui"))) {
 			new ProgramStarter().runAsConsole();
+		} else {
+			new ProgramStarter().runAsGUI();
 		}
 	}
 	

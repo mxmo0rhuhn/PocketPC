@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,6 +32,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
+import ch.zhaw.powerpc.controller.InputWriter;
 import ch.zhaw.powerpc.controller.ProgramStarter;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
@@ -313,6 +316,7 @@ public class EvilGUI extends JFrame implements Observer {
 		JMenu optionen = new JMenu("Optionen");
 
 		optionen.add(buildLoadItem());
+		optionen.add(buildStoreItem());
 
 		menuBar.add(optionen);
 		return menuBar;
@@ -340,7 +344,47 @@ public class EvilGUI extends JFrame implements Observer {
 				}
 			}
 		});
-		return load;
+		return load ;
+	}
+	
+	private JMenuItem buildStoreItem() {
+		JMenuItem write = new JMenuItem("Datei schreiben");
+		write.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showSaveDialog(EvilGUI.this);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					try {
+						InputWriter.writeState(chooser.getSelectedFile().getAbsolutePath(), getData(), getInstructions());
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(null, "Datei " + chooser.getSelectedFile().getName()
+								+ " konnte nicht gespeichert werden", "Fehler", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+
+		});
+		return write;
+	}
+	
+	private Map<Integer, String> getData() {
+		HashMap<Integer, String> formattedData = new HashMap<Integer, String>();
+		
+		for(int i = 0; i < dataTable.getRowCount();i++) {
+			formattedData.put( (Integer) dataTable.getValueAt(i, 0), (String) dataTable.getValueAt(i, 1));
+		}
+		return formattedData;
+	}
+	
+	private Map<Integer, String> getInstructions() {
+		HashMap<Integer, String> formattedInstructions = new HashMap<Integer, String>();
+		
+		for(int i = 0; i < instructionTable.getRowCount();i++) {
+			formattedInstructions.put((Integer) instructionTable.getValueAt(i, 0), (String) instructionTable.getValueAt(i, 1));
+		}
+		return formattedInstructions;
 	}
 
 	private void removeAllinstructionTableEntrys() {
