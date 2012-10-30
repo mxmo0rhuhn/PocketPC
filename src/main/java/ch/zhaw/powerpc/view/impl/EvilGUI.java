@@ -83,7 +83,7 @@ public class EvilGUI extends JFrame implements Observer {
 			// and feel.
 		}
 
-		this.setTitle("Super duper ssh Prozessor");
+		this.setTitle("SSH EmOlator");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.setJMenuBar(createMenu());
