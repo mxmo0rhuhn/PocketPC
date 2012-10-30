@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -79,8 +78,7 @@ public class EvilGUI extends JFrame implements Observer {
 				}
 			}
 		} catch (Exception e) {
-			// If Nimbus is not available, you can set the GUI to another look
-			// and feel.
+			e.printStackTrace();
 		}
 
 		this.setTitle("SSH EmOlator");
@@ -116,7 +114,9 @@ public class EvilGUI extends JFrame implements Observer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EvilGUI.this.controllUnit.getClock().step();
+				if(!EvilGUI.this.controllUnit.getClock().isStopped()) {
+					EvilGUI.this.controllUnit.getClock().step();
+				}
 			}
 
 		});
