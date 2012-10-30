@@ -30,6 +30,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
+import ch.zhaw.powerpc.controller.InputWriter;
 import ch.zhaw.powerpc.controller.ProgramStarter;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
@@ -340,7 +341,34 @@ public class EvilGUI extends JFrame implements Observer {
 				}
 			}
 		});
-		return load;
+		JMenuItem write = new JMenuItem("Datei schreiben");
+		write.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showOpenDialog(EvilGUI.this);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					try {
+						InputWriter.writeState(chooser.getSelectedFile().getAbsolutePath(), getData(), getInstructions());
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(null, "Datei " + chooser.getSelectedFile().getName()
+								+ " konnte nicht gespeichert werden", "Fehler", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+
+			private Map<Integer, Short> getData() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			private Map<Integer, Instruction> getInstructions() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+		return write;
 	}
 
 	private void removeAllinstructionTableEntrys() {

@@ -1,5 +1,6 @@
 package ch.zhaw.powerpc.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,14 +15,6 @@ import ch.zhaw.powerpc.model.instructions.Instruction;
 public final class MainMemory {
 
 	private final Map<Integer, Short> data = new HashMap<Integer, Short>();
-
-	public Map<Integer, Short> getData() {
-		return data;
-	}
-
-	public Map<Integer, Instruction> getInstructions() {
-		return instructions;
-	}
 
 	private final Map<Integer, Instruction> instructions = new HashMap<Integer, Instruction>();
 
@@ -90,6 +83,14 @@ public final class MainMemory {
 		this.instructions.put(address, instruction);
 	}
 	
+	public Map<Integer, Instruction> getInstructions() {
+		return Collections.unmodifiableMap(instructions);
+	}
+
+	public Map<Integer, Short> getData() {
+		return Collections.unmodifiableMap(data);
+	}
+
 	@Override
 	public String toString() {
 		return "\n\tdata:  "+data+"\n" +
