@@ -63,7 +63,7 @@ public class ConsolePrinter implements Printer, Observer {
 	private int sblen = 42;
 
 	private ControlUnit controllUnit;
-
+	
 	public ConsolePrinter(ControlUnit ppcControlUnit) {
 		this.controllUnit = ppcControlUnit;
 	}

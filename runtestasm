@@ -1,4 +1,4 @@
 #!/bin/bash
 
 mvn clean compile
-mvn exec:java -Dasm=testasm -Dnogui=false -DBLOCKS_PER_LINE=3
+java -cp target/classes -Dasm=testasm -Dnogui=true -DBLOCKS_PER_LINE=5 -Dmode=STEP ch.zhaw.powerpc.controller.ProgramStarter

@@ -2,6 +2,7 @@ package ch.zhaw.powerpc.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
@@ -17,42 +18,60 @@ import ch.zhaw.powerpc.view.impl.EvilGUI;
  */
 public class ProgramStarter {
 
-	private static boolean debug = true;
+	static enum Mode {
+		STEP, FAST, SLOW
+	}
 
 	public static void main(String[] args) throws IOException {
-		if(Boolean.parseBoolean(System.getProperty("nogui"))) {
+		if (Boolean.parseBoolean(System.getProperty("nogui"))) {
 			new ProgramStarter().runAsConsole();
 		} else {
 			new ProgramStarter().runAsGUI();
 		}
 	}
-	
-	private void runAsGUI(){
+
+	private void runAsGUI() {
 		new EvilGUI(this);
 	}
-	
+
 	private void runAsConsole() {
+		ControlUnit cu = null;
 		try {
-			ControlUnit ppcControlUnit = generateControlUnitFromInput(getFilename());
-			
-			ConsolePrinter p = new ConsolePrinter(ppcControlUnit);
-			ppcControlUnit.getClock().addObserver(p);
-			p.print(ppcControlUnit);
-			
-			try {
-				ppcControlUnit.getClock().step();
-			} catch (Exception e) {
-				if (debug) {
-					debug(ppcControlUnit, e);
-					System.exit(-1);
-				}
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			cu = generateControlUnitFromInput(getFilename());
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			System.exit(-1);
 		}
-        
+
+		ConsolePrinter p = new ConsolePrinter(cu);
+		cu.getClock().addObserver(p);
+
+		Mode mode = Mode.valueOf(System.getProperty("mode", "STEP"));
+		switch (mode) {
+		case STEP:
+			runStep(cu, p);
+			break;
+		case FAST:
+			cu.getClock().startFastMode();
+			break;
+		case SLOW:
+			cu.getClock().startSlowMode();
+			break;
+
+		}
 	}
-	
+
+	private void runStep(ControlUnit cu, ConsolePrinter cp) {
+		Scanner sc = new Scanner(System.in);
+		Clock clock = cu.getClock();
+
+		cp.print(cu);
+		sc.nextLine();
+		while (clock.step()) {
+			sc.nextLine();
+		}
+	}
+
 	public ControlUnit generateControlUnitFromInput(String filename) throws IOException {
 		InputReader reader = new InputReader(filename);
 		String[] mnemonics = reader.readContents();
@@ -99,19 +118,4 @@ public class ProgramStarter {
 			return null; // never happens
 		}
 	}
-
-	private static void debug(ControlUnit cu, Exception e) {
-		System.err.println("------------------------------------------------------------------");
-		System.err.println("---------------------------ERROR----------------------------------");
-		System.err.println("------------------------------------------------------------------");
-		e.printStackTrace();
-		System.err.println("------------------------------------------------------------------");
-		System.err.println("----------------------------DEBUG---------------------------------");
-		System.err.println("------------------------------------------------------------------");
-		System.err.println(cu);
-		System.err.println("------------------------------------------------------------------");
-		System.err.println("---------------------------FINISH---------------------------------");
-		System.err.println("------------------------------------------------------------------");
-	}
-
 }

@@ -15,7 +15,7 @@ public class END extends AbstractInstruction {
 
 	@Override
 	public int run(ControlUnit controlUnit) {
-		return -1;
+		throw new NoMoreInstructionsException();
 	}
 
 	@Override
