@@ -32,11 +32,13 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
+import ch.zhaw.powerpc.controller.Assembler;
 import ch.zhaw.powerpc.controller.InputWriter;
 import ch.zhaw.powerpc.controller.ProgramStarter;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 import ch.zhaw.powerpc.model.instructions.Instruction;
+import ch.zhaw.powerpc.model.instructions.InvalidInstructionException;
 import ch.zhaw.powerpc.view.Formatter;
 
 public class EvilGUI extends JFrame implements Observer {
@@ -361,6 +363,8 @@ public class EvilGUI extends JFrame implements Observer {
 					} catch (IOException e1) {
 						JOptionPane.showMessageDialog(null, "Datei " + chooser.getSelectedFile().getName()
 								+ " konnte nicht gespeichert werden", "Fehler", JOptionPane.ERROR_MESSAGE);
+					} catch (InvalidInstructionException e2) {
+						JOptionPane.showMessageDialog(null, "Folgende Befehle konnten nicht geparsed werden: \n" + e2.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -378,12 +382,28 @@ public class EvilGUI extends JFrame implements Observer {
 		return formattedData;
 	}
 	
-	private Map<Integer, String> getInstructions() {
+	private Map<Integer, String> getInstructions() throws InvalidInstructionException {
 		HashMap<Integer, String> formattedInstructions = new HashMap<Integer, String>();
+		Assembler testAssembler = new Assembler();
+		boolean canBeAssemled = true;
+		String errors ="";
 		
 		for(int i = 0; i < instructionTable.getRowCount();i++) {
+			try { 
+			testAssembler.assemble((String) instructionTable.getValueAt(i, 1));
 			formattedInstructions.put((Integer) instructionTable.getValueAt(i, 0), (String) instructionTable.getValueAt(i, 1));
+			}
+			catch(InvalidInstructionException e) {
+				canBeAssemled = false;
+				errors += (String) instructionTable.getValueAt(i, 1) + "\n";
+//				instructionTable.setb
+			}
 		}
+		
+		if(!canBeAssemled) {
+			throw new InvalidInstructionException(errors);
+		}
+		
 		return formattedInstructions;
 	}
 
