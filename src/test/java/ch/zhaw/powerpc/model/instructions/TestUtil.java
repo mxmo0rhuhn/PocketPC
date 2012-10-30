@@ -10,6 +10,9 @@ public final class TestUtil {
 	 * 
 	 */
 	public static void binEquals(String expected, char actual) {
+		if (expected.length() != 16) {
+			throw new IllegalArgumentException("Es kann nur ein 16 Bit Wort erwaretet werden! (TestUtil.binEquals)");
+		}
 		assertEquals(Integer.parseInt(expected, 2), actual);
 	}
 }
