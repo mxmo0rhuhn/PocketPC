@@ -153,18 +153,18 @@ public class AssemblerTest {
 
 	@Test
 	public void testSWDD() {
-		assertEquals("SWDD 0 #0", assemble("SWDD 0 #0"));
-		assertEquals("SWDD 1 #0", assemble("SWDD 1 #0"));
-		assertEquals("SWDD 2 #0", assemble("SWDD 2 #0"));
-		assertEquals("SWDD 3 #0", assemble("SWDD 3 #0"));
-		assertEquals("SWDD 0 #1", assemble("SWDD 0 #1"));
-		assertEquals("SWDD 1 #1", assemble("SWDD 1 #1"));
-		assertEquals("SWDD 2 #1", assemble("SWDD 2 #1"));
-		assertEquals("SWDD 3 #1", assemble("SWDD 3 #1"));
-		assertEquals("SWDD 0 #73", assemble("SWDD 0 #73"));
-		assertEquals("SWDD 1 #73", assemble("SWDD 1 #73"));
-		assertEquals("SWDD 2 #73", assemble("SWDD 2 #73"));
-		assertEquals("SWDD 3 #73", assemble("SWDD 3 #73"));
+		assertEquals("SWDD 0 #500", assemble("SWDD 0 #500"));
+		assertEquals("SWDD 1 #500", assemble("SWDD 1 #500"));
+		assertEquals("SWDD 2 #500", assemble("SWDD 2 #500"));
+		assertEquals("SWDD 3 #500", assemble("SWDD 3 #500"));
+		assertEquals("SWDD 0 #502", assemble("SWDD 0 #502"));
+		assertEquals("SWDD 1 #502", assemble("SWDD 1 #502"));
+		assertEquals("SWDD 2 #502", assemble("SWDD 2 #502"));
+		assertEquals("SWDD 3 #502", assemble("SWDD 3 #502"));
+		assertEquals("SWDD 0 #600", assemble("SWDD 0 #600"));
+		assertEquals("SWDD 1 #600", assemble("SWDD 1 #600"));
+		assertEquals("SWDD 2 #600", assemble("SWDD 2 #600"));
+		assertEquals("SWDD 3 #600", assemble("SWDD 3 #600"));
 	}
 
 	@Test(expected = InvalidInstructionException.class)
