@@ -31,7 +31,7 @@ public class AND extends AbstractInstruction{
 
 	@Override
 	public String toString() {
-		return "AND " + this.register + " to Akku";
+		return "AND " + this.register;
 		
 	}
 	

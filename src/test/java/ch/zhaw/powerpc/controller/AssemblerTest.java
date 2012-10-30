@@ -260,10 +260,6 @@ public class AssemblerTest {
 		assemble("AND");
 	}
 
-	@Test(expected = InvalidInstructionException.class)
-	public void invalidAND2() {
-		assemble("AND #1");
-	}
 
 	@Test(expected = InvalidInstructionException.class)
 	public void invalidAND3() {
