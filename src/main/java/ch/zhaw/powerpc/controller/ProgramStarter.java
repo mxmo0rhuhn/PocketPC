@@ -7,6 +7,7 @@ import java.util.Scanner;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
 import ch.zhaw.powerpc.model.instructions.InvalidInstructionException;
+import ch.zhaw.powerpc.view.Printer;
 import ch.zhaw.powerpc.view.impl.ConsolePrinter;
 import ch.zhaw.powerpc.view.impl.EvilGUI;
 
@@ -43,31 +44,46 @@ public class ProgramStarter {
 			System.exit(-1);
 		}
 
-		ConsolePrinter p = new ConsolePrinter(cu);
-		cu.getClock().addObserver(p);
+		ConsolePrinter p = new ConsolePrinter();
 
 		Mode mode = Mode.valueOf(System.getProperty("mode", "STEP"));
+		System.out.println("Mode: " + mode);
 		switch (mode) {
 		case STEP:
 			runStep(cu, p);
 			break;
 		case FAST:
-			cu.getClock().startFastMode();
+			speedishRun(cu, p, Integer.parseInt(System.getProperty("fasttimeout", "0")));
 			break;
 		case SLOW:
-			cu.getClock().startSlowMode();
+			speedishRun(cu, p, Integer.parseInt(System.getProperty("slowtimeout", "2000")));
 			break;
 
 		}
 	}
 
-	private void runStep(ControlUnit cu, ConsolePrinter cp) {
-		Scanner sc = new Scanner(System.in);
-		Clock clock = cu.getClock();
+	private void speedishRun(ControlUnit cu, Printer p, long timeout) {
+		int steps = 0;
+		p.print(cu, steps++);
+		while (cu.runCycle()) {
+			try {
+				Thread.sleep(timeout);
+			} catch (InterruptedException ie) {
+				// something went drastically wrong
+				Thread.currentThread().interrupt();
+			}
+			p.print(cu, steps++);
+		}
+	}
 
-		cp.print(cu);
+	private void runStep(ControlUnit cu, Printer cp) {
+		Scanner sc = new Scanner(System.in);
+		int steps = 0;
+
+		cp.print(cu, steps++);
 		sc.nextLine();
-		while (clock.step()) {
+		while (cu.runCycle()) {
+			cp.print(cu, steps++);
 			sc.nextLine();
 		}
 	}

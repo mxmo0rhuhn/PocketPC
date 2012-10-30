@@ -1,8 +1,5 @@
 package ch.zhaw.powerpc.view.impl;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import ch.zhaw.powerpc.model.ALU;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
@@ -16,7 +13,7 @@ import ch.zhaw.powerpc.view.Printer;
  * @author Reto
  * 
  */
-public class ConsolePrinter implements Printer, Observer {
+public class ConsolePrinter implements Printer {
 
 	private static final char NEWLINE = '\n';
 
@@ -62,14 +59,11 @@ public class ConsolePrinter implements Printer, Observer {
 	 */
 	private int sblen = 42;
 
-	private ControlUnit controllUnit;
-	
-	public ConsolePrinter(ControlUnit ppcControlUnit) {
-		this.controllUnit = ppcControlUnit;
+	public ConsolePrinter() {
 	}
 
 	@Override
-	public void print(ControlUnit controlUnit) {
+	public void print(ControlUnit controlUnit, int steps) {
 		final ALU alu = controlUnit.getAlu();
 		final Register[] registers = controlUnit.getRegisters();
 		final int cnt = controlUnit.getProgramCounter();
@@ -77,20 +71,24 @@ public class ConsolePrinter implements Printer, Observer {
 
 		final StringBuilder sb = new StringBuilder(sblen);
 
-		sb.append("PowerPC by Team SSH").append(NEWLINE).append(NEWLINE); // Sacher Schrimpf Hablützel (muahaha)
+		sb.append(NEWLINE).append(NEWLINE);
+		sb.append("     ******* PowerPC by Team SSH *******");
+		sb.append(NEWLINE).append(NEWLINE); // Sacher Schrimpf Hablützel (muahaha)
 
-		appendMeta(alu, registers, cnt, sb);
+		appendMeta(alu, registers, cnt, steps, sb);
 		appendRegisters(registers, sb);
 		appendInstructions(cnt, memory, sb);
 		appendMemory(memory, sb);
 
-		sblen = sb.length();
+		this.sblen = Math.max(sb.length(), this.sblen);
 		System.out.println(sb.toString());
 	}
 
-	private void appendMeta(final ALU alu, final Register[] registers, final int cnt, final StringBuilder sb) {
+	private void appendMeta(final ALU alu, final Register[] registers, final int cnt, final int steps, final StringBuilder sb) {
 		sb.append(" Befehlszähler: ").append(cnt);
 		sb.append(" (").append(binFormat.formatNumber(cnt, 16)).append(')');
+		sb.append(NEWLINE);
+		sb.append(" Anzahl Steps:  ").append(steps);
 		sb.append(NEWLINE);
 		sb.append(" Akku:\t\t").append(registers[0].read());
 		sb.append(" (").append(binFormat.formatNumber(registers[0].read(), 16)).append(")");
@@ -158,10 +156,5 @@ public class ConsolePrinter implements Printer, Observer {
 			sb.append(" (").append(binFormat.formatNumber(data, 16)).append(')');
 		}
 		sb.append(NEWLINE);
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		print(controllUnit);
 	}
 }

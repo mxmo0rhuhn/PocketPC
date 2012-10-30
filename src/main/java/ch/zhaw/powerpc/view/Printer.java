@@ -27,6 +27,6 @@ public interface Printer {
 	 * 
 	 * @param controlUnit
 	 */
-	void print(ControlUnit controlUnit);
+	void print(ControlUnit controlUnit, int steps);
 
 }
