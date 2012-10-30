@@ -20,7 +20,7 @@ import ch.zhaw.powerpc.model.instructions.Instruction;
  */
 public class InputWriter {
 	
-	public static void writeState(String filename, Map<Integer, Short> data, Map<Integer, Instruction> instructions) throws IOException {
+	public static void writeState(String filename, Map<Integer, String> data, Map<Integer, String> instructions) throws IOException {
 		
 		BufferedWriter buWr = new BufferedWriter(new FileWriter(filename));
 		try {

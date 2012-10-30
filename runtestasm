@@ -1,4 +1,4 @@
 #!/bin/bash
 
 mvn clean compile
-mvn exec:java -Dasm=testasm -Dnpgui=true
+mvn exec:java -Dasm=testasm -Dnogui=false -DBLOCKS_PER_LINE=3
