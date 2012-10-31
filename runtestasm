@@ -1,4 +1,8 @@
 #!/bin/bash
 
 mvn clean compile
+<<<<<<< HEAD
 java -cp target/classes -Dmode=FAST -Dasm=testasm -Dnogui=true -DBLOCKS_PER_LINE=5 ch.zhaw.powerpc.controller.ProgramStarter
+=======
+java -cp target/classes -Dasm=testasm -Dnogui=kekse -DBLOCKS_PER_LINE=4 -Dmode=STEP ch.zhaw.powerpc.controller.ProgramStarter
+>>>>>>> 00ad1e2e077b85bab8b5c62d4654cc4607f317bb

@@ -78,4 +78,8 @@ public class Clock extends Observable {
 	public int getStepCounter() {
 		return stepCounter;
 	}
+
+	public boolean isStopped() {
+		return stopped;
+	}
 }
