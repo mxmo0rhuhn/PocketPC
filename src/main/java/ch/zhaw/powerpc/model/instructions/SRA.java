@@ -3,6 +3,17 @@ package ch.zhaw.powerpc.model.instructions;
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.Register;
 
+/**
+ * Schieben arithmetisch nach rechts: der Inhalt des Akkus wird um 
+ * eine Stelle nach rechts geschoben; der Inhalt vom LSb des LSB 
+ * (das rechte Bit des Wortes) wird als Carry-Flag gesetzt. 
+ * Dabei bleibt das MSb des MSB (Vorzeichenbit) und das 2. Bit des 
+ * MSB erhalten.
+ * 
+ * @author des
+ *
+ */
+
 public class SRA extends AbstractInstruction {
 	
 	public SRA() {
