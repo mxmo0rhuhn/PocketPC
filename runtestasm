@@ -1,4 +1,3 @@
 #!/bin/bash
 
-mvn clean compile
-java -cp target/classes -Dmode=FAST -Dasm=testasm -Dnogui=true -DBLOCKS_PER_LINE=5 ch.zhaw.powerpc.controller.ProgramStarter
+java -cp target/classes -Dmode=FAST -Dasm=asmfiles/mul_reto.asm -Dnogui=true -DBLOCKS_PER_LINE=5 ch.zhaw.powerpc.controller.ProgramStarter

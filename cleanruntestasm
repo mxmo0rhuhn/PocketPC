@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mvn clean compile
+java -cp target/classes -Dmode=STEP -Dasm=asmfiles/testasm -Dnogui=true -DBLOCKS_PER_LINE=5 ch.zhaw.powerpc.controller.ProgramStarter
