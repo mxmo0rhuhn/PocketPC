@@ -24,7 +24,9 @@ public class SRA extends AbstractInstruction {
 	public int run(ControlUnit controlUnit) {
 		Register akku = controlUnit.getRegisters()[0];
 		short curAkku = akku.read();
-		controlUnit.getAlu().setCarryFlag(curAkku < 0);
+		
+		// Check if curAkku is even (%2 = even => if even than CarryFlag = false
+		controlUnit.getAlu().setCarryFlag(curAkku % 2 != 0);
 		akku.write(curAkku >> 1);
 		
 		return controlUnit.getProgramCounter() + 2;
