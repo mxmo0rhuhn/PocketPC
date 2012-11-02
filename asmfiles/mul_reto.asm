@@ -16,6 +16,8 @@
 '''''''''''''''''''''''''''''''''''''''
 
 ' 100:INITIALIZATION
+	500=3
+	502=5
 	560=-32768                           ' 10..0 (Vorzeichen-Check)
 	562=1                                ' LSB-Check
 	LWDD 2 #562                          ' 1 im Reg-2
@@ -25,7 +27,7 @@
 	BZD #272                     ' GOTO END
 	LWDD 1 #560                          ' Wenn links eine 1 rausfaellt, ist die Zahl negativ
 	AND 1                                ' Mit 10..0 maskieren
-	BZ #126                      ' GOTO OP 1 VORZEICHEN MERKEN
+	BZD #126                     ' GOTO OP 1 VORZEICHEN MERKEN
 	LWDD 0 #502                          ' Frisch laden
 	NOT                                  ' Mach Positiv
 	INC
