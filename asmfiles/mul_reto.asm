@@ -1,31 +1,58 @@
-500=13
-502=221
-504=104
+'''''''''''''''''''''''''''''''''''''''
+'           MULTIPLICATION            '
+'''''''''''''''''''''''''''''''''''''''
+'                                     '
+' Autor: Reto (Nov, 2012)             '
+'                                     '
+' 500 = op 1                          '
+' 502 = op 2                          '
+' 504 = vorzeichen ( 1 = negativ)     '
+' 506 = restsumme lower               '
+' 508 = restsumme upper               '
+' 520..540 = addresses                '
+'                                     '
+'''''''''''''''''''''''''''''''''''''''
 
-' operand 2 dekrementieren (weil
-'  sonst einmal zu viel multipli
-'  ziert wird)
-' Register 1 haelt sprungadresse
-' --> das ganze nur machen wenn
-'     keine zahl null is
-' operand 1 in register 2
-' operand 1 in akku laden
-' akku mit sich selbst addieren
-' akku speichern
-' operand 2 in akku
-' akku/operand 2 dekrementieren
-' akku/operand 2 speichern
-' wenn akku > 0
-'   - branch wieder an anfang
+' OP 2 VORZEICHEN MERKEN
+	LWDD 0 #502
+	BZ                           ' GOTO END
+	SLL                                   ' Wenn links eine 1 rausfaellt, ist die Zahl negativ
+	BNC                          ' GOTO OP 1 VORZEICHEN
+	LWDD 0 #502                           ' Frisch laden
+	NOT                                   ' Mach Positiv
+	INC
+	SWDD 0 #502
+	CLR
+	ADDD #1
+	SWDD 0 #504                          ' Merke Vorzeichen
 
-LWDD 2 #500
-LWDD 1 #504
-LWDD 0 #500
-ADD 2
-SWDD 0 #500
-LWDD 0 #502
-DEC
-SWDD 0 #502
-DEC
-BNZ 1
-END
+'# OP 1 VORZEICHEN MERKEN
+	LWDD 0 #500
+	BZ                           ' GOTO END
+	SLL                                  ' Wenn links eine 1 rausfaellt, ist die Zahl negativ
+	BNC                          ' GOTO MULTIPLICATION
+	LWDD 0 #500
+	NOT                                  ' Mach Positiv
+	INC
+	SWDD 0 #500
+	LWDD 0 #504
+	ADDD #1                              ' Addiere Vorzeichen
+	SWDD 0 #504
+
+
+
+'# MULTIPLICATION
+	LWDD 0 #500
+	SRL                                 ' Zahl kann nicht negativ sein
+	BNC                          ' GOTO NULL-RECHTS
+
+'# EINS-RECHTS
+	DEC
+	SWDD 0 #500
+	LWDD 0 #502
+	LWDD 1 #506                        ' Lade restsumme-lower
+	ADD 1                              ' Addiere op 1 zu restsumme
+	SWDD 0 #506                        ' Speichere restsumme-upper
+	BNC                          ' GOTO MULTIPLICATION
+
+'# NULL-RECHTS
