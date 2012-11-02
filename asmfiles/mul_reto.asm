@@ -9,6 +9,7 @@
 ' 504 = vorzeichen ( 1 = negativ)     '
 ' 506 = restsumme lower               '
 ' 508 = restsumme upper               '
+' 510 = op 2 - upper
 ' 520..540 = addresses                '
 '                                     '
 '''''''''''''''''''''''''''''''''''''''
@@ -54,5 +55,17 @@
 	ADD 1                              ' Addiere op 1 zu restsumme
 	SWDD 0 #506                        ' Speichere restsumme-upper
 	BNC                          ' GOTO MULTIPLICATION
+	LWDD 0 #508                        ' Lade restsumme-upper wegen overflow
+	INC
+	SWDD 0 #508
 
 '# NULL-RECHTS
+	SWDD 0 #500                        ' Wurde schon geschoben
+	LWDD 0 #502
+	SLL                                ' Multipliziere mit 2
+	SWDD 0 #502
+	LWDD 0 #510
+	SLL                                ' Erhoehe in jedem Fall (bei 0 passiert nix)
+	BNC                          ' GOTO STORE UPPER (skip line)
+	OR 1                               ' 1 ist lower rausgefallen, fuege diese upper ein
+	SWDD 0 #510
