@@ -112,7 +112,7 @@
 ' 240:SETZE VORZEICHEN
 	LWDD 0 #504
 	AND 2                             ' im register 2 ist eine 1. wenn (x & 1 == 1) -> negativ
-	BZ #272                      ' GOTO END
+	BZD #272                     ' GOTO END
 	LWDD 0 #502                       ' op 2 laden
 	NOT                               ' basiert auf der annahme, dass (* -1) auf beide seiten funktionieret
 	INC
