@@ -58,7 +58,7 @@
 	LWDD 0 #508                        ' Lade restsumme-upper wegen overflow
 	INC
 	SWDD 0 #508
-  --> CONTINUE MULTIPLICATION
+ 	BD                           ' GOTO MULTIPLICATION
 
 '# NULL-RECHTS
 	SWDD 0 #500                        ' Wurde schon geschoben
@@ -67,14 +67,53 @@
 	SWDD 0 #502
 	LWDD 0 #510
 	SLL                                ' Erhoehe in jedem Fall (bei 0 passiert nix)
-	BNC                          ' GOTO STORE UPPER (skip line)
+gibs netBNC                          ' GOTO STORE UPPER (skip line)
 	OR 1                               ' 1 ist lower rausgefallen, fuege diese upper ein
 	SWDD 0 #510
-  --> CONTINUE MULTILICATION
+	BD                           ' GOTO MULTIPLICATION
+
+
+'# LOWER RESTSUMME ZU OP 2 ADDIEREN
+	LWDD 0 #502                        ' op 2 - lower laden
+	LWDD 1 #506                        ' restsumme - lower laden
+	ADD 1                              ' addieren
+	SWDD 0 #502                        ' ergebnis - lower speichern
+	BNC                          ' GOTO UPPER RESTSUMME ZU OP 2 ADDIEREN
+	LWDD 0 #510                        ' op 2 - upper laden
+	INC                                ' uebertrag
+	SWDD 0 #510                        ' op 2 - upper speichern
+
+'# UPPER RESTSUMME ZU OP 2 ADDIEREN
+	LWDD 0 #510                        ' op 2 - upper laden
+	LWDD 1 #508                        ' restsumme - upper laden
+	ADD 1
+	SWDD 0 #510                        ' op 2 - upper speichern
+	
 
 
 '# SETZE VORZEICHEN
 	LWDD 0 #504
 	AND 1                             ' wenn 1, dann negativ. 2 oder 0 --> 0
-	BNZ                         ' GOTO END
-  --> (*) -1 fuer upper und lower
+	BNZ                          ' GOTO END
+	LWDD 0 #502                       ' op 2 laden
+	NOT                               ' basiert auf der annahme, dass (* -1) auf beide seiten funktionieret
+	INC
+	SWDD 0 #502                       ' op 2 speichern
+	LWDD 0 #510                       ' op 2 - upper laden
+	NOT
+	INC                               ' op 2 - upper (* -1)
+	BC                           ' GOTO AFTER END (lol)
+	SWDD 0 #510
+
+
+'# THE FREAKING END
+	END
+
+
+'# NICHT NUR DIE WURST HAT ZWEI
+	INC
+	SWDD 0 #510
+
+
+'# THE VERY END
+	END
