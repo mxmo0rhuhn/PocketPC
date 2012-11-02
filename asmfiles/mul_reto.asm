@@ -58,6 +58,7 @@
 	LWDD 0 #508                        ' Lade restsumme-upper wegen overflow
 	INC
 	SWDD 0 #508
+  --> CONTINUE MULTIPLICATION
 
 '# NULL-RECHTS
 	SWDD 0 #500                        ' Wurde schon geschoben
@@ -69,3 +70,11 @@
 	BNC                          ' GOTO STORE UPPER (skip line)
 	OR 1                               ' 1 ist lower rausgefallen, fuege diese upper ein
 	SWDD 0 #510
+  --> CONTINUE MULTILICATION
+
+
+'# SETZE VORZEICHEN
+	LWDD 0 #504
+	AND 1                             ' wenn 1, dann negativ. 2 oder 0 --> 0
+	BNZ                         ' GOTO END
+  --> (*) -1 fuer upper und lower
