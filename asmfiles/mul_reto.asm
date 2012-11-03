@@ -66,7 +66,7 @@
 	BD #176                      ' GOTO STORE-UPPER (SKIP LINES)
 	LWDD 0 #506		           ' IAM ADD-TO-UPPER
 	SLL                                ' upper wird durch schieben erhoeht
-	OR 2                               ' wegen overflow inkrementieren
+	INC                               ' wegen overflow inkrementieren
 	SWDD 0 #506                        ' IAM STORE-UPPER
 	BD #148                      ' GOTO MULTIPLIKATION
 
