@@ -91,7 +91,7 @@
 	LWDD 0 #502                        ' op 2 - lower laden
 	LWDD 1 #508                        ' restsumme - lower laden
 	ADD 1                              ' addieren
-	SWDD 0 #502                        ' ergebnis - lower speichern
+	SWDD 0 #504                        ' res lower von op 2 uebernehmen. achtung grusig
 	BCD #220                     ' GOTO INC-UPPER-RESTSUMME
 	BD #232                      ' GOTO UPPER RESTSUMME ZU OP 2 UPPER ADDIEREN
 	LWDD 0 #510                        ' IAM INC-UPPER-RESTSUMME
@@ -113,10 +113,10 @@
 	LWDD 0 #512
 	AND 2                             ' im register 2 ist eine 1. wenn (x & 1 == 1) -> negativ
 	BZD #272                     ' GOTO END
-	LWDD 0 #502                       ' res laden
+	LWDD 0 #504                       ' res laden
 	NOT                               ' basiert auf der annahme, dass (* -1) auf beide seiten funktionieret
 	INC
-	SWDD 0 #502                       ' res speichern
+	SWDD 0 #504                       ' res speichern
 	LWDD 0 #506                       ' res upper laden
 	BCD #266                     ' GOTO LOWER-INV-OVERFLOW
 	NOT                               ' beim res lower invertieren gabs kein overflow

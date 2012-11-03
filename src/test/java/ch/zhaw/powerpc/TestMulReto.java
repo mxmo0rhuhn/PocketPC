@@ -30,7 +30,7 @@ public class TestMulReto {
 
 	@Test
 	public void testNonOverflow() {
-		for (int i = Short.MIN_VALUE, j = Short.MAX_VALUE; i < j; i++, j--) {
+		for (int i = Short.MIN_VALUE, j = Short.MAX_VALUE; i <= Short.MAX_VALUE && j >= Short.MIN_VALUE; i++, j--) {
 			if (i * j >= Short.MIN_VALUE && i * j <= Short.MAX_VALUE) {
 				int res = multiply((short) i, (short) j);
 				assertEquals(
@@ -38,6 +38,29 @@ public class TestMulReto {
 						i * j, res);
 			}
 		}
+	}
+
+	@Test
+	public void sternTests() {
+		int res = multiply((short) 15, (short) 27);
+		assertEquals(
+				String.format("%d (%s) * %d (%s) ", 15, Integer.toBinaryString(15), 27, Integer.toBinaryString(27)),
+				15 * 27, res);
+
+		res = multiply((short) 0, (short) 23456);
+		assertEquals(
+				String.format("%d (%s) * %d (%s) ", 0, Integer.toBinaryString(0), 23456, Integer.toBinaryString(23456)),
+				0 * 23456, res);
+
+		res = multiply((short) -1234, (short) 4321);
+		assertEquals(
+				String.format("%d (%s) * %d (%s) ", -1234, Integer.toBinaryString(-1234), 4321,
+						Integer.toBinaryString(4321)), -1234 * 4321, res);
+
+		res = multiply((short) -222, (short) -333);
+		assertEquals(
+				String.format("%d (%s) * %d (%s) ", -222, Integer.toBinaryString(-222), -333,
+						Integer.toBinaryString(-333)), -222 * -333, res);
 	}
 
 	@AfterClass
@@ -57,7 +80,7 @@ public class TestMulReto {
 		}
 		testCounter++;
 
-		return (cu.getMemory().readData(510) << 16) + cu.getMemory().readData(502);
+		return (cu.getMemory().readData(506) << 16) + cu.getMemory().readData(504);
 	}
 
 }
