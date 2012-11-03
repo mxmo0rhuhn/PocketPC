@@ -53,6 +53,8 @@ public class TestMulReto {
 				0 * 23456, res);
 
 		res = multiply((short) -1234, (short) 4321);
+		System.out.println("Res: " + res);
+		System.out.println("Mul:" + -1234 * 4321);
 		assertEquals(
 				String.format("%d (%s) * %d (%s) ", -1234, Integer.toBinaryString(-1234), 4321,
 						Integer.toBinaryString(4321)), -1234 * 4321, res);
@@ -80,6 +82,8 @@ public class TestMulReto {
 		}
 		testCounter++;
 
+		System.out.println("Lower: " + cu.getMemory().readData(504));
+		System.out.println("Upper: " + cu.getMemory().readData(506));
 		return (cu.getMemory().readData(506) << 16) + cu.getMemory().readData(504);
 	}
 

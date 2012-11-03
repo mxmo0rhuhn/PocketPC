@@ -25,8 +25,7 @@ public class LWDD extends AbstractInstruction {
 	@Override
 	public int run(ControlUnit controlUnit) {
 		int val = controlUnit.getMemory().readData(this.address);
-		boolean overflow = controlUnit.getRegisters()[this.register].write(val);
-		controlUnit.getAlu().setCarryFlag(overflow);
+		controlUnit.getRegisters()[this.register].write(val);
 		return controlUnit.getProgramCounter() + 2;
 	}
 
