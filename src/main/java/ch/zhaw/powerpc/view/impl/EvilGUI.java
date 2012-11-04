@@ -49,14 +49,16 @@ public class EvilGUI extends JFrame implements Observer {
 	private JTextField register2Bin;
 	private JTextField register3Bin;
 	private JCheckBox carryBit;
-	
+
 	private JTextField akkumulatorDec;
 	private JTextField register1Dec;
 	private JTextField register2Dec;
 	private JTextField register3Dec;
 
 	private JTextField anzBefehle;
-	
+
+	private String lastPath;
+
 	private DefaultTableModel dataTable;
 	private DefaultTableModel instructionTableModel;
 
@@ -108,13 +110,13 @@ public class EvilGUI extends JFrame implements Observer {
 
 	private JPanel createSouthPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1,6));
+		panel.setLayout(new GridLayout(1, 6));
 		JButton nxt = new JButton("Nächster Schritt");
 		nxt.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!EvilGUI.this.controllUnit.getClock().isStopped()) {
+				if (!EvilGUI.this.controllUnit.getClock().isStopped()) {
 					EvilGUI.this.controllUnit.getClock().step();
 				}
 			}
@@ -162,7 +164,7 @@ public class EvilGUI extends JFrame implements Observer {
 			}
 
 		});
-		
+
 		JButton stop = new JButton("Stop");
 		stop.addActionListener(new ActionListener() {
 
@@ -174,14 +176,14 @@ public class EvilGUI extends JFrame implements Observer {
 
 		anzBefehle = new JTextField();
 		anzBefehle.setEnabled(false);
-		
+
 		panel.add(anzBefehle);
 		panel.add(nxt);
 		panel.add(auto);
 		panel.add(fast);
 		panel.add(pause);
 		panel.add(stop);
-		
+
 		return panel;
 	}
 
@@ -195,21 +197,21 @@ public class EvilGUI extends JFrame implements Observer {
 		JPanel westInnerPanel = new JPanel();
 
 		westInnerPanel.setLayout(new GridLayout(10, 1));
-		
+
 		JPanel akkuPanel = new JPanel();
-		akkuPanel.setLayout(new GridLayout(1,2));
+		akkuPanel.setLayout(new GridLayout(1, 2));
 		akkuPanel.add(new JLabel("Akkumulator"));
 		akkumulatorDec = new JTextField();
 		akkumulatorDec.setEnabled(false);
 		akkuPanel.add(akkumulatorDec);
 		westInnerPanel.add(akkuPanel);
-		
+
 		akkumulatorBin = new JTextField();
 		akkumulatorBin.setEnabled(false);
 		westInnerPanel.add(akkumulatorBin);
-		
+
 		JPanel reg1Panel = new JPanel();
-		reg1Panel.setLayout(new GridLayout(1,2));
+		reg1Panel.setLayout(new GridLayout(1, 2));
 		reg1Panel.add(new JLabel("Register 1"));
 		register1Dec = new JTextField();
 		register1Dec.setEnabled(false);
@@ -219,21 +221,21 @@ public class EvilGUI extends JFrame implements Observer {
 		register1Bin = new JTextField();
 		register1Bin.setEnabled(false);
 		westInnerPanel.add(register1Bin);
-		
+
 		JPanel reg2Panel = new JPanel();
-		reg2Panel.setLayout(new GridLayout(1,2));
+		reg2Panel.setLayout(new GridLayout(1, 2));
 		reg2Panel.add(new JLabel("Register 2"));
 		register2Dec = new JTextField();
 		register2Dec.setEnabled(false);
 		reg2Panel.add(register2Dec);
 		westInnerPanel.add(reg2Panel);
-		
+
 		register2Bin = new JTextField();
 		register2Bin.setEnabled(false);
 		westInnerPanel.add(register2Bin);
-		
+
 		JPanel reg3Panel = new JPanel();
-		reg3Panel.setLayout(new GridLayout(1,2));
+		reg3Panel.setLayout(new GridLayout(1, 2));
 		reg3Panel.add(new JLabel("Register 3"));
 		register3Dec = new JTextField();
 		register3Dec.setEnabled(false);
@@ -243,9 +245,9 @@ public class EvilGUI extends JFrame implements Observer {
 		register3Bin = new JTextField();
 		register3Bin.setEnabled(false);
 		westInnerPanel.add(register3Bin);
-		
+
 		JPanel carryPanel = new JPanel();
-		carryPanel.setLayout(new GridLayout(1,2));
+		carryPanel.setLayout(new GridLayout(1, 2));
 		carryPanel.add(new JLabel("Carry Bit"));
 		carryBit = new JCheckBox();
 		carryBit.setEnabled(false);
@@ -305,7 +307,7 @@ public class EvilGUI extends JFrame implements Observer {
 		tab.getColumnModel().getColumn(0).setPreferredWidth(45);
 		tab.getColumnModel().getColumn(1).setPreferredWidth(110);
 		tab.getColumnModel().getColumn(2).setPreferredWidth(145);
-		
+
 		// Tabelle scrollbar machen
 		JScrollPane scrolly = new JScrollPane(tab);
 		scrolly.setPreferredSize(new Dimension(305, 500));
@@ -329,12 +331,17 @@ public class EvilGUI extends JFrame implements Observer {
 		load.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
-				JFileChooser chooser = new JFileChooser();
+				JFileChooser chooser = null;
+				if (lastPath != null) {
+					chooser = new JFileChooser(lastPath);
+				} else {
+					chooser = new JFileChooser();
+				}
 				int returnVal = chooser.showOpenDialog(EvilGUI.this);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					try {
-						newCPU(programStarter.generateControlUnitFromInput(chooser.getSelectedFile().getAbsolutePath()));
+						lastPath = chooser.getSelectedFile().getAbsolutePath();
+						newCPU(programStarter.generateControlUnitFromInput(lastPath));
 						// } catch (ClassNotFoundException e1) {
 						// JOptionPane.showMessageDialog(null, "Datei " + chooser.getSelectedFile().getName()
 						// + " konnte nicht ausgelesen werden", "Fehler", JOptionPane.ERROR_MESSAGE);
@@ -346,9 +353,9 @@ public class EvilGUI extends JFrame implements Observer {
 				}
 			}
 		});
-		return load ;
+		return load;
 	}
-	
+
 	private JMenuItem buildStoreItem() {
 		JMenuItem write = new JMenuItem("Datei schreiben");
 		write.addActionListener(new ActionListener() {
@@ -364,7 +371,8 @@ public class EvilGUI extends JFrame implements Observer {
 						JOptionPane.showMessageDialog(null, "Datei " + chooser.getSelectedFile().getName()
 								+ " konnte nicht gespeichert werden", "Fehler", JOptionPane.ERROR_MESSAGE);
 					} catch (InvalidInstructionException e2) {
-						JOptionPane.showMessageDialog(null, "Folgende Befehle konnten nicht geparsed werden: \n" + e2.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Folgende Befehle konnten nicht geparsed werden: \n" + e2.getMessage(),
+								"Fehler", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -372,38 +380,37 @@ public class EvilGUI extends JFrame implements Observer {
 		});
 		return write;
 	}
-	
+
 	private Map<Integer, String> getData() {
 		HashMap<Integer, String> formattedData = new HashMap<Integer, String>();
-		
-		for(int i = 0; i < dataTable.getRowCount();i++) {
-			formattedData.put( (Integer) dataTable.getValueAt(i, 0), (String) dataTable.getValueAt(i, 1));
+
+		for (int i = 0; i < dataTable.getRowCount(); i++) {
+			formattedData.put((Integer) dataTable.getValueAt(i, 0), (String) dataTable.getValueAt(i, 1));
 		}
 		return formattedData;
 	}
-	
+
 	private Map<Integer, String> getInstructions() throws InvalidInstructionException {
 		HashMap<Integer, String> formattedInstructions = new HashMap<Integer, String>();
 		Assembler testAssembler = new Assembler();
 		boolean canBeAssemled = true;
-		String errors ="";
-		
-		for(int i = 0; i < instructionTable.getRowCount();i++) {
-			try { 
-			testAssembler.assemble((String) instructionTable.getValueAt(i, 1));
-			formattedInstructions.put((Integer) instructionTable.getValueAt(i, 0), (String) instructionTable.getValueAt(i, 1));
-			}
-			catch(InvalidInstructionException e) {
+		String errors = "";
+
+		for (int i = 0; i < instructionTable.getRowCount(); i++) {
+			try {
+				testAssembler.assemble((String) instructionTable.getValueAt(i, 1));
+				formattedInstructions.put((Integer) instructionTable.getValueAt(i, 0), (String) instructionTable.getValueAt(i, 1));
+			} catch (InvalidInstructionException e) {
 				canBeAssemled = false;
 				errors += (String) instructionTable.getValueAt(i, 1) + "\n";
-//				instructionTable.setb
+				// instructionTable.setb
 			}
 		}
-		
-		if(!canBeAssemled) {
+
+		if (!canBeAssemled) {
 			throw new InvalidInstructionException(errors);
 		}
-		
+
 		return formattedInstructions;
 	}
 
@@ -423,53 +430,54 @@ public class EvilGUI extends JFrame implements Observer {
 
 	private void displayInstructions() {
 		removeAllinstructionTableEntrys();
-		
+
 		Map<Integer, Instruction> curInstructions = this.controllUnit.getMemory().getInstructions();
-		
+
 		ArrayList<Integer> sortetInstructionKeys = new ArrayList<Integer>(curInstructions.keySet());
 		Collections.sort(sortetInstructionKeys);
-		
+
 		for (Integer curInstruction : sortetInstructionKeys) {
-			Object[] data = {curInstruction, curInstructions.get(curInstruction).toString(), binFormat.formatNumber(curInstructions.get(curInstruction).getBinary(), 16)};
+			Object[] data = { curInstruction, curInstructions.get(curInstruction).toString(),
+					binFormat.formatNumber(curInstructions.get(curInstruction).getBinary(), 16) };
 			instructionTableModel.addRow(data);
 		}
 	}
 
 	private void displayData() {
 		removeAllDataTableEntrys();
-		
+
 		Map<Integer, Short> curDatas = this.controllUnit.getMemory().getData();
-		
+
 		ArrayList<Integer> sortetDataKeys = new ArrayList<Integer>(this.controllUnit.getMemory().getData().keySet());
 		Collections.sort(sortetDataKeys);
-		
+
 		for (Integer curDataRow : sortetDataKeys) {
-			Object[] data = {curDataRow, curDatas.get(curDataRow).toString(), binFormat.formatNumber(curDatas.get(curDataRow),16)};
+			Object[] data = { curDataRow, curDatas.get(curDataRow).toString(), binFormat.formatNumber(curDatas.get(curDataRow), 16) };
 			dataTable.addRow(data);
 		}
 	}
-	
+
 	private void displayRegisters() {
-		akkumulatorBin.setText(binFormat.formatNumber(controllUnit.getRegisters()[0].read(),16));
-		register1Bin.setText(binFormat.formatNumber(controllUnit.getRegisters()[1].read(),16));
-		register2Bin.setText(binFormat.formatNumber(controllUnit.getRegisters()[2].read(),16));
-		register3Bin.setText(binFormat.formatNumber(controllUnit.getRegisters()[3].read(),16));
-		
+		akkumulatorBin.setText(binFormat.formatNumber(controllUnit.getRegisters()[0].read(), 16));
+		register1Bin.setText(binFormat.formatNumber(controllUnit.getRegisters()[1].read(), 16));
+		register2Bin.setText(binFormat.formatNumber(controllUnit.getRegisters()[2].read(), 16));
+		register3Bin.setText(binFormat.formatNumber(controllUnit.getRegisters()[3].read(), 16));
+
 		akkumulatorDec.setText("" + controllUnit.getRegisters()[0].read());
 		register1Dec.setText("" + controllUnit.getRegisters()[1].read());
 		register2Dec.setText("" + controllUnit.getRegisters()[2].read());
 		register3Dec.setText("" + controllUnit.getRegisters()[3].read());
-		
+
 		anzBefehle.setText("" + controllUnit.getClock().getStepCounter());
-		
+
 		carryBit.setEnabled(controllUnit.getAlu().isCarryFlag());
 	}
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
 		displayData();
 		displayRegisters();
-//TODO
+		// TODO
 		instructionTable.getSelectionModel().setAnchorSelectionIndex(0);
 	}
 
