@@ -8,15 +8,29 @@ import java.io.IOException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import ch.zhaw.powerpc.controller.InputReader;
 import ch.zhaw.powerpc.controller.ProgramStarter;
 import ch.zhaw.powerpc.model.ControlUnit;
 
-@Ignore
 public class TestMulReto {
+
+	private static final short[][] sternTests = new short[][] { new short[] { 15, 27 }, new short[] { 0, 23456 },
+			new short[] { -1234, 4321 }, new short[] { -222, -333 } };
+
+	private static final short[][] smokeTests = new short[][] { new short[] { 0, 30000 }, new short[] { 1, 23456 },
+			new short[] { 2, 2 }, new short[] { 1, 1 }, new short[] { 3, 3 }, new short[] { 2, 3 },
+			new short[] { 31, 27 }, new short[] { -1, -1 }, new short[] { -1, 1 }, new short[] { -2, 1 },
+			new short[] { 1, -2 }, new short[] { -3, -4 }, new short[] { -5, 5 }, new short[] { -11111, -2 },
+			new short[] { 1111, -4 }, new short[] { -3, 11111 }, new short[] { -1111, -1111 },
+			new short[] { -2222, -2222 }, new short[] { -1024, 1024 }, new short[] { 1024, -1024 },
+			new short[] { -443, -443 }, new short[] { -1, 32333 }, new short[] { -32333, 32333 },
+			new short[] { -11, -2222 }, new short[] { 11, -31222 }, new short[] { -24555, 2 },
+			new short[] { -3423, 32111 }, new short[] { -28888, 28888 }, new short[] { -123, 321 },
+			new short[] { -21, 13 }, new short[] { 13, 22 }, new short[] { -22, 44 }, new short[] { 0, 0 },
+			new short[] { 32, 32 }, new short[] { 64, -64 }, new short[] { 35, 11111 }, new short[] { 32123, -4 },
+			new short[] { 32101, -4322 }, new short[] { -3, -11111 }, new short[] { 3, 11111 }, new short[] { -73, 73 } };
 
 	private static long stepsCounter;
 
@@ -44,27 +58,36 @@ public class TestMulReto {
 
 	@Test
 	public void sternTests() {
-		int res = multiply((short) 15, (short) 27);
-		assertEquals(
-				String.format("%d (%s) * %d (%s) ", 15, Integer.toBinaryString(15), 27, Integer.toBinaryString(27)),
-				15 * 27, res);
+		for (int i = 0; i < sternTests.length; i++) {
+			short a = sternTests[i][0];
+			short b = sternTests[i][1];
+			int res = multiply(a, b);
+			assertEquals(
+					String.format("%d (%s) * %d (%s) ", a, Integer.toBinaryString(a), b, Integer.toBinaryString(b)), a
+							* b, res);
+		}
+	}
 
-		res = multiply((short) 0, (short) 23456);
-		assertEquals(
-				String.format("%d (%s) * %d (%s) ", 0, Integer.toBinaryString(0), 23456, Integer.toBinaryString(23456)),
-				0 * 23456, res);
+	@Test
+	public void testTest() {
+		short a = -1;
+		short b = 1;
+		int res = multiply(a, b);
+		int realRes = a * b;
+		assertEquals(String.format("%d (%s) * %d (%s) ", a, Integer.toBinaryString(a), b, Integer.toBinaryString(b)),
+				realRes, res);
+	}
 
-		res = multiply((short) -1234, (short) 4321);
-		System.out.println("Res: " + res);
-		System.out.println("Mul:" + -1234 * 4321);
-		assertEquals(
-				String.format("%d (%s) * %d (%s) ", -1234, Integer.toBinaryString(-1234), 4321,
-						Integer.toBinaryString(4321)), -1234 * 4321, res);
-
-		res = multiply((short) -222, (short) -333);
-		assertEquals(
-				String.format("%d (%s) * %d (%s) ", -222, Integer.toBinaryString(-222), -333,
-						Integer.toBinaryString(-333)), -222 * -333, res);
+	@Test
+	public void smokeTests() {
+		for (int i = 0; i < smokeTests.length; i++) {
+			short a = smokeTests[i][0];
+			short b = smokeTests[i][1];
+			int res = multiply(a, b);
+			assertEquals(
+					String.format("%d (%s) * %d (%s) ", a, Integer.toBinaryString(a), b, Integer.toBinaryString(b)), a
+							* b, res);
+		}
 	}
 
 	@AfterClass
@@ -84,9 +107,15 @@ public class TestMulReto {
 		}
 		testCounter++;
 
-		System.out.println("Lower: " + cu.getMemory().readData(504));
-		System.out.println("Upper: " + cu.getMemory().readData(506));
-		return (cu.getMemory().readData(506) << 16) + cu.getMemory().readData(504);
+		// System.out.println("Lower: " + cu.getMemory().readData(504));
+		// System.out.println("Upper: " + cu.getMemory().readData(506));
+		short low = cu.getMemory().readData(504);
+		short high = cu.getMemory().readData(506);
+//		if (high == -1) {
+			return (high << 16) | (0x0000FFFF & low);
+//		} else {
+//			return (high << 16) + low;
+//		}
 	}
 
 }

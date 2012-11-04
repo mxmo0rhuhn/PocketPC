@@ -4,6 +4,7 @@
 package ch.zhaw.powerpc.model.instructions;
 
 import ch.zhaw.powerpc.model.ControlUnit;
+import ch.zhaw.powerpc.model.Register;
 
 /**
  * Der Akku (16-Bit-Zahl im 2er -Komplement) wird um den Wert 1 inkrementiert; bei Überlauf wird das Carry-Flag gesetzt (= 1), sonst auf den
@@ -21,7 +22,10 @@ public class INC extends AbstractInstruction {
 	 */
 	@Override
 	public int run(ControlUnit controlUnit) {
-		controlUnit.getAlu().addToAccu((short) 1);
+		Register accu = controlUnit.getRegisters()[0];
+		short curAccu = accu.read();
+		controlUnit.getAlu().setCarryFlag(curAccu == -1);
+		accu.write(accu.read() + 1);
 		return controlUnit.getProgramCounter() + 2;
 	}
 
