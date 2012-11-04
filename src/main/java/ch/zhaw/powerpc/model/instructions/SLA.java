@@ -21,7 +21,7 @@ public class SLA extends AbstractInstruction{
 	public int run(ControlUnit controlUnit) {
 		Register akku = controlUnit.getRegisters()[0];
 		short curAkku = akku.read();
-		controlUnit.getAlu().setCarryFlag(curAkku < 0);
+		controlUnit.getAlu().setCarryFlag((curAkku & 16384) > 0);
 		akku.write(curAkku << 1);
 		
 		return controlUnit.getProgramCounter() + 2;
