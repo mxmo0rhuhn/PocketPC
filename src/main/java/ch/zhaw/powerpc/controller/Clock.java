@@ -28,7 +28,7 @@ public class Clock extends Observable {
 	 * wird erst nach einer Bestätigung durch den User (z. B. Drücken einer Taste) wieder fortgesetzt
 	 */
 	public boolean step() {
-		stopped = this.controlUnit.runCycle();
+		stopped = !this.controlUnit.runCycle();
 		stepCounter++;
 		setChanged();
 		notifyObservers();
@@ -52,7 +52,7 @@ public class Clock extends Observable {
 			stepCounter++;
 			setChanged();
 			notifyObservers();
-			stopped = this.controlUnit.runCycle();
+			stopped = !this.controlUnit.runCycle();
 			try {
 				wait(1000);
 			} catch (InterruptedException e) {
@@ -69,7 +69,7 @@ public class Clock extends Observable {
 		paused = false;
 		while (!stopped && !paused) {
 			stepCounter++;
-			stopped = this.controlUnit.runCycle();
+			stopped = !this.controlUnit.runCycle();
 			setChanged();
 			notifyObservers();
 		}

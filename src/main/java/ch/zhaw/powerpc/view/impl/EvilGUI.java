@@ -2,6 +2,7 @@ package ch.zhaw.powerpc.view.impl;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -24,9 +26,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
@@ -61,6 +65,7 @@ public class EvilGUI extends JFrame implements Observer {
 
 	private DefaultTableModel dataTable;
 	private DefaultTableModel instructionTableModel;
+	private DefaultTableModel currentInstructionTableModel;
 
 	private final Formatter binFormat = new BinaryFormatter();
 
@@ -68,6 +73,10 @@ public class EvilGUI extends JFrame implements Observer {
 	private ControlUnit controllUnit;
 
 	private JTable instructionTable;
+	private JTable currentInstructionTable;
+
+	// künstliche Redundanz zum Befehlszähler um GUI nicht immer neu aufbauen zu müssen.
+	private int currentInstruction;
 
 	public EvilGUI(ProgramStarter programStarter) {
 		this.programStarter = programStarter;
@@ -95,8 +104,9 @@ public class EvilGUI extends JFrame implements Observer {
 
 		this.setLocation(100, 0);
 		this.setVisible(true);
-		this.setResizable(false);
-		pack();
+		this.setMinimumSize(new Dimension(100, 100));
+		this.setResizable(true);
+		this.pack();
 		this.setLocationRelativeTo(null);
 	}
 
@@ -104,7 +114,8 @@ public class EvilGUI extends JFrame implements Observer {
 		setLayout(new BorderLayout());
 		add(createEastPanel(), BorderLayout.EAST);
 		add(createWestPanel(), BorderLayout.WEST);
-		add(createCenterPanel(), BorderLayout.CENTER);
+		createInstructionsTable();
+		add(createCurrentCenterPanel(), BorderLayout.CENTER);
 		add(createSouthPanel(), BorderLayout.SOUTH);
 	}
 
@@ -128,13 +139,15 @@ public class EvilGUI extends JFrame implements Observer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable() {
+				if (!EvilGUI.this.controllUnit.getClock().isStopped()) {
+					new Thread(new Runnable() {
 
-					@Override
-					public void run() {
-						EvilGUI.this.controllUnit.getClock().startSlowMode();
-					}
-				}).start();
+						@Override
+						public void run() {
+							EvilGUI.this.controllUnit.getClock().startSlowMode();
+						}
+					}).start();
+				}
 			}
 		});
 
@@ -143,16 +156,16 @@ public class EvilGUI extends JFrame implements Observer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EvilGUI.this.controllUnit.getClock().step();
-				new Thread(new Runnable() {
+				if (!EvilGUI.this.controllUnit.getClock().isStopped()) {
+					new Thread(new Runnable() {
 
-					@Override
-					public void run() {
-						EvilGUI.this.controllUnit.getClock().startFastMode();
-					}
-				}).start();
+						@Override
+						public void run() {
+							EvilGUI.this.controllUnit.getClock().startFastMode();
+						}
+					}).start();
+				}
 			}
-
 		});
 
 		JButton pause = new JButton("Pause");
@@ -260,20 +273,34 @@ public class EvilGUI extends JFrame implements Observer {
 		return westPanel;
 	}
 
-	private JPanel createCenterPanel() {
+	private JPanel createCurrentCenterPanel() {
+
+		JPanel centerPanel = new JPanel();
+
+		centerPanel.setLayout(new GridLayout(1, 2));
+		centerPanel.add(createCurrentInstructionsTable());
+		centerPanel.add(createDataTable());
+		validate();
+
+		return centerPanel;
+	}
+
+	private JPanel createAllCenterPanel() {
 
 		JPanel centerPanel = new JPanel();
 
 		centerPanel.setLayout(new GridLayout(1, 2));
 		centerPanel.add(createInstructionsTable());
 		centerPanel.add(createDataTable());
+		validate();
 
 		return centerPanel;
 	}
 
 	private JScrollPane createInstructionsTable() {
-		instructionTableModel = new DefaultTableModel();
-
+		if (instructionTableModel == null) {
+			instructionTableModel = new DefaultTableModel();
+		}
 		// Spalten - Namen
 		instructionTableModel.addColumn("Zeile");
 		instructionTableModel.addColumn("Mnemonic");
@@ -323,7 +350,48 @@ public class EvilGUI extends JFrame implements Observer {
 		optionen.add(buildStoreItem());
 
 		menuBar.add(optionen);
+
+// Nächster Release
+//		menuBar.add(buildAnsichtMenue());
+
 		return menuBar;
+	}
+
+	private JMenu buildAnsichtMenue() {
+		JMenu ansicht = new JMenu("Ansicht");
+		ButtonGroup myGroup = new ButtonGroup();
+		JRadioButtonMenuItem next = new JRadioButtonMenuItem("Nächster Befehl");
+		next.setSelected(true);
+		next.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showCurrentInstructions();
+			}
+			
+		});
+		myGroup.add(next);
+		ansicht.add(next);
+		
+		JRadioButtonMenuItem all = new JRadioButtonMenuItem("Alle Befehle");
+		all.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showAllInstructions();
+			}
+		});
+		myGroup.add(all);
+		ansicht.add(all);
+		return ansicht;
+	}
+
+	private void showCurrentInstructions() {
+		add(createCurrentCenterPanel(), BorderLayout.CENTER);
+	}
+
+	private void showAllInstructions() {
+		add(createAllCenterPanel(), BorderLayout.CENTER);
 	}
 
 	private JMenuItem buildLoadItem() {
@@ -414,7 +482,14 @@ public class EvilGUI extends JFrame implements Observer {
 		return formattedInstructions;
 	}
 
-	private void removeAllinstructionTableEntrys() {
+	private void removeAllCurrentInstructionTableEntrys() {
+		// this.instructionListEntrys.clear();
+		while (0 < this.currentInstructionTableModel.getRowCount()) {
+			this.currentInstructionTableModel.removeRow(0);
+		}
+	}
+
+	private void removeAllInstructionTableEntrys() {
 		// this.instructionListEntrys.clear();
 		while (0 < this.instructionTableModel.getRowCount()) {
 			this.instructionTableModel.removeRow(0);
@@ -428,8 +503,87 @@ public class EvilGUI extends JFrame implements Observer {
 		}
 	}
 
+	private JScrollPane createCurrentInstructionsTable() {
+		if (currentInstructionTableModel == null) {
+			currentInstructionTableModel = new DefaultTableModel();
+		}
+		// Spalten - Namen
+		currentInstructionTableModel.addColumn("Zeile");
+		currentInstructionTableModel.addColumn("Mnemonic");
+		currentInstructionTableModel.addColumn("Binär");
+
+		// Tabelle
+		currentInstructionTable = new JTable(currentInstructionTableModel);
+		currentInstructionTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		currentInstructionTable.getColumnModel().getColumn(0).setPreferredWidth(45);
+		currentInstructionTable.getColumnModel().getColumn(1).setPreferredWidth(110);
+		currentInstructionTable.getColumnModel().getColumn(2).setPreferredWidth(145);
+
+		currentInstructionTable.setEnabled(false);
+		currentInstructionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		// Tabelle scrollbar machen
+		JScrollPane scrolly = new JScrollPane(currentInstructionTable);
+		scrolly.setPreferredSize(new Dimension(305, 500));
+
+		return scrolly;
+	}
+
+	private void displayCurrentInstructions() {
+
+		if (this.controllUnit.getProgramCounter() - 2 == currentInstruction) {
+			// Muss nur den neusten Befehl holen
+			if (this.controllUnit.getProgramCounter() > 110) {
+				// letzten Befehl löschen
+				currentInstructionTableModel.removeRow(0);
+			}
+
+			try {
+				int curInstruction = this.controllUnit.getProgramCounter() + 20;
+				Object[] data = { curInstruction, this.controllUnit.getMemory().getInstructions().get(curInstruction).toString(),
+						binFormat.formatNumber(this.controllUnit.getMemory().getInstructions().get(curInstruction).getBinary(), 16) };
+				currentInstructionTableModel.addRow(data);
+			} catch (Exception e) {
+				// oops die gabs wohl nimmer...
+			}
+
+		} else {
+			// Derzeitige Befehle neu aufbauen
+			removeAllCurrentInstructionTableEntrys();
+
+			Map<Integer, Instruction> curInstructions = this.controllUnit.getMemory().getInstructions();
+
+			ArrayList<Integer> sortetInstructionKeys = new ArrayList<Integer>(curInstructions.keySet());
+			Collections.sort(sortetInstructionKeys);
+
+			for (Integer curInstruction : sortetInstructionKeys) {
+				if (curInstruction >= this.controllUnit.getProgramCounter() - 10
+						&& curInstruction <= this.controllUnit.getProgramCounter() + 20) {
+					try {
+						Object[] data = { curInstruction, curInstructions.get(curInstruction).toString(),
+								binFormat.formatNumber(curInstructions.get(curInstruction).getBinary(), 16) };
+						currentInstructionTableModel.addRow(data);
+					} catch (Exception e) {
+						// war wohl nix ...
+					}
+				}
+			}
+		}
+		currentInstruction = this.controllUnit.getProgramCounter();
+		int next = 0;
+		// Logik was markiert werden muss
+		if (currentInstruction == 100) {
+			next = 0;
+		} else if (currentInstruction <= 110) {
+			next = (currentInstruction - 100) / 2;
+		} else {
+			next = 5;
+		}
+		currentInstructionTable.getSelectionModel().setSelectionInterval(next, next);
+	}
+
 	private void displayInstructions() {
-		removeAllinstructionTableEntrys();
+		removeAllInstructionTableEntrys();
 
 		Map<Integer, Instruction> curInstructions = this.controllUnit.getMemory().getInstructions();
 
@@ -475,15 +629,23 @@ public class EvilGUI extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		displayData();
-		displayRegisters();
-		// TODO
-		instructionTable.getSelectionModel().setAnchorSelectionIndex(0);
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				displayData();
+				displayRegisters();
+				displayCurrentInstructions();
+
+			}
+		});
 	}
 
 	private void newCPU(ControlUnit cpu) {
 		this.controllUnit = cpu;
 		cpu.getClock().addObserver(this);
+		currentInstruction = 0;
+		displayCurrentInstructions();
 		displayInstructions();
 		displayData();
 		displayRegisters();
