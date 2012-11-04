@@ -122,7 +122,7 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
-		assertFalse(cu.getAlu().isCarryFlag());
+		assertTrue(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[0].read());
 	}
 

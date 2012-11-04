@@ -55,7 +55,7 @@ public class ADDDTest {
 		ADDD addd = new ADDD(-1);
 		addd.run(cu);
 		
-		assertFalse(cu.getAlu().isCarryFlag());
+		assertTrue(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[0].read());
 	}
 	
