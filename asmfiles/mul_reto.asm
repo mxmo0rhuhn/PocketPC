@@ -100,7 +100,7 @@
 	BD #240                      ' GOTO UPPER RESTSUMME ZU OP 2 UPPER ADDIEREN
 	LWDD 0 #510                        ' IAM INC-UPPER-RESTSUMME
 	INC
-	LWDD 1 #510                        ' restsumme upper laden und grad addieren
+	LWDD 1 #506                        ' restsumme upper laden und grad addieren
 	ADD 1
 	SWDD 0 #506                        ' in res upper speichern
 	BD #248                      ' GOTO SETZE VORZEICHEN
