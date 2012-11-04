@@ -8,7 +8,6 @@ import java.io.IOException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import ch.zhaw.powerpc.controller.InputReader;
@@ -16,6 +15,9 @@ import ch.zhaw.powerpc.controller.ProgramStarter;
 import ch.zhaw.powerpc.model.ControlUnit;
 
 public class TestMulReto {
+
+	private static final short[][] sternTests = new short[][] { new short[] { 15, 27 }, new short[] { 0, 23456 },
+			new short[] { -1234, 4321 }, new short[] { -222, -333 } };
 
 	private static long stepsCounter;
 
@@ -43,27 +45,14 @@ public class TestMulReto {
 
 	@Test
 	public void sternTests() {
-		int res = multiply((short) 15, (short) 27);
-		assertEquals(
-				String.format("%d (%s) * %d (%s) ", 15, Integer.toBinaryString(15), 27, Integer.toBinaryString(27)),
-				15 * 27, res);
-
-		res = multiply((short) 0, (short) 23456);
-		assertEquals(
-				String.format("%d (%s) * %d (%s) ", 0, Integer.toBinaryString(0), 23456, Integer.toBinaryString(23456)),
-				0 * 23456, res);
-
-		res = multiply((short) -1234, (short) 4321);
-		System.out.println("Res: " + res);
-		System.out.println("Mul:" + -1234 * 4321);
-		assertEquals(
-				String.format("%d (%s) * %d (%s) ", -1234, Integer.toBinaryString(-1234), 4321,
-						Integer.toBinaryString(4321)), -1234 * 4321, res);
-
-		res = multiply((short) -222, (short) -333);
-		assertEquals(
-				String.format("%d (%s) * %d (%s) ", -222, Integer.toBinaryString(-222), -333,
-						Integer.toBinaryString(-333)), -222 * -333, res);
+		for (int i = 0; i < sternTests.length; i++) {
+			short a = sternTests[i][0];
+			short b = sternTests[i][1];
+			int res = multiply(a, b);
+			assertEquals(
+					String.format("%d (%s) * %d (%s) ", a, Integer.toBinaryString(a), b, Integer.toBinaryString(b)), a
+							* b, res);
+		}
 	}
 
 	@AfterClass
@@ -83,8 +72,8 @@ public class TestMulReto {
 		}
 		testCounter++;
 
-		System.out.println("Lower: " + cu.getMemory().readData(504));
-		System.out.println("Upper: " + cu.getMemory().readData(506));
+		// System.out.println("Lower: " + cu.getMemory().readData(504));
+		// System.out.println("Upper: " + cu.getMemory().readData(506));
 		return (cu.getMemory().readData(506) << 16) + cu.getMemory().readData(504);
 	}
 
