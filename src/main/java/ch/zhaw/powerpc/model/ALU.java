@@ -35,7 +35,7 @@ public final class ALU {
 		registers[0].write((short) newAccu);
 	}
 
-	private static boolean checkOverflow(short a, short b) {
+	public static boolean checkOverflow(short a, short b) {
 		char[] aC = new StringBuilder(Integer.toBinaryString(a)).reverse().toString().toCharArray();
 		char[] bC = new StringBuilder(Integer.toBinaryString(b)).reverse().toString().toCharArray();
 		int uebertrag = 0;

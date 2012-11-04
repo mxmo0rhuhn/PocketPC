@@ -153,6 +153,19 @@ public class ADDTest {
 	}
 	
 	@Test
+	public void shouldOverFlow() {
+		ControlUnit cu = new ControlUnit(new MainMemory());
+		assertFalse(cu.getRegisters()[0].write(-22912));
+		assertFalse(cu.getRegisters()[2].write(31302));
+		
+		ADD add = new ADD(2);
+		add.run(cu);
+		
+		assertTrue("1010011010000000 + 0111101001000110", cu.getAlu().isCarryFlag());
+		assertEquals(8390, cu.getRegisters()[0].read());
+	}
+	
+	@Test
 	public void testToString() {
 		assertEquals("ADD 0", new ADD(0).toString());
 		assertEquals("ADD 1", new ADD(1).toString());
