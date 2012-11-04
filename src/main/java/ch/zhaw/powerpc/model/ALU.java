@@ -39,8 +39,8 @@ public final class ALU {
 		char[] aC = new StringBuilder(Integer.toBinaryString(a)).reverse().toString().toCharArray();
 		char[] bC = new StringBuilder(Integer.toBinaryString(b)).reverse().toString().toCharArray();
 		int uebertrag = 0;
-		for (int i = 0; i < aC.length && i < bC.length; i++) {
-			int sum = (aC[i] == '1' ? 1 : 0) + (bC[i] == '1' ? 1 : 0) + uebertrag;
+		for (int i = 0; i < 16; i++) {
+			int sum = (i < aC.length && aC[i] == '1' ? 1 : 0) + (i < bC.length && bC[i] == '1' ? 1 : 0) + uebertrag;
 			uebertrag = (sum > 1) ? 1 : 0;
 			if (i == 15 && uebertrag == 1) {
 				return true;
