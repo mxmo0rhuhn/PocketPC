@@ -16,15 +16,15 @@
 '''''''''''''''''''''''''''''''''''''''
 
 ' 100:INITIALIZATION
-	500=-3
-	502=11111
+	500=-1024
+	502=1024
 	520=-32768                           ' 10..0 (Vorzeichen-Check)
 	522=1                                ' LSB-Check
 	LWDD 2 #522                          ' 1 im Reg-2
 
 ' 102:OP 2 VORZEICHEN MERKEN
 	LWDD 0 #502
-	BZD #280                     ' GOTO END
+	BZD #286                     ' GOTO END
 	LWDD 1 #520                          ' Wenn links eine 1 rausfaellt, ist die Zahl negativ
 	AND 1                                ' Mit 10..0 maskieren
 	BZD #126                     ' GOTO OP 1 VORZEICHEN MERKEN
@@ -38,7 +38,7 @@
 
 ' 126:OP 1 VORZEICHEN MERKEN
 	LWDD 0 #500
-	BZD #280                     ' GOTO END
+	BZD #286                     ' GOTO END
 	AND 1                                ' Mit 10..0 maskieren
 	BZD #148                     ' GOTO MULTIPLICATION
 	LWDD 0 #500
@@ -116,21 +116,24 @@
 ' 248:SETZE VORZEICHEN
 	LWDD 0 #512
 	AND 2                             ' im register 2 ist eine 1. wenn (x & 1 == 1) -> negativ
-	BZD #280                     ' GOTO END
-	LWDD 0 #504                       ' res laden
+	BZD #286                     ' GOTO END
+	LWDD 0 #504                       ' res lower laden
 	NOT                               ' basiert auf der annahme, dass (* -1) auf beide seiten funktionieret
 	INC
 	SWDD 0 #504                       ' res speichern
 	LWDD 0 #506                       ' res upper laden
-	BCD #274                     ' GOTO LOWER-INV-OVERFLOW
+	BCD #280                     ' GOTO LOWER-INV-OVERFLOW
+	BZD #274                     ' GOTO UPPERZERO INVERT
 	NOT                               ' beim res lower invertieren gabs kein overflow
-	INC
+	SWDD 0 #506                       ' speichern von res lower invertieren
+	BD #286                      ' GOTO END
+	NOT                               ' IAM UPPERZERO INVERT weil res negativ und upper null -> upper invertieren
 	SWDD 0 #506
-	BD #280                      ' GOTO END
+	BD #286                      ' GOTO END
 	NOT                               ' IAM LOWER-INV-OVERFLOW
-	ADDD #2                           ' beim res lower invertieren gabs overflow, plus upper-post-invert-inc
-	SWDD 0 #510
+	INC                               ' beim res lower invertieren gabs overflow, plus upper-post-invert-inc
+	SWDD 0 #506
 
 
-' 280:DEAD END
+' 286:DEAD END
 	END

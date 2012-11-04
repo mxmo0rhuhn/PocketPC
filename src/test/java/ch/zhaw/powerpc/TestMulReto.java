@@ -30,7 +30,7 @@ public class TestMulReto {
 			new short[] { -3423, 32111 }, new short[] { -28888, 28888 }, new short[] { -123, 321 },
 			new short[] { -21, 13 }, new short[] { 13, 22 }, new short[] { -22, 44 }, new short[] { 0, 0 },
 			new short[] { 32, 32 }, new short[] { 64, -64 }, new short[] { 35, 11111 }, new short[] { 32123, -4 },
-			new short[] { 32101, -4322 }, new short[] { -73, 73 } };
+			new short[] { 32101, -4322 }, new short[] { -3, -11111 }, new short[] { 3, 11111 }, new short[] { -73, 73 } };
 
 	private static long stepsCounter;
 
@@ -69,6 +69,16 @@ public class TestMulReto {
 	}
 
 	@Test
+	public void testTest() {
+		short a = -1;
+		short b = 1;
+		int res = multiply(a, b);
+		int realRes = a * b;
+		assertEquals(String.format("%d (%s) * %d (%s) ", a, Integer.toBinaryString(a), b, Integer.toBinaryString(b)),
+				realRes, res);
+	}
+
+	@Test
 	public void smokeTests() {
 		for (int i = 0; i < smokeTests.length; i++) {
 			short a = smokeTests[i][0];
@@ -99,7 +109,13 @@ public class TestMulReto {
 
 		// System.out.println("Lower: " + cu.getMemory().readData(504));
 		// System.out.println("Upper: " + cu.getMemory().readData(506));
-		return (cu.getMemory().readData(506) << 16) + cu.getMemory().readData(504);
+		short low = cu.getMemory().readData(504);
+		short high = cu.getMemory().readData(506);
+//		if (high == -1) {
+			return (high << 16) | (0x0000FFFF & low);
+//		} else {
+//			return (high << 16) + low;
+//		}
 	}
 
 }
