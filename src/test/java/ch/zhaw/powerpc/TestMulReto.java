@@ -19,6 +19,19 @@ public class TestMulReto {
 	private static final short[][] sternTests = new short[][] { new short[] { 15, 27 }, new short[] { 0, 23456 },
 			new short[] { -1234, 4321 }, new short[] { -222, -333 } };
 
+	private static final short[][] smokeTests = new short[][] { new short[] { 0, 30000 }, new short[] { 1, 23456 },
+			new short[] { 2, 2 }, new short[] { 1, 1 }, new short[] { 3, 3 }, new short[] { 2, 3 },
+			new short[] { 31, 27 }, new short[] { -1, -1 }, new short[] { -1, 1 }, new short[] { -2, 1 },
+			new short[] { 1, -2 }, new short[] { -3, -4 }, new short[] { -5, 5 }, new short[] { -11111, -2 },
+			new short[] { 1111, -4 }, new short[] { -3, 11111 }, new short[] { -1111, -1111 },
+			new short[] { -2222, -2222 }, new short[] { -1024, 1024 }, new short[] { 1024, -1024 },
+			new short[] { -443, -443 }, new short[] { -1, 32333 }, new short[] { -32333, 32333 },
+			new short[] { -11, -2222 }, new short[] { 11, -31222 }, new short[] { -24555, 2 },
+			new short[] { -3423, 32111 }, new short[] { -28888, 28888 }, new short[] { -123, 321 },
+			new short[] { -21, 13 }, new short[] { 13, 22 }, new short[] { -22, 44 }, new short[] { 0, 0 },
+			new short[] { 32, 32 }, new short[] { 64, -64 }, new short[] { 35, 11111 }, new short[] { 32123, -4 },
+			new short[] { 32101, -4322 }, new short[] { -73, 73 } };
+
 	private static long stepsCounter;
 
 	private static long testCounter;
@@ -48,6 +61,18 @@ public class TestMulReto {
 		for (int i = 0; i < sternTests.length; i++) {
 			short a = sternTests[i][0];
 			short b = sternTests[i][1];
+			int res = multiply(a, b);
+			assertEquals(
+					String.format("%d (%s) * %d (%s) ", a, Integer.toBinaryString(a), b, Integer.toBinaryString(b)), a
+							* b, res);
+		}
+	}
+
+	@Test
+	public void smokeTests() {
+		for (int i = 0; i < smokeTests.length; i++) {
+			short a = smokeTests[i][0];
+			short b = smokeTests[i][1];
 			int res = multiply(a, b);
 			assertEquals(
 					String.format("%d (%s) * %d (%s) ", a, Integer.toBinaryString(a), b, Integer.toBinaryString(b)), a
