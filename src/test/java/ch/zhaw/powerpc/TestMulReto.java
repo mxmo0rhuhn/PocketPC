@@ -8,12 +8,14 @@ import java.io.IOException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ch.zhaw.powerpc.controller.InputReader;
 import ch.zhaw.powerpc.controller.ProgramStarter;
 import ch.zhaw.powerpc.model.ControlUnit;
 
+@Ignore
 public class TestMulReto {
 
 	private static long stepsCounter;
