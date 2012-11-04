@@ -148,7 +148,7 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
-		assertTrue(cu.getAlu().isCarryFlag());
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(-23536, cu.getRegisters()[0].read());
 	}
 	

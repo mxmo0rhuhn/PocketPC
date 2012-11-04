@@ -53,7 +53,7 @@ public class DECTest {
 		
 		new DEC().run(cu);
 		
-		assertFalse(cu.getAlu().isCarryFlag());
+		assertTrue(cu.getAlu().isCarryFlag());
 		assertEquals(-1, cu.getRegisters()[0].read());
 	}
 	
@@ -97,7 +97,7 @@ public class DECTest {
 		
 		new DEC().run(cu);
 		
-		assertTrue(cu.getAlu().isCarryFlag());
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(32767, cu.getRegisters()[0].read());
 	}
 	

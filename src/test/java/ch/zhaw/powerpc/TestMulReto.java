@@ -15,7 +15,6 @@ import ch.zhaw.powerpc.controller.InputReader;
 import ch.zhaw.powerpc.controller.ProgramStarter;
 import ch.zhaw.powerpc.model.ControlUnit;
 
-@Ignore
 public class TestMulReto {
 
 	private static long stepsCounter;
