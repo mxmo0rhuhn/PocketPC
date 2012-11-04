@@ -53,7 +53,8 @@ public class ProgramStarter {
 			runStep(cu, p);
 			break;
 		case FAST:
-			speedishRun(cu, p, Integer.parseInt(System.getProperty("fasttimeout", "0")));
+			int steps = speedishRun(cu, null, Integer.parseInt(System.getProperty("fasttimeout", "0")));
+			p.print(cu, steps);
 			break;
 		case SLOW:
 			speedishRun(cu, p, Integer.parseInt(System.getProperty("slowtimeout", "2000")));
@@ -62,9 +63,12 @@ public class ProgramStarter {
 		}
 	}
 
-	private void speedishRun(ControlUnit cu, Printer p, long timeout) {
+	private int speedishRun(ControlUnit cu, Printer p, long timeout) {
 		int steps = 0;
-		p.print(cu, steps++);
+		if (p != null) {
+			p.print(cu, steps);
+		}
+		steps++;
 		while (cu.runCycle()) {
 			try {
 				Thread.sleep(timeout);
@@ -72,8 +76,12 @@ public class ProgramStarter {
 				// something went drastically wrong
 				Thread.currentThread().interrupt();
 			}
-			p.print(cu, steps++);
+			if (p != null) {
+				p.print(cu, steps);
+			}
+			steps++;
 		}
+		return steps;
 	}
 
 	private void runStep(ControlUnit cu, Printer cp) {

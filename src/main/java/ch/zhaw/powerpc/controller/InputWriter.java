@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
-import ch.zhaw.powerpc.model.instructions.Instruction;
-
 /**
  * Schreiben des derzeitigen Zustandes in ein textfile.
  * 

@@ -71,30 +71,32 @@ public class ConsolePrinter implements Printer {
 
 		final StringBuilder sb = new StringBuilder(sblen);
 
-		sb.append(NEWLINE).append(NEWLINE);
+		sb.append(NEWLINE).append(NEWLINE).append(NEWLINE);
 		sb.append("     ******* PowerPC by Team SSH *******");
 		sb.append(NEWLINE).append(NEWLINE); // Sacher Schrimpf Hablützel (muahaha)
 
 		appendMeta(alu, registers, cnt, steps, sb);
 		appendRegisters(registers, sb);
+		sb.append(NEWLINE);
 		appendInstructions(cnt, memory, sb);
+		sb.append(NEWLINE);
 		appendMemory(memory, sb);
 
 		this.sblen = Math.max(sb.length(), this.sblen);
 		System.out.println(sb.toString());
 	}
 
-	private void appendMeta(final ALU alu, final Register[] registers, final int cnt, final int steps, final StringBuilder sb) {
+	private void appendMeta(final ALU alu, final Register[] registers, final int cnt, final int steps,
+			final StringBuilder sb) {
 		sb.append(" Befehlszähler: ").append(cnt);
 		sb.append(" (").append(binFormat.formatNumber(cnt, 16)).append(')');
 		sb.append(NEWLINE);
 		sb.append(" Anzahl Steps:  ").append(steps);
 		sb.append(NEWLINE);
+		sb.append(" Carry:\t\t").append(alu.isCarryFlag() ? '1' : '0').append(NEWLINE);
 		sb.append(" Akku:\t\t").append(registers[0].read());
 		sb.append(" (").append(binFormat.formatNumber(registers[0].read(), 16)).append(")");
 		sb.append(NEWLINE);
-		sb.append(" Carry:\t\t").append(alu.isCarryFlag() ? '1' : '0').append(NEWLINE);
-
 	}
 
 	private void appendRegisters(final Register[] registers, final StringBuilder sb) {
@@ -111,7 +113,7 @@ public class ConsolePrinter implements Printer {
 		// Wenn der cnt bei 101 ist, wollen wir erst ab 101 ausgeben
 		final int start = Math.max(MIN_CNT, cnt - BEFORE_CNT);
 		final int end = Math.min(MAX_CNT, cnt + AFTER_CNT);
-		sb.append(" Befehle:      ");
+		sb.append(" Befehle:    ");
 
 		for (int i = start; i <= end; i += 2) {
 			Instruction instr = memory.readInstruction(i);
@@ -120,10 +122,10 @@ public class ConsolePrinter implements Printer {
 			}
 
 			if (i - start != 0 && (i - start) % BLOCKS_PER_LINE == 0) {
-				sb.append(NEWLINE).append("               ");
+				sb.append(NEWLINE).append("                ");
+			} else {
+				sb.append("   ");
 			}
-
-			sb.append(' ');
 
 			if (i == cnt) {
 				sb.append("[");
