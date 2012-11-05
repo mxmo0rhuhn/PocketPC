@@ -357,6 +357,7 @@ public class EvilGUI extends JFrame implements Observer {
 		return menuBar;
 	}
 
+	@SuppressWarnings("unused") // naechster release
 	private JMenu buildAnsichtMenue() {
 		JMenu ansicht = new JMenu("Ansicht");
 		ButtonGroup myGroup = new ButtonGroup();
