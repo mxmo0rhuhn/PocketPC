@@ -55,19 +55,19 @@ public class ADDDTest {
 		ADDD addd = new ADDD(-1);
 		addd.run(cu);
 		
-		assertFalse(cu.getAlu().isCarryFlag());
+		assertTrue(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[0].read());
 	}
 	
 	@Test
-	public void testOverflow() {
+	public void testOverflowNot() {
 		ControlUnit cu = new ControlUnit(new MainMemory());
 		cu.getRegisters()[0].write(21000);
 		
 		ADDD addd = new ADDD(16383);
 		addd.run(cu);
 		
-		assertTrue(cu.getAlu().isCarryFlag());
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(-28153, cu.getRegisters()[0].read());
 	}
 	

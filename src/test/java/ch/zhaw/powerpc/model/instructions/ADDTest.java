@@ -122,7 +122,7 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
-		assertFalse(cu.getAlu().isCarryFlag());
+		assertTrue(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[0].read());
 	}
 
@@ -148,8 +148,21 @@ public class ADDTest {
 		ADD add = new ADD(2);
 		add.run(cu);
 		
-		assertTrue(cu.getAlu().isCarryFlag());
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(-23536, cu.getRegisters()[0].read());
+	}
+	
+	@Test
+	public void shouldOverFlow() {
+		ControlUnit cu = new ControlUnit(new MainMemory());
+		assertFalse(cu.getRegisters()[0].write(-22912));
+		assertFalse(cu.getRegisters()[2].write(31302));
+		
+		ADD add = new ADD(2);
+		add.run(cu);
+		
+		assertTrue("1010011010000000 + 0111101001000110", cu.getAlu().isCarryFlag());
+		assertEquals(8390, cu.getRegisters()[0].read());
 	}
 	
 	@Test

@@ -42,7 +42,7 @@ public class INCTest {
 		
 		new INC().run(cu);
 		
-		assertFalse(cu.getAlu().isCarryFlag());
+		assertTrue(cu.getAlu().isCarryFlag());
 		assertEquals(0, cu.getRegisters()[0].read());
 	}
 	
@@ -91,14 +91,25 @@ public class INCTest {
 	}
 	
 	@Test
-	public void testOverflow() {
+	public void testOverflowNo() {
 		ControlUnit cu = new ControlUnit(new MainMemory());
 		cu.getRegisters()[0].write(32767);
 		
 		new INC().run(cu);
 		
-		assertTrue(cu.getAlu().isCarryFlag());
+		assertFalse(cu.getAlu().isCarryFlag());
 		assertEquals(-32768, cu.getRegisters()[0].read());
+	}
+	
+	@Test
+	public void testOverflow() {
+		ControlUnit cu = new ControlUnit(new MainMemory());
+		cu.getRegisters()[0].write(-1);
+		
+		new INC().run(cu);
+		
+		assertTrue(cu.getAlu().isCarryFlag());
+		assertEquals(0, cu.getRegisters()[0].read());
 	}
 	
 	@Test
