@@ -74,7 +74,7 @@ public class EvilGUI extends JFrame implements Observer {
 	private JTable instructionTable;
 	private JTable currentInstructionTable;
 
-	// kÃ¼nstliche Redundanz zum BefehlszÃ¤hler um GUI nicht immer neu aufbauen zu mÃ¼ssen.
+	// künstliche Redundanz zum Befehlszähler um GUI nicht immer neu aufbauen zu müssen.
 	private int currentInstruction;
 
 	public EvilGUI(ProgramStarter programStarter) {
@@ -120,7 +120,7 @@ public class EvilGUI extends JFrame implements Observer {
 	private JPanel createSouthPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 6));
-		JButton nxt = new JButton("NÃ¤chster Schritt");
+		JButton nxt = new JButton("Nächster Schritt");
 		nxt.addActionListener(new ActionListener() {
 
 			@Override
@@ -337,7 +337,7 @@ public class EvilGUI extends JFrame implements Observer {
 
 		menuBar.add(optionen);
 
-// NÃ¤chster Release
+// Nächster Release
 //		menuBar.add(buildAnsichtMenue());
 
 		return menuBar;
@@ -492,7 +492,7 @@ public class EvilGUI extends JFrame implements Observer {
 		if (this.controllUnit.getProgramCounter() - 2 == currentInstruction) {
 			// Muss nur den neusten Befehl holen
 			if (this.controllUnit.getProgramCounter() > 110) {
-				// letzten Befehl lÃ¶schen
+				// letzten Befehl löschen
 				currentInstructionTableModel.removeRow(0);
 			}
 
