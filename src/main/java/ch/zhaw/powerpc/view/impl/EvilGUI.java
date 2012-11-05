@@ -290,7 +290,7 @@ public class EvilGUI extends JFrame implements Observer {
 		// Spalten - Namen
 		instructionTableModel.addColumn("Zeile");
 		instructionTableModel.addColumn("Mnemonic");
-		instructionTableModel.addColumn("BinÃ¤r");
+		instructionTableModel.addColumn("Binär");
 
 		// Tabelle
 		instructionTable = new JTable(instructionTableModel);
@@ -312,7 +312,7 @@ public class EvilGUI extends JFrame implements Observer {
 		// Spalten - Namen
 		dataTable.addColumn("Zeile");
 		dataTable.addColumn("Dezimal");
-		dataTable.addColumn("BinÃ¤r");
+		dataTable.addColumn("Binär");
 
 		// Tabelle
 		JTable tab = new JTable(dataTable);
@@ -374,7 +374,7 @@ public class EvilGUI extends JFrame implements Observer {
 
 					} catch (IOException e1) {
 						JOptionPane.showMessageDialog(null, "Datei " + chooser.getSelectedFile().getName()
-								+ " konnte nicht geÃ¶ffnet werden", "Fehler", JOptionPane.ERROR_MESSAGE);
+								+ " konnte nicht geöffnet werden", "Fehler", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -468,7 +468,7 @@ public class EvilGUI extends JFrame implements Observer {
 		// Spalten - Namen
 		currentInstructionTableModel.addColumn("Zeile");
 		currentInstructionTableModel.addColumn("Mnemonic");
-		currentInstructionTableModel.addColumn("BinÃ¤r");
+		currentInstructionTableModel.addColumn("Binär");
 
 		// Tabelle
 		currentInstructionTable = new JTable(currentInstructionTableModel);
