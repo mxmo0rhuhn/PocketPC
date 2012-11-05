@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -26,8 +25,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -114,8 +113,7 @@ public class EvilGUI extends JFrame implements Observer {
 		setLayout(new BorderLayout());
 		add(createEastPanel(), BorderLayout.EAST);
 		add(createWestPanel(), BorderLayout.WEST);
-		createInstructionsTable();
-		add(createCurrentCenterPanel(), BorderLayout.CENTER);
+		add(createCenterPanel(), BorderLayout.CENTER);
 		add(createSouthPanel(), BorderLayout.SOUTH);
 	}
 
@@ -273,24 +271,12 @@ public class EvilGUI extends JFrame implements Observer {
 		return westPanel;
 	}
 
-	private JPanel createCurrentCenterPanel() {
+	private JPanel createCenterPanel() {
 
 		JPanel centerPanel = new JPanel();
 
 		centerPanel.setLayout(new GridLayout(1, 2));
-		centerPanel.add(createCurrentInstructionsTable());
-		centerPanel.add(createDataTable());
-		validate();
-
-		return centerPanel;
-	}
-
-	private JPanel createAllCenterPanel() {
-
-		JPanel centerPanel = new JPanel();
-
-		centerPanel.setLayout(new GridLayout(1, 2));
-		centerPanel.add(createInstructionsTable());
+		centerPanel.add(buildInstructions());
 		centerPanel.add(createDataTable());
 		validate();
 
@@ -357,41 +343,13 @@ public class EvilGUI extends JFrame implements Observer {
 		return menuBar;
 	}
 
-	private JMenu buildAnsichtMenue() {
-		JMenu ansicht = new JMenu("Ansicht");
-		ButtonGroup myGroup = new ButtonGroup();
-		JRadioButtonMenuItem next = new JRadioButtonMenuItem("Nächster Befehl");
-		next.setSelected(true);
-		next.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showCurrentInstructions();
-			}
-			
-		});
-		myGroup.add(next);
-		ansicht.add(next);
+	private JTabbedPane buildInstructions() {
+		JTabbedPane tabbedPane = new JTabbedPane();
 		
-		JRadioButtonMenuItem all = new JRadioButtonMenuItem("Alle Befehle");
-		all.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showAllInstructions();
-			}
-		});
-		myGroup.add(all);
-		ansicht.add(all);
-		return ansicht;
-	}
-
-	private void showCurrentInstructions() {
-		add(createCurrentCenterPanel(), BorderLayout.CENTER);
-	}
-
-	private void showAllInstructions() {
-		add(createAllCenterPanel(), BorderLayout.CENTER);
+		tabbedPane.addTab("Derzeitige Befehle", createCurrentInstructionsTable());
+		tabbedPane.addTab("Alle Befehle", createInstructionsTable());
+		
+		return tabbedPane;
 	}
 
 	private JMenuItem buildLoadItem() {
