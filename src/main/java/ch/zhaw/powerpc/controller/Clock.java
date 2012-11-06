@@ -54,7 +54,7 @@ public class Clock extends Observable {
 			notifyObservers();
 			stopped = !this.controlUnit.runCycle();
 			try {
-				wait(1000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
