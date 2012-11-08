@@ -56,6 +56,7 @@ public class EvilGUI extends JFrame implements Observer {
 	private JTextField akkumulatorDec;
 	private JTextField register1Dec;
 	private JTextField register2Dec;
+	private JTextField resultDec;
 	private JTextField register3Dec;
 
 	private JTextField anzBefehle;
@@ -267,6 +268,14 @@ public class EvilGUI extends JFrame implements Observer {
 
 		westInnerPanel.setPreferredSize(new Dimension(200, 300));
 
+		JPanel resultPanel = new JPanel();
+		resultPanel.setLayout(new GridLayout(1, 2));
+		resultPanel.add(new JLabel("Ergebnis"));
+		resultDec = new JTextField();
+		resultDec.setEnabled(false);
+		resultPanel.add(resultDec);
+		westInnerPanel.add(resultPanel);
+
 		westPanel.add(westInnerPanel);
 		return westPanel;
 	}
@@ -337,18 +346,18 @@ public class EvilGUI extends JFrame implements Observer {
 
 		menuBar.add(optionen);
 
-// Nächster Release
-//		menuBar.add(buildAnsichtMenue());
+		// Nächster Release
+		// menuBar.add(buildAnsichtMenue());
 
 		return menuBar;
 	}
 
 	private JTabbedPane buildInstructions() {
 		JTabbedPane tabbedPane = new JTabbedPane();
-		
+
 		tabbedPane.addTab("Derzeitige Befehle", createCurrentInstructionsTable());
 		tabbedPane.addTab("Alle Befehle", createInstructionsTable());
-		
+
 		return tabbedPane;
 	}
 
@@ -594,9 +603,25 @@ public class EvilGUI extends JFrame implements Observer {
 				displayData();
 				displayRegisters();
 				displayCurrentInstructions();
+				updateResult();
 
 			}
+
 		});
+	}
+
+	private void updateResult() {
+		if (this.controllUnit.getMemory().readData(506) == 0) {
+			resultDec.setText("" + this.controllUnit.getMemory().readData(504));
+		} else {
+			String myLongNumber = "" + binFormat.formatNumber(this.controllUnit.getMemory().readData(506), 16)
+					+ binFormat.formatNumber(this.controllUnit.getMemory().readData(504), 16);
+			if (myLongNumber.charAt(0) == ('1')) {
+				resultDec.setText("" + ((~Integer.parseInt(myLongNumber.substring(1), 2)) + 1));
+			} else {
+				resultDec.setText("" + Integer.parseInt(myLongNumber, 2));
+			}
+		}
 	}
 
 	private void newCPU(ControlUnit cpu) {
