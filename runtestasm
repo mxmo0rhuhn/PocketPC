@@ -1,3 +1,0 @@
-#!/bin/bash
-
-java -cp target/classes -Dmode=STEP -Dasm=Presentation/test4 -Dnogui=true -DBLOCKS_PER_LINE=3 ch.zhaw.powerpc.controller.ProgramStarter

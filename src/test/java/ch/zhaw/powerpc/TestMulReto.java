@@ -40,7 +40,7 @@ public class TestMulReto {
 
 	@BeforeClass
 	public static void loadInstructions() throws IOException {
-		InputReader ir = new InputReader(new BufferedReader(new FileReader("asmfiles/mul_reto.asm")));
+		InputReader ir = new InputReader(new BufferedReader(new FileReader("asmfiles/multiplication.asm")));
 		initialInstructions = ir.readContents();
 	}
 
