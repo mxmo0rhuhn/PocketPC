@@ -14,115 +14,112 @@
 
 package ch.zhaw.powerpc.model.instructions;
 
-import static ch.zhaw.powerpc.model.instructions.TestUtil.binEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import ch.zhaw.powerpc.model.ControlUnit;
 import ch.zhaw.powerpc.model.MainMemory;
+import org.junit.Test;
+
+import static ch.zhaw.powerpc.model.instructions.TestUtil.binEquals;
+import static org.junit.Assert.*;
 
 public class DECTest {
-	
-	@Test
-	public void lowestPossible() {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getRegisters()[0].write(-32767);
-		
-		new DEC().run(cu);
-		
-		assertFalse(cu.getAlu().isCarryFlag());
-		assertEquals(-32768, cu.getRegisters()[0].read());
-	}
-	
-	@Test
-	public void randomLow() {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getRegisters()[0].write(-1337);
-		
-		new DEC().run(cu);
-		
-		assertFalse(cu.getAlu().isCarryFlag());
-		assertEquals(-1338, cu.getRegisters()[0].read());
-	}	
-	
-	
-	@Test
-	public void lastLow() {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getRegisters()[0].write(-1);
-		
-		new DEC().run(cu);
-		
-		assertFalse(cu.getAlu().isCarryFlag());
-		assertEquals(-2, cu.getRegisters()[0].read());
-	}
-	
-	@Test
-	public void zero() {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getRegisters()[0].write(0);
-		
-		new DEC().run(cu);
-		
-		assertTrue(cu.getAlu().isCarryFlag());
-		assertEquals(-1, cu.getRegisters()[0].read());
-	}
-	
-	@Test
-	public void firstHigh() {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getRegisters()[0].write(1);
-		
-		new DEC().run(cu);
-		
-		assertFalse(cu.getAlu().isCarryFlag());
-		assertEquals(0, cu.getRegisters()[0].read());
-	}	
-	
-	@Test
-	public void randomHigh() {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getRegisters()[0].write(1337);
-		
-		new DEC().run(cu);
-		
-		assertFalse(cu.getAlu().isCarryFlag());
-		assertEquals(1336, cu.getRegisters()[0].read());
-	}
-	
-	@Test
-	public void lastHigh() {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getRegisters()[0].write(32767);
-		
-		new DEC().run(cu);
-		
-		assertFalse(cu.getAlu().isCarryFlag());
-		assertEquals(32766, cu.getRegisters()[0].read());
-	}
-	
-	@Test
-	public void testOnderFlow() {
-		ControlUnit cu = new ControlUnit(new MainMemory());
-		cu.getRegisters()[0].write(-32768);
-		
-		new DEC().run(cu);
-		
-		assertFalse(cu.getAlu().isCarryFlag());
-		assertEquals(32767, cu.getRegisters()[0].read());
-	}
-	
-	@Test
-	public void testToString() {
-		assertEquals("DEC", new DEC().toString());
-	}
-	
-	@Test
-	public void testBinary() {
-		binEquals("0000010000000000", new DEC().getBinary());
-	}
+
+    @Test
+    public void lowestPossible() {
+        ControlUnit cu = new ControlUnit(new MainMemory());
+        cu.getRegisters()[0].write(-32767);
+
+        new DEC().run(cu);
+
+        assertFalse(cu.getAlu().isCarryFlag());
+        assertEquals(-32768, cu.getRegisters()[0].read());
+    }
+
+    @Test
+    public void randomLow() {
+        ControlUnit cu = new ControlUnit(new MainMemory());
+        cu.getRegisters()[0].write(-1337);
+
+        new DEC().run(cu);
+
+        assertFalse(cu.getAlu().isCarryFlag());
+        assertEquals(-1338, cu.getRegisters()[0].read());
+    }
+
+
+    @Test
+    public void lastLow() {
+        ControlUnit cu = new ControlUnit(new MainMemory());
+        cu.getRegisters()[0].write(-1);
+
+        new DEC().run(cu);
+
+        assertFalse(cu.getAlu().isCarryFlag());
+        assertEquals(-2, cu.getRegisters()[0].read());
+    }
+
+    @Test
+    public void zero() {
+        ControlUnit cu = new ControlUnit(new MainMemory());
+        cu.getRegisters()[0].write(0);
+
+        new DEC().run(cu);
+
+        assertTrue(cu.getAlu().isCarryFlag());
+        assertEquals(-1, cu.getRegisters()[0].read());
+    }
+
+    @Test
+    public void firstHigh() {
+        ControlUnit cu = new ControlUnit(new MainMemory());
+        cu.getRegisters()[0].write(1);
+
+        new DEC().run(cu);
+
+        assertFalse(cu.getAlu().isCarryFlag());
+        assertEquals(0, cu.getRegisters()[0].read());
+    }
+
+    @Test
+    public void randomHigh() {
+        ControlUnit cu = new ControlUnit(new MainMemory());
+        cu.getRegisters()[0].write(1337);
+
+        new DEC().run(cu);
+
+        assertFalse(cu.getAlu().isCarryFlag());
+        assertEquals(1336, cu.getRegisters()[0].read());
+    }
+
+    @Test
+    public void lastHigh() {
+        ControlUnit cu = new ControlUnit(new MainMemory());
+        cu.getRegisters()[0].write(32767);
+
+        new DEC().run(cu);
+
+        assertFalse(cu.getAlu().isCarryFlag());
+        assertEquals(32766, cu.getRegisters()[0].read());
+    }
+
+    @Test
+    public void testOnderFlow() {
+        ControlUnit cu = new ControlUnit(new MainMemory());
+        cu.getRegisters()[0].write(-32768);
+
+        new DEC().run(cu);
+
+        assertFalse(cu.getAlu().isCarryFlag());
+        assertEquals(32767, cu.getRegisters()[0].read());
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals("DEC", new DEC().toString());
+    }
+
+    @Test
+    public void testBinary() {
+        binEquals("0000010000000000", new DEC().getBinary());
+    }
 
 }

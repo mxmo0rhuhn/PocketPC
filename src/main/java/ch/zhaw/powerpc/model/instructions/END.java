@@ -21,24 +21,23 @@ import ch.zhaw.powerpc.model.ControlUnit;
  * Schleife eintreten, in der er keine Werte verändert und die er durch einen Interrupt (z. B. für einen
  * Programmneustart) wieder verlassen kann. Technisch wird das Ende realisiert indem der Befehlszähler auf -1 gesetzt
  * wird.
- * 
+ *
  * @author Max
- * 
  */
 public class END extends AbstractInstruction {
 
-	@Override
-	public int run(ControlUnit controlUnit) {
-		throw new NoMoreInstructionsException();
-	}
+    @Override
+    public int run(ControlUnit controlUnit) {
+        throw new NoMoreInstructionsException();
+    }
 
-	@Override
-	public String toString() {
-		return "END";
-	}
+    @Override
+    public String toString() {
+        return "END";
+    }
 
-	@Override
-	public char getBinary() {
-		return genBin("0000000000000000");
-	}
+    @Override
+    public char getBinary() {
+        return genBin("0000000000000000");
+    }
 }

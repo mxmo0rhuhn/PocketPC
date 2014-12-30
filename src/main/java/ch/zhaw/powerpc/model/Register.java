@@ -17,36 +17,35 @@ package ch.zhaw.powerpc.model;
 /**
  * Diese Klasse repräsentiert ein Register. Das Register selbst weiss nicht, welches Register es ist - das weiss nur die
  * ControlUnit.
- * 
+ *
  * @author Max / Reto
- * 
  */
 public final class Register {
 
-	private short val;
+    private short val;
 
-	Register() {
-		// klasse muss nur von ControlUnit instanziert werden. deshalb default access modifier
-	}
+    Register() {
+        // klasse muss nur von ControlUnit instanziert werden. deshalb default access modifier
+    }
 
-	/**
-	 * Liest den Inhalt aus diesem Register.
-	 */
-	public short read() {
-		return val;
-	}
+    /**
+     * Liest den Inhalt aus diesem Register.
+     */
+    public short read() {
+        return val;
+    }
 
-	/**
-	 * Schreibt die Daten in dieses Register. Maximal 16 Bit!
-	 */
-	public boolean write(int val) {
-		this.val = (short) val;
-		return ((int) this.val) != val;
-	}
+    /**
+     * Schreibt die Daten in dieses Register. Maximal 16 Bit!
+     */
+    public boolean write(int val) {
+        this.val = (short) val;
+        return ((int) this.val) != val;
+    }
 
-	@Override
-	public String toString() {
-		return "val:  " + val;
-	}
+    @Override
+    public String toString() {
+        return "val:  " + val;
+    }
 
 }
