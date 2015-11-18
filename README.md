@@ -42,7 +42,7 @@ java -Dmode=STEP -Dasm=asmfiles/multiplication.asm -Dnogui=true -DBLOCKS_PER_LIN
 ```
 The current step beeing displayed on the command line (to run the next Step in STEP mode just press Enter).
 
-![alt text]( https://raw.githubusercontent.com/mxmo0rhuhn/PocketPc/master/doc/Sample_computation_no_GUI.png "Computation without GUI")
+![alt text](https://raw.githubusercontent.com/mxmo0rhuhn/PocketPc/master/doc/Sample_computation_no_GUI.png "Computation without GUI")
 
 ### With GUI:
 In the initial screen of the GUI application you can select "Optonen" and afterwards "Datei laden" to load a file in the format described above. Running the GUI you may select:
@@ -52,11 +52,11 @@ In the initial screen of the GUI application you can select "Optonen" and afterw
 * "Pause" to pause a computation in SLOW mode
 * "Stop" to cancel a computation
 
-![alt text]( https://raw.githubusercontent.com/mxmo0rhuhn/PocketPc/master/doc/Sample_computation_GUI.png "Computation with GUI")
+![alt text](https://raw.githubusercontent.com/mxmo0rhuhn/PocketPc/master/doc/Sample_computation_GUI.png "Computation with GUI")
 
 Selecting the "Alle Befehle" tab you can edit the ASM and memory to see what happens in other configurations.
 
-![alt text]( https://raw.githubusercontent.com/mxmo0rhuhn/PocketPc/master/doc/edit_asm.png "Edit ASM with GUI")
+![alt text](https://raw.githubusercontent.com/mxmo0rhuhn/PocketPc/master/doc/edit_asm.png "Edit ASM with GUI")
 
 If you like the new version of the code you may also store this file by selecting "Optionen" and then "Datei speichern"
 
